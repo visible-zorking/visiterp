@@ -141,9 +141,6 @@ def iseqzorknum(condgrp, zorknum):
                     
 
 class Zcode:
-    ### This should be yoinked from <DIRECTIONS>
-    directions = set(['NORTH', 'EAST', 'WEST', 'SOUTH', 'NE', 'NW', 'SE', 'SW', 'UP', 'DOWN', 'IN', 'OUT', 'LAND'])
-        
     def __init__(self, tokls):
         self.tokls = tokls
         self.globals = []
@@ -155,6 +152,8 @@ class Zcode:
         self.roomnames = []
         self.verbs = []
         self.verbmap = {}
+        self.directions = None
+        self.directionset = None
 
     def build(self):
         self.findall()
@@ -212,6 +211,9 @@ class Zcode:
                     zconst = ZConstant(idtok.val, constval, tok)
                     self.constants.append(zconst)
                     tok.defentity = zconst
+            if tok.matchform('DIRECTIONS', 1):
+                self.directions = [ dirtok.val for dirtok in tok.children[ 1 : ] ]
+                self.directionset = set(self.directions)
             if tok.matchform('ROUTINE', 2):
                 idtok = tok.children[1]
                 if idtok.typ is TokType.ID:
@@ -248,7 +250,7 @@ class Zcode:
                                     desctok = strtok
                                 else:
                                     self.strings.append(ZString(strtok.val, strtok.pos, strtok.endpos))
-                        if proptok.matchgroup(Zcode.directions, 1):
+                        if proptok.matchgroup(self.directionset, 1):
                             self.findstringsintok(proptok)
                     newobj = ZObject(idtok.val, flag, desc, desctok, tok)
                     self.objects.append(newobj)
@@ -336,13 +338,14 @@ class Zcode:
                         itok = prop.children[0]
                         totok = prop.children[1]
                         desttok = prop.children[2]
-                        if itok.typ is TokType.ID and itok.val in Zcode.directions:
+                        if itok.typ is TokType.ID and itok.val in self.directionset:
                             if totok.typ is TokType.ID and totok.val == 'TO':
                                 if desttok.typ is TokType.ID and desttok.val in exitmap:
                                     #print(room, itok.val, desttok.val)
                                     exitmap[room].append( (itok.val, desttok.val) )
 
         # Special cases...
+        ### Generalize!
         #exitmap['GRATING-CLEARING'].append( ('DOWN', 'GRATING-ROOM') )
         exitmap['LIVING-ROOM'].append( ('DOWN', 'CELLAR') )
         exitmap['STUDIO'].append( ('UP', 'KITCHEN') )
