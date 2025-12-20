@@ -325,7 +325,7 @@ class Zcode:
             if stok.typ is TokType.STR:
                 self.istrings.append(ZString(stok.val, stok.pos, stok.endpos, rname))
             
-    def mapconnections(self):
+    def mapconnections(self, extraconn=[]):
         exitmap = dict()
         for room in self.roomnames:
             exitmap[room] = []
@@ -344,25 +344,9 @@ class Zcode:
                                     #print(room, itok.val, desttok.val)
                                     exitmap[room].append( (itok.val, desttok.val) )
 
-        # Special cases...
-        ### Generalize!
-        #exitmap['GRATING-CLEARING'].append( ('DOWN', 'GRATING-ROOM') )
-        exitmap['LIVING-ROOM'].append( ('DOWN', 'CELLAR') )
-        exitmap['STUDIO'].append( ('UP', 'KITCHEN') )
-        exitmap['MAZE-2'].append( ('DOWN', 'MAZE-4') )
-        exitmap['MAZE-7'].append( ('DOWN', 'DEAD-END-1') )
-        exitmap['MAZE-9'].append( ('DOWN', 'MAZE-11') )
-        exitmap['MAZE-12'].append( ('DOWN', 'MAZE-5') )
-
-        # We could get these from RIVER-LAUNCH
-        exitmap['DAM-BASE'].append( ('LAUNCH', 'RIVER-1') )
-        exitmap['WHITE-CLIFFS-NORTH'].append( ('LAUNCH', 'RIVER-3') )
-        exitmap['WHITE-CLIFFS-SOUTH'].append( ('LAUNCH', 'RIVER-4') )
-        exitmap['SHORE'].append( ('LAUNCH', 'RIVER-5') )
-        exitmap['SANDY-BEACH'].append( ('LAUNCH', 'RIVER-4') )
-        exitmap['RESERVOIR-SOUTH'].append( ('LAUNCH', 'RESERVOIR') )
-        exitmap['RESERVOIR-NORTH'].append( ('LAUNCH', 'RESERVOIR') )
-        exitmap['STREAM-VIEW'].append( ('LAUNCH', 'IN-STREAM') )
+        if extraconn:
+            for room, dir, dest in extraconn:
+                exitmap[room].append( (dir, dest) )
 
         return exitmap
         

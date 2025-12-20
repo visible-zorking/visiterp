@@ -27,6 +27,7 @@ attribute_list = []
 property_list = []
 propname_to_vartype = {}
 funcname_to_argtypes = {}
+mapextra_list = []
 
 def load_gameinfo():
     global info_loaded
@@ -45,20 +46,20 @@ def load_gameinfo():
         if typ == 'Object':
             objname_to_num[name] = num
             objnum_to_name[num] = name
-        if typ == 'Property':
+        elif typ == 'Property':
             propname_to_num[name] = num
             propnum_to_name[num] = name
             property_list.append( (num, name) )
             if extra:
                 propname_to_vartype[name] = extra
-        if typ == 'Attribute':
+        elif typ == 'Attribute':
             attribute_list.append( (num, name) )
-        if typ == 'Global':
+        elif typ == 'Global':
             globname_to_num[name] = num
             globnum_to_name[num] = name
             if extra:
                 globname_to_vartype[name] = extra
-        if typ == 'RoutineType':
+        elif typ == 'RoutineType':
             argtypes = []
             for val in extra.split(' '):
                 if not val:
@@ -68,6 +69,11 @@ def load_gameinfo():
                     continue
                 argtypes.append(val)
             funcname_to_argtypes[name] = argtypes
+        elif typ == 'MapExtraConn':
+            (dir, dest) = extra.split(' ')
+            mapextra_list.append( (name, dir, dest) )
+        else:
+            raise Exception('bad game-info line: %s' % (typ,))
     fl.close()
     info_loaded = True
 
@@ -330,7 +336,7 @@ def write_objects(filename, zcode, objdat):
 def compute_room_distances(filename, zcode):
     print('...writing room distances:', filename)
     load_gameinfo()
-    map = zcode.mapconnections()
+    map = zcode.mapconnections(mapextra_list)
 
     dat = {}
 
