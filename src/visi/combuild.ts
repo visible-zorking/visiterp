@@ -2,7 +2,7 @@
 
 import { GnustoRunner } from './zstate';
 import { refresh_batteries } from './zstate';
-import { gamedat_commentary } from './gamedat';
+import { gamedat_commentary } from '../custom/gamedat';
 
 let runner: GnustoRunner|undefined;
 

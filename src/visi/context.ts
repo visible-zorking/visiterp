@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 import { ZStatePlus, zstateplus_empty } from './zstate';
-import { sourceloc_start } from './gamedat';
+import { sourceloc_start } from '../custom/gamedat';
 
 export type SourceLocState = {
     loc: string;

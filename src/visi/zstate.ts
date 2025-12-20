@@ -4,8 +4,8 @@
    report format. But it's a pretty simple format.
 */
 
-import { gamedat_object_ids, gamedat_ids, unpack_address } from './gamedat';
-import { gamedat_routine_names, gamedat_global_names, gamedat_string_map } from './gamedat';
+import { gamedat_object_ids, gamedat_ids, unpack_address } from '../custom/gamedat';
+import { gamedat_routine_names, gamedat_global_names, gamedat_string_map } from '../custom/gamedat';
 
 /* Highly abbreviated typedef for GnustoRunner. This shows only the
    bits used by VisiZorkApp. */

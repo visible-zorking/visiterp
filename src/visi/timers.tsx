@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { gamedat_global_names, gamedat_routine_addrs, unpack_address, signed_zvalue, check_commentary } from './gamedat';
+import { gamedat_global_names, gamedat_routine_addrs, unpack_address, signed_zvalue, check_commentary } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';

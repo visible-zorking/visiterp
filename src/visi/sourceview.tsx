@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useContext, useRef, useEffect } from 'react';
 
-import { sourcefile_map, gamedat_sourcefiles } from './gamedat';
-import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, parse_sourceloc } from './gamedat';
-import { sourceloc_start, gamedat_commentarymap } from './gamedat';
+import { sourcefile_map, gamedat_sourcefiles } from '../custom/gamedat';
+import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, parse_sourceloc } from '../custom/gamedat';
+import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { SourceLocState } from './context';

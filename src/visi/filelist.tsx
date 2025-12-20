@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { sourcefile_list, gamedat_sourcefiles, sourceloc_for_key } from './gamedat';
+import { sourcefile_list, gamedat_sourcefiles, sourceloc_for_key } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
