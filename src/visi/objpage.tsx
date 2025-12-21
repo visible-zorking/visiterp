@@ -102,6 +102,11 @@ export function ObjectPage({ onum } : { onum:number })
         index++;
     }
 
+    function evhan_click_focus_attr(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
+        ev.preventDefault();
+        rctx.setObjPage({ type:'ATTR', val:index });
+    }
+    
     let origattrs = zstate.origattrs.get(onum) || 0;
     
     let attrls = [];
@@ -134,7 +139,7 @@ export function ObjectPage({ onum } : { onum:number })
                     { (changed ?
                        <span className="ChangedNote">*</span>
                        : null) }
-                    <code className={ cla }>{ attr.name }</code>{' '}
+                    <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_attr(ev, attr.num) }><code className={ cla }>{ attr.name }</code></a>{' '}
                 </span>
             );
         }
