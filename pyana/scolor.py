@@ -12,6 +12,8 @@ def prep_syntax_coloring(zcode):
     absorb_entities([ (rtn, rtn.rtok) for rtn in zcode.routines ])
     absorb_entities([ (glo, glo.gtok) for glo in zcode.globals ])
     absorb_entities([ (con, con.ctok) for con in zcode.constants ])
+    for attr in zcode.attrnameset:
+        linkids[attr] = None
 
 def colorize_file(filename, zcode):
     # This is awkward. We just parsed the ZIL for the zcode object,
