@@ -13,6 +13,8 @@ def prep_syntax_coloring(zcode):
     absorb_entities([ (glo, glo.gtok) for glo in zcode.globals ])
     absorb_entities([ (con, con.ctok) for con in zcode.constants ])
     for attr in zcode.attrnameset:
+        if attr in linkids:
+            raise Exception('symbol clash: %s' % (attr,))
         linkids[attr] = None
 
 def colorize_file(filename, zcode):
@@ -33,6 +35,8 @@ def colorize_file(filename, zcode):
 
 def absorb_entities(ls):
     for obj, tok in ls:
+        # A global can be defined more than once (see LUCKY, WON-FLAG).
+        # We just let one definition win.
         linkids[obj.name] = tok
         if tok:
             lockey = tok.posstr()
