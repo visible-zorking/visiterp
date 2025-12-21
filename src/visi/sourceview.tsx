@@ -56,7 +56,7 @@ export function SourceView()
     }
 
     function evhan_click_obj(onum: number) {
-        rctx.setObjPage(onum);
+        rctx.setObjPage({ type:'OBJ', val:onum });
     }
     
     function evhan_click_comment(topic: string) {

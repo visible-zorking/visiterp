@@ -11,7 +11,7 @@ import { show_commentary } from './combuild';
 import { CookiePrefs, set_cookie, set_body_ospref_theme, set_body_pref_theme, set_body_pref_arrange } from './cookie';
 
 import { ContextContent, ReactCtx } from './context';
-import { SourceLocState, new_sourcelocstate } from './context';
+import { ObjPageFocus, SourceLocState, new_sourcelocstate } from './context';
 import { AppMenu } from './menu';
 import { SourceView } from './sourceview';
 
@@ -37,7 +37,7 @@ export function VisiZorkApp()
     
     const [ zstate, setZState ] = useState(get_updated_report(engine));
     const [ tab, setTab ] = useState('activity');
-    const [ objpage, setObjPage ] = useState(0);
+    const [ objpage, setObjPage ] = useState(null as ObjPageFocus);
     const [ shownumbers, setShowNumbers ] = useState(initprefs.shownumbers);
     const [ readabout, setReadAbout ] = useState(initprefs.readabout);
     const [ arrangement, setArrangement ] = useState(initprefs.arrange);
@@ -52,20 +52,23 @@ export function VisiZorkApp()
     
     function setTabWrap(tab: string) {
         setTab(tab);
-        setObjPage(0);
+        setObjPage(null);
         if (tab == 'about') {
             set_cookie('readabout', 'true');
             setReadAbout(true);
         }
     }
 
-    function setObjPageWrap(onum: number) {
+    function setObjPageWrap(focus: ObjPageFocus) {
         setTab('objtree');
-        setObjPage(onum);
-        
-        let obj = gamedat_object_ids.get(onum);
-        if (obj)
-            rctx.setLoc(obj.sourceloc, false);
+        setObjPage(focus);
+
+        //### or prop, whatever
+        if (focus && focus.type == 'OBJ') {
+            let obj = gamedat_object_ids.get(focus.val);
+            if (obj)
+                rctx.setLoc(obj.sourceloc, false);
+        }
     }
     
     function setLoc(loc: string, hi: boolean) {

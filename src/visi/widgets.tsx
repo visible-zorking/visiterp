@@ -13,7 +13,7 @@ export function ObjPageLink({ onum }: { onum:number } )
     
     function evhan_click_showpage(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         ev.stopPropagation();
-        rctx.setObjPage(onum);
+        rctx.setObjPage({ type:'OBJ', val:onum });
     }
 
     return (

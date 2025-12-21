@@ -3,6 +3,11 @@ import { createContext } from 'react';
 import { ZStatePlus, zstateplus_empty } from './zstate';
 import { sourceloc_start } from '../custom/gamedat';
 
+export type ObjPageFocus = null | {
+    type: 'OBJ'|'ATTR';
+    val: number;
+}
+
 export type SourceLocState = {
     loc: string;
     lochi: boolean;
@@ -20,10 +25,10 @@ export type ContextContent = {
     readabout: boolean;
     theme: 'light'|'dark'|'system'|null;
     arrangement: string;
-    objpage: number;
+    objpage: ObjPageFocus;
     sourcelocs: SourceLocState[];
     sourcelocpos: number;
-    setObjPage: (loc:number) => void;
+    setObjPage: (loc:ObjPageFocus) => void;
     setShowNumbers: (loc:boolean) => void;
     setTab: (loc:string) => void;
     setLoc: (loc:string, hi:boolean) => void;
@@ -40,7 +45,7 @@ export const ReactCtx = createContext({
     readabout: false,
     theme: null,
     arrangement: '',
-    objpage: 0,
+    objpage: null,
     sourcelocs: [],
     sourcelocpos: 0,
     setObjPage: (val) => {},
