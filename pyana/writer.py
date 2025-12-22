@@ -172,11 +172,9 @@ def write_strings(filename, zcode, txdat, objdat):
     fl.write(';\n')
     fl.close()
 
-def write_propattrs(filename):
-    print('...writing property and attribute data:', filename)
+def write_properties(filename):
+    print('...writing property data:', filename)
     load_gameinfo()
-
-    attrls = [ { 'num':num, 'name':name } for (num, name) in attribute_list ]
 
     propls = [ { 'num':num, 'name':name } for (num, name) in property_list ]
     for obj in propls:
@@ -188,6 +186,15 @@ def write_propattrs(filename):
     fl.write('window.gamedat_properties = ');
     json.dump(propls, fl)
     fl.write(';\n')
+    fl.close()
+    
+def write_attributes(filename):
+    print('...writing attribute data:', filename)
+    load_gameinfo()
+
+    attrls = [ { 'num':num, 'name':name } for (num, name) in attribute_list ]
+
+    fl = open(filename, 'w')
     fl.write('window.gamedat_attributes = ');
     json.dump(attrls, fl)
     fl.write(';\n')
