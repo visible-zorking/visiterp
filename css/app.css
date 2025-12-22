@@ -734,6 +734,13 @@ a.CommentButtonSmall img {
     color: #AAF;
 }
 
+.Src_Implid {
+    color: #44C;
+}
+.DarkTheme .Src_Implid {
+    color: #AAF;
+}
+
 .Src_Localid {
     color: #850;
 }
@@ -746,4 +753,12 @@ a.Src_Id {
 }
 a.Src_Id:hover {
     text-decoration: underline;
+}
+
+a.Src_Implid {
+    text-decoration: none;
+}
+a.Src_Implid:hover {
+    text-decoration: underline;
+    text-decoration-style: dashed;
 }

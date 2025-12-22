@@ -4,6 +4,7 @@ from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
 from zilana import teststaticcond, ZRoutine
 
+implicitids = set()
 linkids = {}
 loctoentity = {}
 
@@ -15,9 +16,9 @@ def prep_syntax_coloring(zcode):
     absorb_entities([ (rtn, rtn.rtok) for rtn in zcode.routines ])
     absorb_entities([ (con, con.ctok) for con in zcode.constants ])
     for attr in zcode.attrnameset:
-        if attr in linkids:
+        if attr in implicitids:
             raise Exception('symbol clash: %s' % (attr,))
-        linkids[attr] = None
+        implicitids.add(attr)
 
 def colorize_file(filename, zcode):
     # This is awkward. We just parsed the ZIL for the zcode object,
@@ -49,6 +50,7 @@ def absorb_entities(ls, dupcheck=True):
 class Color(StrEnum):
     STR = 'STR'           # String
     ID = 'ID'             # Normal identifier (will link to def)
+    IMPLID = 'IMPLID'     # Identifier with no definition (will open a tab)
     LOCALID = 'LOCALID'   # Local-variable identifier
     IDDEF = 'IDDEF'       # Identifier being defined
     DICT = 'DICT'         # Dictionary word
@@ -75,6 +77,8 @@ def colorize(tokls, res, defentity):
                     res.append( (tok, Color.IDDEF) )
                 else:
                     res.append( (tok, Color.ID) )
+            elif tok.val in implicitids:
+                res.append( (tok, Color.IMPLID) )
             continue
         
         if tok.typ is TokType.GROUP and tok.val == ';':

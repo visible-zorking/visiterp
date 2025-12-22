@@ -211,7 +211,7 @@ function rebuild_sourcefile(nodel: HTMLDivElement, locstr: string, lochi: boolea
                         else {
                             let [ cla, val ] = span;
                             let spanel;
-                            if (cla == 'Id') {
+                            if (cla == 'Id' || cla == 'Implid') {
                                 spanel = document.createElement('a');
                                 spanel.setAttribute('href', '#')
                                 spanel.className = 'Src_'+cla;
