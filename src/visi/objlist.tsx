@@ -17,20 +17,18 @@ export function ObjectAttrList({ attr } : { attr:number })
 
     let objls = [];
     
-    let counter = 0;
     for (let tup of zstate.objects) {
         let obj = gamedat_object_ids.get(tup.onum);
         let curflag = (tup.attrs & (1 << (31-attr)));
         if (curflag && obj) {
             objls.push(
-                <span key={ obj.onum }>
-                    {counter++ ? ', ' : ' '}
+                <li key={ obj.onum }>
                     { (rctx.shownumbers ?
                        <span className="ShowAddr">({ obj.onum }) </span>
                        : null) }
                     <ObjPageLink onum={ obj.onum } />
                     <code>{ obj.name }</code>
-                </span>
+                </li>
             )
         }
     }
@@ -47,9 +45,9 @@ export function ObjectAttrList({ attr } : { attr:number })
             </div>
             <div>Objects with attribute <code>{ attrdat.name }</code>:</div>
             { (objls.length ?
-               <div>
+               <ul className="DataList">
                    { objls }
-               </div>
+               </ul>
                : null) }
         </div>
     )
