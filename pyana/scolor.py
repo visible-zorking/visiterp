@@ -8,9 +8,11 @@ linkids = {}
 loctoentity = {}
 
 def prep_syntax_coloring(zcode):
+    # A global can be defined more than once (see LUCKY, WON-FLAG).
+    # We just let one definition win.
+    absorb_entities([ (glo, glo.gtok) for glo in zcode.globals ], dupcheck=False)
     absorb_entities([ (obj, obj.objtok) for obj in zcode.objects ])
     absorb_entities([ (rtn, rtn.rtok) for rtn in zcode.routines ])
-    absorb_entities([ (glo, glo.gtok) for glo in zcode.globals ])
     absorb_entities([ (con, con.ctok) for con in zcode.constants ])
     for attr in zcode.attrnameset:
         if attr in linkids:
@@ -33,10 +35,10 @@ def colorize_file(filename, zcode):
     lines = color_file_lines(filename, res)
     return lines
 
-def absorb_entities(ls):
+def absorb_entities(ls, dupcheck=True):
     for obj, tok in ls:
-        # A global can be defined more than once (see LUCKY, WON-FLAG).
-        # We just let one definition win.
+        if dupcheck and obj.name in linkids:
+            raise Exception('symbol clash: %s' % (obj.name,))
         linkids[obj.name] = tok
         if tok:
             lockey = tok.posstr()
