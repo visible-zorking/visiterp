@@ -1,7 +1,30 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
+import { gamedat_attribute_nums } from '../custom/gamedat';
+import { ReactCtx } from './context';
+
 export function ObjectAttrList({ attr } : { attr:number })
 {
-    return <div>Attribute list: { attr }</div>
+    let rctx = useContext(ReactCtx);
+    let zstate = rctx.zstate;
+
+    let attrdat = gamedat_attribute_nums.get(attr);
+    if (!attrdat) {
+        return <div>Attribute { attr } not found</div>;
+    }
+
+    function evhan_click_back(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
+        ev.preventDefault();
+        rctx.setTab('objtree');
+    }
+
+    return (
+        <div className="ScrollContent">
+            <div className="ObjPageBack">
+                <a href="#" onClick={ evhan_click_back }>Back to World</a>
+            </div>
+            <div>Objects with attribute <code>{ attrdat.name }</code>:</div>
+        </div>
+    )
 }
