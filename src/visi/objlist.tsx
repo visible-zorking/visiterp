@@ -1,9 +1,9 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { gamedat_attribute_nums, gamedat_object_ids } from '../custom/gamedat';
+import { gamedat_attribute_nums, gamedat_object_ids, check_commentary } from '../custom/gamedat';
 import { ReactCtx } from './context';
-import { ObjPageLink } from './widgets';
+import { ObjPageLink, Commentary } from './widgets';
 
 export function ObjectAttrList({ attr } : { attr:number })
 {
@@ -15,6 +15,9 @@ export function ObjectAttrList({ attr } : { attr:number })
         return <div>Attribute { attr } not found</div>;
     }
 
+    let withcom: string|undefined;
+    withcom = check_commentary(attrdat.name, 'ATTR');
+    
     let objls = [];
     
     for (let tup of zstate.objects) {
@@ -67,6 +70,9 @@ export function ObjectAttrList({ attr } : { attr:number })
             <div className="ObjPageBack">
                 <a href="#" onClick={ evhan_click_back }>Back to World</a>
             </div>
+            { (withcom ?
+               <Commentary topic={ withcom } />
+               : null) }
             <div>Objects with attribute <code>{ attrdat.name }</code>:</div>
             { (objls.length ?
                <ul className="DataList">
