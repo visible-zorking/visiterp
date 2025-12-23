@@ -1,12 +1,13 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { ObjectData, gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids, gamedat_object_treesort, gamedat_distances, check_commentary } from '../custom/gamedat';
+import { ObjectData, gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids, check_commentary } from '../custom/gamedat';
 import { gamedat_ids } from '../custom/gamedat';
 import { ZObject } from './zstate';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
+import { ObjListSorter, sorter_for_key } from '../custom/cwidgets';
 
 export type ObjTreeContextContent = {
     map: Map<number, ZObject>;
@@ -28,7 +29,7 @@ const ObjTreeCtx = createContext(new_context());
 export function ObjectTree()
 {
     const [ selected, setSelected ] = useState(-1);
-    const [ follow, setFollow ] = useState('adv');
+    const [ followKey, setFollowKey ] = useState(0);
     
     let rctx = useContext(ReactCtx);
     let zstate = rctx.zstate;
@@ -41,36 +42,12 @@ export function ObjectTree()
             roots.push(tup);
     }
 
-    let advroom: number = (follow == 'thief') ? gamedat_ids.THIEF : gamedat_ids.ADVENTURER;
+    let sorter = sorter_for_key(followKey);
+    sorter(roots, map);
     
-    while (true) {
-        let tup = map.get(advroom);
-        if (!tup || tup.parent == 0 || tup.parent == gamedat_ids.ROOMS)
-            break;
-        advroom = tup.parent;
-    }
-
-    if (!gamedat_distances[advroom])
-        advroom = gamedat_ids.STARTROOM;
-    let distmap = gamedat_distances[advroom];
-
-    roots.sort((o1, o2) => {
-        let sort1 = gamedat_object_treesort.get(o1.onum) ?? 0;
-        let sort2 = gamedat_object_treesort.get(o2.onum) ?? 0;
-        if (sort1 != sort2)
-            return sort1 - sort2;
-        if (sort1 == 1)
-            return distmap[o1.onum] - distmap[o2.onum];
-        return (o1.onum - o2.onum);
-    });
-
     let rootls = roots.map((o) =>
         <ShowObject key={ o.onum } tup={ o } parentnum={ 0 } /> );
 
-    function evhan_follow_change(val: string) {
-        setFollow(val);
-    }
-    
     function evhan_click_background(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         ev.stopPropagation();
         setSelected(-1);
@@ -80,13 +57,7 @@ export function ObjectTree()
         <ObjTreeCtx.Provider value={ { map, selected, setSelected } }>
             <div className="ScrollContent" onClick={ evhan_click_background }>
                 <Commentary topic={ 'OBJTREE-LEGEND' } />
-                <div>
-                    Follow{' '}
-                    <input id="followadv_radio" type="radio" name="follow" value="adv" checked={ follow=='adv' } onChange={ (ev) => evhan_follow_change('adv') } />
-                    <label htmlFor="followadv_radio">Adventurer</label>{' '}
-                    <input id="followthief_radio" type="radio" name="follow" value="thief" checked={ follow=='thief' } onChange={ (ev) => evhan_follow_change('thief') } />
-                    <label htmlFor="followthief_radio">Thief</label>
-                </div>
+                <ObjListSorter followKey={ followKey } setFollowKey={ setFollowKey } />
                 { (rctx.shownumbers ?
                    <div>
                        Object table begins at address { rctx.zstate.objtableaddr }.
