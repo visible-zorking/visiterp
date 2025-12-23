@@ -48,10 +48,6 @@ Yeah, there's a lot of glue layers in there. It's the usual software-engineering
 
 I unwound a lot of that work in creating the Visible Zorker. I wanted a *simple* interpreter engine, and I didn't need the web site or any of the newer formats. But there's still traces of some of the layers.
 
-### The [`js`](./js) directory
-
-Javascript used in running the app. This is all generated, compiled, or minified from the contents of the [`src`](./src), [`gamesrc`](./gamesrc), and [`gamedat`](./gamedat) directories.
-
 ### The [`css`](./css) directory
 
 CSS files. Also some icon images in SVG, PNG, and animated-GIF format.
