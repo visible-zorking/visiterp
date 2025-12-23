@@ -1,7 +1,7 @@
 /* Code to build a commentary DOM element for display. */
 
 import { GnustoRunner } from './zstate';
-import { refresh_batteries } from '../custom/modgame';
+import { show_commentary_hook } from '../custom/modgame';
 import { gamedat_commentary } from '../custom/gamedat';
 
 let runner: GnustoRunner|undefined;
@@ -26,10 +26,8 @@ export function show_commentary(topic: string)
         return;
     }
 
-    // Special case!
-    if (topic == 'BATTERIES') {
-        refresh_batteries(runner.e);
-    }
+    // Perhaps the commentary triggers a special effect.
+    show_commentary_hook(topic, runner.e);
     
     runner.commentary.show(nod, topic);
 }
