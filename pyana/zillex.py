@@ -257,7 +257,19 @@ class Lexer:
     def resolvemonkey(self, ls):
         if self.monkeypatch == 'zork2-r48-s840904':
             if self.filename == 'zork2.zil':
-                print('### patching...')
+                pos = None
+                for ix, tok in enumerate(ls):
+                    if tok.matchform('IFILE', 1) and tok.children[1].val == 'GGLOBALS':
+                        pos = ix
+                        break
+                if pos is not None:
+                    tok = ls[pos]
+                    newtok = Token(TokType.GROUP, '<', tok.pos, [
+                        Token(TokType.ID, 'IFILE', tok.pos),
+                        Token(TokType.STR, 'CRUFTY', tok.pos),
+                        Token(TokType.ID, 'T', tok.pos),
+                    ])
+                    ls.insert(pos, newtok)
         return ls
     
     def resolveincludes(self, ls):
