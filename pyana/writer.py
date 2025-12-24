@@ -370,7 +370,8 @@ def compute_distance_from(zcode, map, fromroom):
             todo.append( (dest, dist+1) )
 
     if len(reached) != len(zcode.roomnames):
-        print('failed to reach all rooms!')
-        
+        missing = set(zcode.roomnames) - set(reached)
+        print('failed to reach all rooms: missing: %s' % (' '.join(missing)))
+    
     return reacheddist
     
