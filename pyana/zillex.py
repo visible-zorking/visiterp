@@ -183,9 +183,12 @@ class Lexer:
                         continue
                     elif self.curchar == '\\':
                         self.nextchar()
-                        if self.curchar != '"':
-                            raise Exception('%s: \\ not followed by "' % (self.getposstr(),))
-                        val += '"'
+                        if self.curchar == '"':
+                            val += '"'
+                        elif self.curchar == '\\':
+                            val += '\\'
+                        else:
+                            raise Exception('%s: invalid \\ escape in string' % (self.getposstr(),))
                     elif self.curchar == '\n':
                         val += ' '
                     else:
