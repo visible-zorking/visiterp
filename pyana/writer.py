@@ -256,12 +256,13 @@ def write_globals(filename, zcode):
     ls = []
     for glo in zcode.globals:
         if glo.name in found:
-            # Annoyingly, WON-FLAG and LUCKY appear twice.
+            # Annoyingly, WON-FLAG and LUCKY appear twice (in Z1).
             # TODO: record two sourcelocs?
             continue
         found.add(glo.name)
         if glo.name not in globname_to_num:
-            raise Exception('missing global ' + glo.name)
+            print('game-info missing global ' + glo.name)
+            continue
         dat = {
             'name': glo.name,
             'num': globname_to_num[glo.name],
