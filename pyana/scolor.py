@@ -24,10 +24,11 @@ def colorize_file(filename):
     # This is awkward. We just parsed the ZIL for the zcode object,
     # but we want to do it again for the syntax coloring. (The first
     # time we stripped out comments and conditional compilation, but
-    # now we leave them in.)
+    # now we leave them in.) (Also, the original parsing might have
+    # game-specific monkeypatches which we now want to omit.)
     
     lex = Lexer(filename)
-    tokls = lex.readfile(includes=False)
+    tokls = lex.readfile(includes=False, monkeypatch=None)
     #dumptokens(tokls, withpos=True)
     
     res = []

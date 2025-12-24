@@ -91,7 +91,8 @@ class Token:
                 return True
 
 class Lexer:
-    def __init__(self, pathname):
+    def __init__(self, pathname, monkeypatch=None):
+        self.monkeypatch = monkeypatch
         self.pathname = pathname
         self.dirname, self.filename = os.path.split(pathname)
         self.linenum = 1
@@ -250,6 +251,9 @@ class Lexer:
             raise Exception('bad opentok')
         return (res, closetok)
 
+    def resolvemonkey(self, ls):
+        return ls
+    
     def resolveincludes(self, ls):
         res = []
         for tok in ls:
@@ -257,7 +261,7 @@ class Lexer:
                 val = tok.children[1].val
                 val = val.lower()+'.zil'
                 incpath = os.path.join(self.dirname, val)
-                inclen = Lexer(incpath)
+                inclen = Lexer(incpath, monkeypatch=self.monkeypatch)
                 incls = inclen.readfile(includes=True)
                 res.extend(incls)
             else:
@@ -270,6 +274,8 @@ class Lexer:
         (res, _) = self.readtokens()
         self.infl.close()
         self.infl = None
+        if self.monkeypatch:
+            res = self.resolvemonkey(res)
         if includes:
             res = self.resolveincludes(res)
         return res
