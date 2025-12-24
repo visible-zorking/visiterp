@@ -141,6 +141,10 @@ class Lexer:
                 self.nextchar()
                 return Token(TokType.DELIM, ch, pos, endpos=self.getpos())
             if ch.isalpha() or ch == '=':
+                # The range of valid ZIL symbols is broad; they can have
+                # punctuation inside them, or even at the beginning. This
+                # does not attempt to parse every possible symbol, just
+                # the ones I've encountered in Infocom code.
                 val = ch
                 self.nextchar()
                 while self.curchar.isalpha() or self.curchar.isdigit() or self.curchar in '-=&?\\':
