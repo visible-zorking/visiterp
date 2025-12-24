@@ -100,6 +100,9 @@ class Lexer:
         self.infl = None
         self.curchar = None
 
+    def __repr__(self):
+        return '<Lexer "%s">' % (self.pathname,)
+
     def nextchar(self):
         ch = self.infl.read(1)
         if not ch:
@@ -252,6 +255,9 @@ class Lexer:
         return (res, closetok)
 
     def resolvemonkey(self, ls):
+        if self.monkeypatch == 'zork2-r48-s840904':
+            if self.filename == 'zork2.zil':
+                print('### patching...')
         return ls
     
     def resolveincludes(self, ls):

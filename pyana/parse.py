@@ -26,7 +26,7 @@ popt.add_option('--dump',
                 action='store_true', dest='dump',
                 help='dump zil parse to stdout')
 popt.add_option('--game',
-                action='store_true', dest='gameid', default='generic',
+                action='store', dest='gameid', default='generic',
                 help='identifier of the game being parsed (indicates special cases)')
 popt.add_option('--gamedat',
                 action='store_true', dest='gamedat',
@@ -48,7 +48,7 @@ popt.add_option('--src',
 
 if opts.zilfile:
     print('reading %s...' % (opts.zilfile,))
-    lex = Lexer(opts.zilfile)
+    lex = Lexer(opts.zilfile, monkeypatch=opts.gameid)
     ls = lex.readfile(includes=True)
     if not opts.nostrip:
         stripcomments(ls)
