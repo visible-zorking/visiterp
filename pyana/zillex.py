@@ -228,17 +228,17 @@ class Lexer:
             res.append(tok)
         if opentok is None:
             if tok:
-                raise Exception('unmatched close token: %s' % (tok,))
+                raise Exception('%s: unmatched close token: %s' % (self.getposstr(), tok,))
         elif opentok.typ is TokType.PREFIX:
             if tok is None:
-                raise Exception('unclosed prefix: %s' % (opentok,))
+                raise Exception('%s: unclosed prefix: %s' % (self.getposstr(), opentok,))
         elif opentok.typ is TokType.DELIM:
             if tok is None:
-                raise Exception('unclosed open token: %s' % (opentok,))
+                raise Exception('%s: unclosed open token: %s' % (self.getposstr(), opentok,))
             if tok.val == ')' and opentok.val != '(':
-                raise Exception('mismatched open paren: %s' % (opentok,))
+                raise Exception('%s: mismatched open paren: %s' % (self.getposstr(), opentok,))
             if tok.val == '>' and opentok.val != '<':
-                raise Exception('mismatched open paren: %s' % (opentok,))
+                raise Exception('%s: mismatched open paren: %s' % (self.getposstr(), opentok,))
         else:
             raise Exception('bad opentok')
         return (res, closetok)
