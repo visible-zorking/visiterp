@@ -30,7 +30,7 @@ def write_source_colored(filename, zcode):
     prep_syntax_coloring(zcode)
     map = {}
     for srcfile in sourcefile_map:
-        lines = colorize_file(os.path.join('gamesrc', srcfile), zcode)
+        lines = colorize_file(os.path.join('gamesrc', srcfile))
         shortlines = []
         for srcline in lines:
             ls = []

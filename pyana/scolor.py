@@ -20,7 +20,7 @@ def prep_syntax_coloring(zcode):
             raise Exception('symbol clash: %s' % (attr,))
         implicitids.add(attr)
 
-def colorize_file(filename, zcode):
+def colorize_file(filename):
     # This is awkward. We just parsed the ZIL for the zcode object,
     # but we want to do it again for the syntax coloring. (The first
     # time we stripped out comments and conditional compilation, but
