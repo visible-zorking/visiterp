@@ -345,10 +345,13 @@ def compute_room_distances(filename, zcode):
 
     dat = {}
 
-    for start in zcode.roomnames:
-        dist = compute_distance_from(zcode, map, start)
-        idist = dict([ (objname_to_num[key], val) for key, val in dist.items() ])
-        dat[objname_to_num[start]] = idist
+    try:
+        for start in zcode.roomnames:
+            dist = compute_distance_from(zcode, map, start)
+            idist = dict([ (objname_to_num[key], val) for key, val in dist.items() ])
+            dat[objname_to_num[start]] = idist
+    except KeyError as ex:
+        print('game-info missing rooms; cannot complete distances:', ex)
         
     fl = open(filename, 'w')
     fl.write('window.gamedat_distances = ');
