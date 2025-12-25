@@ -99,7 +99,6 @@ def sort_zcode_routines(ls, sourceorder):
         fileorder[filename] = index
     for (filename, index) in sourcefile_binorder_map.items():
         fileorder[filename] = index
-    print('###', fileorder)
     funcorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
     def func(zfunc):
         filename = zfunc.rtok.pos[0]
