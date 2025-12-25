@@ -34,9 +34,9 @@ def load_gameinfo():
         num = 0 if num == '-' else int(num)
         if typ == 'SourceFile':
             val = chr(64+num)
-            binorder = int(extra) if extra else val
             sourcefile_map[name] = val
-            sourcefile_binorder_map[name] = binorder
+            if extra:
+                sourcefile_binorder_map[name] = int(extra)
         elif typ == 'Object':
             objname_to_num[name] = num
             objnum_to_name[num] = name
@@ -93,11 +93,17 @@ def get_sourcefile_map():
     load_gameinfo()
     return sourcefile_map
 
-def sort_zcode_routines(ls):
-    origorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
+def sort_zcode_routines(ls, sourceorder):
+    fileorder = {}
+    for (index, filename) in enumerate(sourceorder, start=1):
+        fileorder[filename] = index
+    for (filename, index) in sourcefile_binorder_map.items():
+        fileorder[filename] = index
+    print('###', fileorder)
+    funcorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
     def func(zfunc):
         filename = zfunc.rtok.pos[0]
-        return (sourcefile_binorder_map[filename], origorder[zfunc.name])
+        return (fileorder[filename], funcorder[zfunc.name])
     res = ls.copy()
     res.sort(key=func)
     return res
@@ -148,7 +154,7 @@ def write_strings(filename, zcode, txdat, objdat):
         istrtext_to_pos[tup].append(st)
 
     funcaddr_to_name = {}
-    sortedroutines = sort_zcode_routines(zcode.routines)
+    sortedroutines = sort_zcode_routines(zcode.routines, zcode.sourceorder)
     for zfunc, tfunc in zip(sortedroutines, txdat.routines):
         funcaddr_to_name[tfunc.addr] = zfunc.name
         
@@ -231,7 +237,7 @@ def write_routines(filename, zcode, txdat):
     if len(zcode.routines) != len(txdat.routines):
         raise Exception('routine length mismatch (%d vs %d)' % (len(zcode.routines), len(txdat.routines),))
     
-    sortedroutines = sort_zcode_routines(zcode.routines)
+    sortedroutines = sort_zcode_routines(zcode.routines, zcode.sourceorder)
     
     ls = []
     for zfunc, tfunc in zip(sortedroutines, txdat.routines):
