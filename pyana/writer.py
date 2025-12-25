@@ -94,11 +94,16 @@ def get_sourcefile_map():
     return sourcefile_map
 
 def sort_zcode_routines(ls, sourceorder):
-    fileorder = {}
+    # Some games (Zork 1) compile routines in source-code order.
+    # Others (Zork 2) do not, for reasons I have failed to figure out.
+    # The game-info "SourceFile" lines can provide an explicit order;
+    # if not, fall back to source-code order.
+    fileorder = {}   # maps filename to order index (1-based)
     for (index, filename) in enumerate(sourceorder, start=1):
         fileorder[filename] = index
     for (filename, index) in sourcefile_binorder_map.items():
         fileorder[filename] = index
+    # Within a file, functions are compiled in the order encountered.
     funcorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
     def func(zfunc):
         filename = zfunc.rtok.pos[0]
