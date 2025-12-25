@@ -214,14 +214,26 @@ def write_verbs(filename, zcode):
     fl.write(';\n')
     fl.close()
 
+def sort_zcode_routines(ls):
+    origorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
+    def func(zfunc):
+        filename = zfunc.rtok.pos[0]
+        return (sourcefile_binorder_map[filename], origorder[zfunc.name])
+    res = ls.copy()
+    res.sort(key=func)
+    return res
+    
 def write_routines(filename, zcode, txdat):
     print('...writing routine data:', filename)
     load_gameinfo()
-    
+
     if len(zcode.routines) != len(txdat.routines):
         raise Exception('routine length mismatch (%d vs %d)' % (len(zcode.routines), len(txdat.routines),))
+    
+    sortedroutines = sort_zcode_routines(zcode.routines)
+    
     ls = []
-    for zfunc, tfunc in zip(zcode.routines, txdat.routines):
+    for zfunc, tfunc in zip(sortedroutines, txdat.routines):
         dat = {
             'name': zfunc.name,
             'addr': tfunc.addr,
