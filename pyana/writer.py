@@ -93,6 +93,15 @@ def get_sourcefile_map():
     load_gameinfo()
     return sourcefile_map
 
+def sort_zcode_routines(ls):
+    origorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
+    def func(zfunc):
+        filename = zfunc.rtok.pos[0]
+        return (sourcefile_binorder_map[filename], origorder[zfunc.name])
+    res = ls.copy()
+    res.sort(key=func)
+    return res
+    
 def write_dictwords(filename, dictdat):
     print('...writing dictword data:', filename)
 
@@ -139,7 +148,8 @@ def write_strings(filename, zcode, txdat, objdat):
         istrtext_to_pos[tup].append(st)
 
     funcaddr_to_name = {}
-    for zfunc, tfunc in zip(zcode.routines, txdat.routines):
+    sortedroutines = sort_zcode_routines(zcode.routines)
+    for zfunc, tfunc in zip(sortedroutines, txdat.routines):
         funcaddr_to_name[tfunc.addr] = zfunc.name
         
     ls = []
@@ -214,15 +224,6 @@ def write_verbs(filename, zcode):
     fl.write(';\n')
     fl.close()
 
-def sort_zcode_routines(ls):
-    origorder = { zfunc.name: index for (index, zfunc) in enumerate(ls) }
-    def func(zfunc):
-        filename = zfunc.rtok.pos[0]
-        return (sourcefile_binorder_map[filename], origorder[zfunc.name])
-    res = ls.copy()
-    res.sort(key=func)
-    return res
-    
 def write_routines(filename, zcode, txdat):
     print('...writing routine data:', filename)
     load_gameinfo()
