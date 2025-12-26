@@ -53,8 +53,10 @@ export function GlobalState()
     let counter = 0;
     let globls = [];
     while (counter < zstate.globals.length) {
-        let index = sortglobs[counter].num;
-        globls.push(<GlobalVar key={ index } index={ index } value={ zstate.globals[index] } origvalue={ zstate.origglobals[index] } />);
+        if (sortglobs[counter] !== undefined) {
+            let index = sortglobs[counter].num;
+            globls.push(<GlobalVar key={ index } index={ index } value={ zstate.globals[index] } origvalue={ zstate.origglobals[index] } />);
+        }
         counter++;
     }
 
@@ -100,6 +102,12 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
     
     let changed = (value != origvalue);
     let glo = gamedat_global_nums.get(index);
+
+    if (!glo) {
+        return (
+            <li>??? { value }</li>
+        )
+    }
 
     let vartype = null;
     let withnum = false;
