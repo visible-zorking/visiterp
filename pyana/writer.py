@@ -38,7 +38,11 @@ def load_gameinfo():
             if extra:
                 sourcefile_binorder_map[name] = int(extra)
         elif typ == 'Object':
+            if name in objname_to_num:
+                raise Exception('Object name repeats: %s' % (name,))
             objname_to_num[name] = num
+            if num in objnum_to_name:
+                raise Exception('Object num repeats: %s' % (num,))
             objnum_to_name[num] = name
         elif typ == 'Property':
             propname_to_num[name] = num
