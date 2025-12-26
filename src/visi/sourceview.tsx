@@ -73,7 +73,7 @@ export function SourceView()
             let hilites: string[] = [];
             for (let addr of zstate.strings) {
                 let dat = gamedat_string_map.get(addr);
-                if (dat) {
+                if (dat && dat.sourceloc) {
                     if (typeof dat.sourceloc === 'string') {
                         hilites.push(dat.sourceloc);
                     }
