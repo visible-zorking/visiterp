@@ -55,7 +55,7 @@ function SourceFile({ filename, filekey } : { filename:string, filekey:string })
     let ctx = useContext(FileListCtx);
     let selected = ctx.selected;
 
-    let linecount = gamedat_sourcefiles[filename].length;
+    let linecount = gamedat_sourcefiles[filename]?.length;
     let cla = 'Filename';
     if (filekey==selected)
         cla += ' Selected ';
