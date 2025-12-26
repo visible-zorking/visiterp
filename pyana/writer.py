@@ -188,8 +188,10 @@ def write_strings(filename, zcode, txdat, objdat):
         ls.append([ str.addr, str.text, posval ])
     for str in txdat.istrings:
         fname = funcaddr_to_name[str.rtn.addr]
-        srctok = istrtext_to_pos.get((fname, str.text)).pop(0)
-        ls.append([ str.addr, str.text, sourceloc(tok=srctok), str.rtn.addr ])
+        tup = istrtext_to_pos.get((fname, str.text))
+        if tup is not None:
+            srctok = tup.pop(0)
+            ls.append([ str.addr, str.text, sourceloc(tok=srctok), str.rtn.addr ])
     for obj in objdat.objects:
         if not obj.desc:
             continue
@@ -199,7 +201,7 @@ def write_strings(filename, zcode, txdat, objdat):
 
     for tup, tls in istrtext_to_pos.items():
         if tls:
-            raise Exception('unused istrings: %s, %s' % tup)
+            print('ERROR: unused istrings: %s, "%s"' % tup)
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_strings = ');
