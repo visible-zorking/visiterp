@@ -414,7 +414,10 @@ def compute_distance_from(zcode, map, fromroom):
         reached.append(cur)
         reacheddist[cur] = dist
         for (dir, dest) in map[cur]:
-            todo.append( (dest, dist+1) )
+            newdist = dist+1
+            if dir == 'DISTANT':
+                newdist = dist+1000
+            todo.append( (dest, newdist) )
 
     if len(reached) != len(zcode.roomnames):
         missing = set(zcode.roomnames) - set(reached)
