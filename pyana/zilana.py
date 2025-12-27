@@ -371,6 +371,8 @@ class Zcode:
         for stok in tok.children:
             if stok.typ is TokType.STR:
                 self.istrings.append(ZString(stok.val, stok.pos, stok.endpos, rname))
+            if stok.typ is TokType.GROUP and stok.val == '<>':
+                print('### got', stok.posstr(short=True), stok.dump())
             
     def mapconnections(self, extraconn=[]):
         exitmap = dict()
