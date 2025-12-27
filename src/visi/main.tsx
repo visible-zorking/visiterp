@@ -63,7 +63,6 @@ export function VisiZorkApp()
         setTab('objtree');
         setObjPage(focus);
 
-        //### or prop, whatever
         if (focus && focus.type == 'OBJ') {
             let obj = gamedat_object_ids.get(focus.val);
             if (obj)
