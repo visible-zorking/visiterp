@@ -7,7 +7,7 @@ import { ReactCtx } from './context';
 
 type OptPosition = { x:number, y:number } | null;
 
-export function GameMap()
+export function GameMap({ mobiles }: { mobiles:number[] })
 {
     let scrollref = useRefDiv();
     let mapref = useRefObject();
@@ -89,7 +89,6 @@ export function GameMap()
                     mapdoc.rootElement.setAttribute('data-curselect', herestr);
                 }
 
-                let mobiles = [ gamedat_ids.THIEF ];
                 let mobcount = 0;
                 for (let mobid of mobiles) {
                     // We rely on the fact that the zstate reports
