@@ -50,10 +50,40 @@ class Token:
             return '<%s %s (%d els)>' % (self.typ, val, len(self.children),)
         return '<%s %s>' % (self.typ, self.val,)
 
-    def posstr(self, altpos=None):
+    def dump(self, ls=None):
+        retls = False
+        if ls is None:
+            retls = True
+            ls = []
+            
+        if self.typ is TokType.ID:
+            ls.append(self.val)
+        elif self.typ is TokType.STR:
+            ls.append(repr(self.val))
+        elif self.typ is TokType.NUM:
+            ls.append(str(self.val))
+        elif self.typ is TokType.GROUP:
+            if self.prefix:
+                ls.append(self.val)
+                for tok in self.children:
+                    tok.dump(ls)
+            else:
+                ls.append(self.val[0])
+                for index, tok in enumerate(self.children):
+                    if index:
+                        ls.append(' ')
+                    tok.dump(ls)
+                ls.append(self.val[1])
+        else:
+            ls.append(repr(self))
+
+        if retls:
+            return ''.join(ls)
+
+    def posstr(self, altpos=None, short=False):
         pos = altpos or self.pos
         val = '%s:%s:%s' % pos
-        if self.endpos:
+        if self.endpos and not short:
             val += ' - %s:%s:%s' % self.endpos
         return val
 
