@@ -53,7 +53,7 @@ export function GameMap()
        than the first useEffect invocation. */
     function select_location() {
         if (mapref.current) {
-            let herenum = zstate.globals[0];
+            let herenum = zstate.globals[0];  // LOCATION
             let hereobj = gamedat_object_ids.get(herenum);
             let herestr = '';
             if (hereobj) {
@@ -85,6 +85,32 @@ export function GameMap()
                     }
 
                     mapdoc.rootElement.setAttribute('data-curselect', herestr);
+                }
+
+                if (true) {
+                    let el = mapdoc.getElementById('mob-thief');
+                    if (el) {
+                        // We rely on the fact that the zstate reports
+                        // objects in order (1-based).
+                        let obj = zstate.objects[gamedat_ids.THIEF-1];
+                        let thiefcen: { x:number, y:number }|null = null;
+                        if (obj.parent) {
+                            let thiefloc = gamedat_object_ids.get(obj.parent);
+                            if (thiefloc) {
+                                let throomobj = gamedat_roominfo_names.get(thiefloc.name);
+                                if (throomobj) {
+                                    thiefcen = throomobj.bottom;
+                                }
+                            }
+                        }
+                        if (thiefcen) {
+                            el.classList.remove('Offstage');
+                            el.setAttribute('transform', 'translate('+thiefcen.x+','+thiefcen.y+')');
+                        }
+                        else {
+                            el.classList.add('Offstage');
+                        }
+                    }
                 }
             }
         }
