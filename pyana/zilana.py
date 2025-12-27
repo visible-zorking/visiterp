@@ -341,7 +341,7 @@ class Zcode:
                 self.strings.append(ZString(stok.val, stok.pos, stok.endpos, rname))
             if stok.typ is TokType.GROUP and stok.val in ('<>', '()', "'") and stok.children:
                 if stok.children[0].typ is TokType.ID and stok.children[0].val in ('TELL', 'PRINTI'):
-                    self.findstringsintell(stok, rname)
+                    self.findstringsintell(stok, rtn)
                 else:
                     self.findstringsinroutine(stok, rtn)
 
@@ -367,12 +367,13 @@ class Zcode:
             callargcount = len(args)
         return callargcount, args
 
-    def findstringsintell(self, tok, rname):
+    def findstringsintell(self, tok, rtn):
+        rname = rtn.name
         for stok in tok.children:
             if stok.typ is TokType.STR:
                 self.istrings.append(ZString(stok.val, stok.pos, stok.endpos, rname))
             if stok.typ is TokType.GROUP and stok.val == '<>':
-                print('### got', stok.posstr(short=True), stok.dump())
+                self.findstringsinroutine(stok, rtn)
             
     def mapconnections(self, extraconn=[]):
         exitmap = dict()
