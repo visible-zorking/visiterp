@@ -409,7 +409,7 @@ def compute_distance_from(zcode, map, fromroom):
     todo = [ (fromroom, 0) ]
     while todo:
         (cur, dist) = todo.pop(0)
-        if cur in reacheddist:
+        if cur in reacheddist and reacheddist[cur] <= dist:
             continue
         reached.append(cur)
         reacheddist[cur] = dist
