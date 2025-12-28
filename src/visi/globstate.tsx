@@ -111,44 +111,43 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
 
     let vartype = null;
     let withnum = false;
-    if (glo) {
-        switch (glo.vartype) {
-        case 'OBJ':
-            vartype = <VarShowObject value={ value } />;
-            break;
-        case 'STR':
-            vartype = <VarShowString value={ value } />;
-            break;
-        case 'WORD':
-            vartype = <VarShowWord value={ value } />;
-            break;
-        case 'VERB':
-            vartype = <VarShowVerb value={ value } />;
-            break;
-        case 'DATA':
-            vartype = <i>data table in source</i>;
-            break;
-        case 'TABLE':
-            vartype = <i>runtime table</i>;
-            break;
-        case 'UNUSED':
-            vartype = <>{ value } <i>(not used)</i></>
-            withnum = true;
-            break;
-        case '':
-        case undefined:
-            vartype = <span>{ signed_zvalue(value) }</span>;
-            withnum = true;
-            break;
-        default:
-            vartype = <i>{ glo.vartype }</i>;
-            break;
-        }
+
+    switch (glo.vartype) {
+    case 'OBJ':
+        vartype = <VarShowObject value={ value } />;
+        break;
+    case 'STR':
+        vartype = <VarShowString value={ value } />;
+        break;
+    case 'WORD':
+        vartype = <VarShowWord value={ value } />;
+        break;
+    case 'VERB':
+        vartype = <VarShowVerb value={ value } />;
+        break;
+    case 'DATA':
+        vartype = <i>data table in source</i>;
+        break;
+    case 'TABLE':
+        vartype = <i>runtime table</i>;
+        break;
+    case 'UNUSED':
+        vartype = <>{ value } <i>(not used)</i></>
+        withnum = true;
+        break;
+    case '':
+    case undefined:
+        vartype = <span>{ signed_zvalue(value) }</span>;
+        withnum = true;
+        break;
+    default:
+        vartype = <i>{ glo.vartype }</i>;
+        break;
     }
 
     let origtext = 'original value: ';
     if (changed) {
-        if (glo && glo.vartype == 'OBJ') {
+        if (glo.vartype == 'OBJ') {
             if (origvalue == 0) {
                 origtext += 'nothing';
             }
@@ -162,10 +161,7 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
         }
     }
 
-    let withcom: string|undefined;
-    if (glo) {
-        withcom = check_commentary(glo.name, 'GLOB');
-    }
+    let withcom = check_commentary(glo.name, 'GLOB');
     
     function evhan_click(ev: React.MouseEvent<HTMLLIElement, MouseEvent>) {
         ev.stopPropagation();
@@ -183,7 +179,7 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
             { (rctx.shownumbers ?
                <span className="ShowAddr">{ index }: </span>
                : null) }
-            <code>{ (glo ? glo.name : '???') }</code>:{' '}
+            <code>{ glo.name }</code>:{' '}
             { (changed ?
                <span className="ChangedNote" title={ origtext }>*</span>
                : null) }
