@@ -4,12 +4,15 @@ from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
 from zilana import teststaticcond, ZRoutine
 
+gameid = None
 compileconstants = {}
 implicitids = set()
 linkids = {}
 loctoentity = {}
 
 def prep_syntax_coloring(zcode):
+    global gameid
+    gameid = zcode.gameid
     compileconstants.update(zcode.compileconstants)
     
     # A global can be defined more than once (see LUCKY, WON-FLAG).
@@ -99,6 +102,7 @@ def colorize(tokls, res, defentity):
                         res.append( (cgrp, Color.IFNDEF) )
                         continue
                     found = teststaticcond(cgrp, compileconstants)
+                    ### monkey
                     if found:
                         colorize([ cgrp ], res, defentity)
                     else:

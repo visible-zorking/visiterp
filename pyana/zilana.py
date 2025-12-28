@@ -111,10 +111,12 @@ def stripcomments(ls):
     ls.clear()
     ls.extend(newls)
 
-def stripifdefs(ls, compileconstants):
+def stripifdefs(ls, compileconstants, monkeypatch=None):
     # Remove all compiled-out %<COND...> elements from ls.
     newls = []
     for tok in ls:
+        if monkeypatch is not None and ismonkeyskip(tok, monkeypatch):
+            continue
         if tok.typ is TokType.GROUP and tok.val == '%' and tok.children:
             ctok = tok.children[0]
             if ctok.matchform('COND', 0):
@@ -128,10 +130,18 @@ def stripifdefs(ls, compileconstants):
                 continue
         newls.append(tok)
         if tok.typ is TokType.GROUP:
-            stripifdefs(tok.children, compileconstants)
+            stripifdefs(tok.children, compileconstants, monkeypatch=monkeypatch)
     ls.clear()
     ls.extend(newls)
 
+def ismonkeyskip(tok, monkeypatch):
+    if monkeypatch == 'zork2-r48-s840904':
+        if tok.typ is TokType.STR and tok.val == 'You must explain how to do that.':
+            return True
+        if tok.typ is TokType.STR and tok.val == 'Wasn\'t he a sailor?':
+            return True
+    return False
+    
 def teststaticcond(cgrp, compileconstants):
     if cgrp.typ is TokType.GROUP and cgrp.val == '()' and len(cgrp.children) == 2:
         condgrp = cgrp.children[0]
@@ -172,8 +182,9 @@ def teststaticcond(cgrp, compileconstants):
 
 
 class Zcode:
-    def __init__(self, tokls, compileconstants={}):
+    def __init__(self, tokls, gameid=None, compileconstants={}):
         self.tokls = tokls
+        self.gameid = gameid
         self.compileconstants = compileconstants
         self.globals = []
         self.constants = []

@@ -55,10 +55,10 @@ if opts.zilfile:
         stripcomments(ls)
     compileconstants = findsetg(ls)
     if not opts.nostrip:
-        stripifdefs(ls, compileconstants)
+        stripifdefs(ls, compileconstants, monkeypatch=opts.gameid)
     if opts.dump:
         dumptokens(ls, withpos=False)
-    zcode = Zcode(ls, compileconstants=compileconstants)
+    zcode = Zcode(ls, gameid=opts.gameid, compileconstants=compileconstants)
     zcode.build()
     strset = set([ val.text for val in zcode.strings ])
     print('globals:', len(zcode.globals))
