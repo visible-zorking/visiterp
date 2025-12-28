@@ -2,7 +2,7 @@ from enum import StrEnum
 
 from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
-from zilana import teststaticcond, ZRoutine
+from zilana import ismonkeyskip, teststaticcond, ZRoutine
 
 gameid = None
 compileconstants = {}
@@ -70,6 +70,9 @@ def colorize(tokls, res, defentity):
         localids = set(defentity.args)
         
     for tok in tokls:
+        if gameid is not None and ismonkeyskip(tok, gameid):
+            res.append( (tok, Color.IFNDEF) )
+            continue
         if tok.typ is TokType.STR:
             if tok.val in ('AUX', 'OPTIONAL', 'ARGS'):
                 # not really a string
@@ -102,7 +105,6 @@ def colorize(tokls, res, defentity):
                         res.append( (cgrp, Color.IFNDEF) )
                         continue
                     found = teststaticcond(cgrp, compileconstants)
-                    ### monkey
                     if found:
                         colorize([ cgrp ], res, defentity)
                     else:
