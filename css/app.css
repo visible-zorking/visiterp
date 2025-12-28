@@ -646,6 +646,7 @@ a.CommentButtonSmall img {
 .SourceFile {
     display: block flow-root;
     white-space: pre-wrap;
+    overflow-wrap: anywhere;
     font-family: "Courier Prime";
     font-size: 90%;
 }
