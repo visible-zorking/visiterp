@@ -29,6 +29,9 @@ def prep_syntax_coloring(zcode):
     for (num, prop) in get_properties():
         implicitids.add('P?'+prop)
 
+### special-case property names in a ROOM/OBJECT declaration
+### (and special-special case the DIR TO lines)
+        
 def colorize_file(filename):
     # This is awkward. We just parsed the ZIL for the zcode object,
     # but we want to do it again for the syntax coloring. (The first
