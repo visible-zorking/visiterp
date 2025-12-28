@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useRef, useEffect } from 'react';
 
 import { sourcefile_map, gamedat_sourcefiles } from '../custom/gamedat';
-import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, parse_sourceloc } from '../custom/gamedat';
+import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names, parse_sourceloc } from '../custom/gamedat';
 import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
@@ -56,6 +56,13 @@ export function SourceView()
         if (attr) {
             rctx.setObjPage({ type:'ATTR', val:attr.num });
             return;
+        }
+        if (val.startsWith('P?')) {
+            let prop = gamedat_property_names.get(val.slice(2));
+            if (prop) {
+                rctx.setObjPage({ type:'PROP', val:prop.num });
+                return;
+            }
         }
         console.log('BUG: clicked unknown id', val);
     }

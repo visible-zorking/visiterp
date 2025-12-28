@@ -26,6 +26,8 @@ def prep_syntax_coloring(zcode):
         if attr in implicitids:
             raise Exception('symbol clash: %s' % (attr,))
         implicitids.add(attr)
+    for (num, prop) in get_properties():
+        implicitids.add('P?'+prop)
 
 def colorize_file(filename):
     # This is awkward. We just parsed the ZIL for the zcode object,
