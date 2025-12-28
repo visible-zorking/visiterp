@@ -160,7 +160,7 @@ function rebuild_sourcefile(nodel: HTMLDivElement, locstr: string, lochi: boolea
         filel.className = 'SourceFile';
         
         let lines = gamedat_sourcefiles[filename];
-        let commentlist = gamedat_commentarymap[loc.filekey];
+        let commentlist = gamedat_commentarymap[loc.filekey] ?? [];
         
         let compos = 0;
         let comline: number|undefined;
