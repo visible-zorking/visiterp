@@ -55,7 +55,7 @@ if opts.zilfile:
         stripcomments(ls)
     compileconstants = findsetg(ls)
     if not opts.nostrip:
-        stripifdefs(ls, compileconstants, monkeypatch=opts.gameid)
+        stripifdefs(ls, compileconstants, gameid=opts.gameid)
     if opts.dump:
         dumptokens(ls, withpos=False)
     zcode = Zcode(ls, gameid=opts.gameid, compileconstants=compileconstants)

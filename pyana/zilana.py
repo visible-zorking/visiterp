@@ -111,11 +111,11 @@ def stripcomments(ls):
     ls.clear()
     ls.extend(newls)
 
-def stripifdefs(ls, compileconstants, monkeypatch=None):
+def stripifdefs(ls, compileconstants, gameid=None):
     # Remove all compiled-out %<COND...> elements from ls.
     newls = []
     for tok in ls:
-        if monkeypatch is not None and ismonkeyskip(tok, monkeypatch):
+        if gameid is not None and ismonkeyskip(tok, gameid):
             continue
         if tok.typ is TokType.GROUP and tok.val == '%' and tok.children:
             ctok = tok.children[0]
@@ -130,12 +130,12 @@ def stripifdefs(ls, compileconstants, monkeypatch=None):
                 continue
         newls.append(tok)
         if tok.typ is TokType.GROUP:
-            stripifdefs(tok.children, compileconstants, monkeypatch=monkeypatch)
+            stripifdefs(tok.children, compileconstants, gameid=gameid)
     ls.clear()
     ls.extend(newls)
 
-def ismonkeyskip(tok, monkeypatch):
-    if monkeypatch == 'zork2-r48-s840904':
+def ismonkeyskip(tok, gameid):
+    if gameid == 'zork2-r48-s840904':
         if tok.typ is TokType.STR and tok.val == 'You must explain how to do that.':
             return True
         if tok.typ is TokType.STR and tok.val == 'Wasn\'t he a sailor?':
