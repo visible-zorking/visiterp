@@ -3,6 +3,7 @@ from enum import StrEnum
 from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
 from zilana import ismonkeyskip, teststaticcond, ZRoutine
+from writer import get_attributes, get_properties
 
 gameid = None
 compileconstants = {}
@@ -21,7 +22,7 @@ def prep_syntax_coloring(zcode):
     absorb_entities([ (obj, obj.objtok) for obj in zcode.objects ])
     absorb_entities([ (rtn, rtn.rtok) for rtn in zcode.routines ])
     absorb_entities([ (con, con.ctok) for con in zcode.constants ], dupcheck=False)
-    for attr in zcode.attrnameset:
+    for (num, attr) in get_attributes():
         if attr in implicitids:
             raise Exception('symbol clash: %s' % (attr,))
         implicitids.add(attr)

@@ -105,6 +105,14 @@ def get_sourcefile_map():
     load_gameinfo()
     return sourcefile_map
 
+def get_attributes():
+    load_gameinfo()
+    return attribute_list
+
+def get_properties():
+    load_gameinfo()
+    return property_list
+
 def sort_zcode_routines(ls, sourceorder):
     # Some games (Zork 1) compile routines in source-code order.
     # Others (Zork 2) do not, for reasons I have failed to figure out.
