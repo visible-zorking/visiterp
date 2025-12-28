@@ -7,6 +7,8 @@ import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
 import { ObjPropertyList } from './objpage';
 
+//### Support highlight-for-source!
+
 export function ObjectAttrList({ attr } : { attr:number })
 {
     let rctx = useContext(ReactCtx);
@@ -136,7 +138,7 @@ export function ObjectPropList({ propnum } : { propnum:number })
                 <ObjPageLink onum={ obj.onum } />
                 <code>{ obj.name }</code>
                 <ul className="DataList">
-                    <ObjPropertyList key={ prop.pnum } pnum={ prop.pnum } values={ prop.values } origvalues={ origvalues } />
+                    <ObjPropertyList key={ prop.pnum } pnum={ prop.pnum } values={ prop.values } origvalues={ origvalues } propislink={ false } />
                 </ul>
             </li>
         );

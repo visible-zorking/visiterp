@@ -96,7 +96,7 @@ export function ObjectPage({ onum } : { onum:number })
             origvalues = origprop.values;
 
         propls.push(
-            <ObjPropertyList key={ prop.pnum } pnum={ prop.pnum } values={ prop.values } origvalues={ origvalues } />
+            <ObjPropertyList key={ prop.pnum } pnum={ prop.pnum } values={ prop.values } origvalues={ origvalues } propislink={ true } />
         );
 
         index++;
@@ -224,7 +224,7 @@ export function ObjectPage({ onum } : { onum:number })
     );
 }
 
-export function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, values:number[], origvalues:number[] })
+export function ObjPropertyList({ pnum, values, origvalues, propislink }: { pnum:number, values:number[], origvalues:number[], propislink:boolean })
 {
     let rctx = useContext(ReactCtx);
     
@@ -300,7 +300,11 @@ export function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, val
             { (rctx.shownumbers ?
                <span className="ShowAddr">{ pnum }: </span>
                : null) }
-            <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_prop(ev, pnum) }><code>{ prop.name }</code></a>:{' '}
+            { (propislink ?
+               <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_prop(ev, pnum) }><code>{ prop.name }</code></a>
+               : <code>{ prop.name }</code>
+            ) }
+            :{' '}
             { propvalues }
         </li>
     );
