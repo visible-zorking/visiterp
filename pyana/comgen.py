@@ -203,7 +203,10 @@ def dump(entries, sourcekeymap, filename):
     fl.write(';\n')
     
     map = dict()
-    for key, submap in sourcekeymap.items():
+    keyls = list(sourcekeymap.keys())
+    keyls.sort()
+    for key in keyls:
+        submap = sourcekeymap[key]
         ls = list(submap.items())
         ls.sort()
         flatls = [ val for subls in ls for val in subls ]
@@ -229,7 +232,7 @@ attributenames = dict([ (obj['name'], obj) for obj in attributes ])
 entries = parse(sys.argv[1])
 
 linkedtopics = {}
-sourcekeymap = dict([ (ch, {}) for ch in 'ABCDEFGHIJ' ])
+sourcekeymap = {}
 
 for ent in entries:
     ent.build()
@@ -237,6 +240,8 @@ for ent in entries:
         srcls = ent.srcloc.split(':')
         filekey = srcls[0]
         linenum = int(srcls[1])
+        if filekey not in sourcekeymap:
+            sourcekeymap[filekey] = {}
         if linenum in sourcekeymap[filekey]:
             raise Exception('two entries for srcloc %s, %s' % (ent.srcloc, ent,))
         sourcekeymap[filekey][linenum] = ent.token
