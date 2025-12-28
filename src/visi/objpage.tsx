@@ -224,7 +224,7 @@ export function ObjectPage({ onum } : { onum:number })
     );
 }
 
-function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, values:number[], origvalues:number[] })
+export function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, values:number[], origvalues:number[] })
 {
     let rctx = useContext(ReactCtx);
     
@@ -287,6 +287,11 @@ function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, values:num
         origtext += origvalues.join(' ');
     }
 
+    function evhan_click_focus_prop(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
+        ev.preventDefault();
+        rctx.setObjPage({ type:'PROP', val:index });
+    }
+    
     return (
         <li>
             { (changeflag ?
@@ -295,7 +300,7 @@ function ObjPropertyList({ pnum, values, origvalues }: { pnum:number, values:num
             { (rctx.shownumbers ?
                <span className="ShowAddr">{ pnum }: </span>
                : null) }
-            <code>{ prop.name }</code>:{' '}
+            <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_prop(ev, pnum) }><code>{ prop.name }</code></a>:{' '}
             { propvalues }
         </li>
     );

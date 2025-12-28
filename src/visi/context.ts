@@ -4,7 +4,7 @@ import { ZStatePlus, zstateplus_empty } from './zstate';
 import { sourceloc_start } from '../custom/gamedat';
 
 export type ObjPageFocus = null | {
-    type: 'OBJ'|'ATTR';
+    type: 'OBJ'|'ATTR'|'PROP';
     val: number;
 }
 
