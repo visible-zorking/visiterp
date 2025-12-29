@@ -30,7 +30,7 @@ def prep_syntax_coloring(zcode):
         implicitids.add('P?'+prop)
 
 ### special-case property names in a ROOM/OBJECT declaration
-### (and special-special case the DIR TO lines)
+### (and special-special case the DIR TO/PER/etc lines)
         
 def colorize_file(filename):
     # This is awkward. We just parsed the ZIL for the zcode object,
