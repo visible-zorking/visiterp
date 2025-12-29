@@ -89,6 +89,11 @@ export function ObjectAttrList({ attr } : { attr:number })
         }
     }
     
+    function evhan_click_background(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        ev.stopPropagation();
+        setSelected(-1);
+    }
+
     function evhan_click_back(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         ev.preventDefault();
         rctx.setTab('objtree');
@@ -96,7 +101,7 @@ export function ObjectAttrList({ attr } : { attr:number })
 
     return (
         <ObjListCtx.Provider value={ { selected, setSelected } }>
-            <div className="ScrollContent">
+            <div className="ScrollContent" onClick={ evhan_click_background }>
                 <div className="ObjPageBack">
                     <a href="#" onClick={ evhan_click_back }>Back to World</a>
                 </div>
@@ -183,6 +188,11 @@ export function ObjectPropList({ propnum } : { propnum:number })
         );
     }
     
+    function evhan_click_background(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+        ev.stopPropagation();
+        setSelected(-1);
+    }
+
     function evhan_click_back(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>) {
         ev.preventDefault();
         rctx.setTab('objtree');
@@ -190,7 +200,7 @@ export function ObjectPropList({ propnum } : { propnum:number })
 
     return (
         <ObjListCtx.Provider value={ { selected, setSelected } }>
-            <div className="ScrollContent">
+            <div className="ScrollContent" onClick={ evhan_click_background }>
                 <div className="ObjPageBack">
                     <a href="#" onClick={ evhan_click_back }>Back to World</a>
                 </div>
