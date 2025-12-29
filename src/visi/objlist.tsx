@@ -70,7 +70,9 @@ export function ObjectAttrList({ attr } : { attr:number })
                 ev.stopPropagation();
                 if (obj) {
                     setSelected(obj.onum);
-                    rctx.setLoc(obj.sourceloc, false);
+                    // Subtle point here: if we clicked on an <a> that set the source display, we should not do it ourselves.
+                    if (!ev.defaultPrevented)
+                        rctx.setLoc(obj.sourceloc, false);
                 }
             }
 
@@ -170,7 +172,9 @@ export function ObjectPropList({ propnum } : { propnum:number })
             ev.stopPropagation();
             if (obj) {
                 setSelected(obj.onum);
-                rctx.setLoc(obj.sourceloc, false);
+                // Subtle point here: if we clicked on an <a> that set the source display, we should not do it ourselves.
+                if (!ev.defaultPrevented)
+                    rctx.setLoc(obj.sourceloc, false);
             }
         }
 
