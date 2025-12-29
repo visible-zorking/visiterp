@@ -145,7 +145,7 @@ export function ObjectPage({ onum } : { onum:number })
                         { (changed ?
                            <span className="ChangedNote">*</span>
                            : null) }
-                        <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_attr(ev, attr.num) }><code className={ cla }>{ attr.name }</code></a>{' '}
+                        <code className={ cla }><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_attr(ev, attr.num) }>{ attr.name }</a></code>{' '}
                     </span>
                 );
             }
@@ -301,7 +301,7 @@ export function ObjPropertyList({ pnum, values, origvalues, propislink }: { pnum
                <span className="ShowAddr">{ pnum }: </span>
                : null) }
             { (propislink ?
-               <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_prop(ev, pnum) }><code>{ prop.name }</code></a>
+               <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_focus_prop(ev, pnum) }>{ prop.name }</a></code>
                : <code>{ prop.name }</code>
             ) }
             :{' '}
@@ -476,7 +476,7 @@ function RoutineProp({ values } : { values:number[] })
             { (rctx.shownumbers ?
                <span className="ShowAddr">({ val }) </span>
                : null) }
-            <a className="Src_Id" href="#" onClick={ evhan_click }><code>{ obj.name }</code></a>
+            <code><a className="Src_Id" href="#" onClick={ evhan_click }>{ obj.name }</a></code>
         </>
     );
 }
