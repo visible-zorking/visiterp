@@ -305,7 +305,7 @@ class Lexer:
         self.infl.close()
         self.infl = None
         if self.monkeypatch:
-            res = resolvemonkey(self, res)
+            res = monkeyadjustlex(self, res)
         if includes:
             res = self.resolveincludes(res)
         return res
@@ -350,5 +350,5 @@ def dumptokens(ls, withpos=False, skipdead=False, depth=0, prefix='', atpos=None
 
 
 # Late import
-from monkey import resolvemonkey
+from monkey import monkeyadjustlex
 

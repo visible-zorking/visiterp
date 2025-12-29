@@ -1,6 +1,6 @@
 from zillex import Token, TokType
 
-def resolvemonkey(lexer, ls):
+def monkeyadjustlex(lexer, ls):
     if lexer.monkeypatch == 'zork2-r48-s840904':
         if lexer.filename == 'zork2.zil':
             #### on the end is probably fine?
@@ -21,7 +21,7 @@ def resolvemonkey(lexer, ls):
     
 
 
-def ismonkeyskip(tok, gameid):
+def monkeyadjustifdef(tok, gameid):
     if gameid == 'zork2-r48-s840904':
         if tok.typ is TokType.STR and tok.val == 'You must explain how to do that.':
             return True

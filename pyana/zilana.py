@@ -1,6 +1,6 @@
 from zillex import Token, TokType
 from zillex import tokIN
-from monkey import ismonkeyskip
+from monkey import monkeyadjustifdef
 
 class ZObject:
     def __init__(self, name, flag, desc, desctok, objtok):
@@ -116,7 +116,7 @@ def stripifdefs(ls, compileconstants, gameid=None):
     # Remove all compiled-out %<COND...> elements from ls.
     newls = []
     for tok in ls:
-        if gameid is not None and ismonkeyskip(tok, gameid):
+        if gameid is not None and monkeyadjustifdef(tok, gameid):
             continue
         if tok.typ is TokType.GROUP and tok.val == '%' and tok.children:
             ctok = tok.children[0]

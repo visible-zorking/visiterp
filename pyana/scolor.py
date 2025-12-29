@@ -3,7 +3,7 @@ from enum import StrEnum
 from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
 from zilana import teststaticcond, ZRoutine
-from monkey import ismonkeyskip
+from monkey import monkeyadjustifdef
 from writer import get_attributes, get_properties
 
 gameid = None
@@ -77,7 +77,7 @@ def colorize(tokls, res, defentity):
         localids = set(defentity.args)
         
     for tok in tokls:
-        if gameid is not None and ismonkeyskip(tok, gameid):
+        if gameid is not None and monkeyadjustifdef(tok, gameid):
             res.append( (tok, Color.IFNDEF) )
             continue
         if tok.typ is TokType.STR:
