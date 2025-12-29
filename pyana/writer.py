@@ -326,6 +326,35 @@ def write_globals(filename, zcode):
     fl.write(';\n')
     fl.close()
 
+def display_globals(zcode):
+    load_gameinfo()
+    print('* Globals (%d), in what we hope is their correct order:' % len(zcode.globals),)
+    ls = zcode.globals.copy()
+    def func(glob):
+        if glob.name == 'LOW-DIRECTION':
+            return (100, 1)
+        if glob.name == 'PREPOSITIONS':
+            return (101, 1)
+        if glob.name == 'ACTIONS':
+            return (102, 1)
+        if glob.name == 'PREACTIONS':
+            return (103, 1)
+        if glob.name == 'VERBS':
+            return (104, 1)
+        if glob.name == 'HERE':
+            return (-99, 1)
+        if glob.name == 'SCORE':
+            return (-98, 1)
+        if glob.name == 'MOVES':
+            return (-97, 1)
+        pos = glob.gtok.pos
+        return (-sourcefile_binorder_map[pos[0]], -pos[1])
+    ls.sort(key=func)
+    for index, glob in enumerate(ls):
+        print('Global %d %s' % (index, glob.name,))
+    print('...check BIGFIX vs LOW-DIRECTION, and the following ones too')
+    print('...any global defined twice will muck up the ordering')
+    
 def write_constants(filename, zcode):
     print('...writing constants data:', filename)
     ls = []

@@ -12,7 +12,7 @@ from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
 from txdparse import TXDData, ObjDumpData, DictDumpData
-from writer import write_properties, write_attributes, write_verbs, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, compute_room_distances
+from writer import write_properties, write_attributes, write_verbs, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, display_globals, compute_room_distances
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()
@@ -41,6 +41,9 @@ popt.add_option('-o', '--obj',
 popt.add_option('-d', '--dict',
                 action='store_true', dest='dictdump',
                 help='read dict-dump.txt (needed to write dictwords.js)')
+popt.add_option('--showglob',
+                action='store_true', dest='showglob',
+                help='list globals in (mostly) compiled order')
 popt.add_option('--src',
                 action='store_true', dest='sourcelist',
                 help='write source.js with syntax coloring')
@@ -107,6 +110,9 @@ if opts.gamedat:
         write_strings('src/game/strings.js', zcode, txdat, objdat)
     if opts.zilfile:
         compute_room_distances('src/game/distances.js', zcode)
+
+if opts.showglob:
+    display_globals(zcode)
 
 if opts.sourcelist:
     if not opts.zilfile:
