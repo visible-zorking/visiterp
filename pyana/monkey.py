@@ -34,7 +34,7 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
                 extracompiledstrings.append(ltable.children[3])
                 # "Have your eyes checked."
                 extracompiledstrings.append(ltable.children[4])
-            return False
+            return True
     return False
 
 def monkeyextrastrings():
