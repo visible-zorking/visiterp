@@ -7,10 +7,25 @@ import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
 import { ObjPropertyList } from './objpage';
 
-//### Support highlight-for-source!
+type ObjListContextContent = {
+    selected: number;
+    setSelected: (val:number) => void;
+};
+
+function new_context() : ObjListContextContent
+{
+    return {
+        selected: -1,
+        setSelected: (val) => {},
+    };
+}
+
+const ObjListCtx = createContext(new_context());
 
 export function ObjectAttrList({ attr } : { attr:number })
 {
+    const [ selected, setSelected ] = useState(-1);
+    
     let rctx = useContext(ReactCtx);
     let zstate = rctx.zstate;
 
@@ -70,25 +85,29 @@ export function ObjectAttrList({ attr } : { attr:number })
     }
 
     return (
-        <div className="ScrollContent">
-            <div className="ObjPageBack">
-                <a href="#" onClick={ evhan_click_back }>Back to World</a>
+        <ObjListCtx.Provider value={ { selected, setSelected } }>
+            <div className="ScrollContent">
+                <div className="ObjPageBack">
+                    <a href="#" onClick={ evhan_click_back }>Back to World</a>
+                </div>
+                { (withcom ?
+                   <Commentary topic={ withcom } />
+                   : null) }
+                <div>Objects with attribute <code>{ attrdat.name }</code>:</div>
+                { (objls.length ?
+                   <ul className="DataList">
+                       { objls }
+                   </ul>
+                   : null) }
             </div>
-            { (withcom ?
-               <Commentary topic={ withcom } />
-               : null) }
-            <div>Objects with attribute <code>{ attrdat.name }</code>:</div>
-            { (objls.length ?
-               <ul className="DataList">
-                   { objls }
-               </ul>
-               : null) }
-        </div>
+        </ObjListCtx.Provider>
     )
 }
 
 export function ObjectPropList({ propnum } : { propnum:number })
 {
+    const [ selected, setSelected ] = useState(-1);
+    
     let rctx = useContext(ReactCtx);
     let zstate = rctx.zstate;
 
@@ -150,19 +169,21 @@ export function ObjectPropList({ propnum } : { propnum:number })
     }
 
     return (
-        <div className="ScrollContent">
-            <div className="ObjPageBack">
-                <a href="#" onClick={ evhan_click_back }>Back to World</a>
+        <ObjListCtx.Provider value={ { selected, setSelected } }>
+            <div className="ScrollContent">
+                <div className="ObjPageBack">
+                    <a href="#" onClick={ evhan_click_back }>Back to World</a>
+                </div>
+                { (withcom ?
+                   <Commentary topic={ withcom } />
+                   : null) }
+                <div>Objects with property <code>{ propdat.name }</code>:</div>
+                { (objls.length ?
+                   <ul className="DataList">
+                       { objls }
+                   </ul>
+                   : null) }
             </div>
-            { (withcom ?
-               <Commentary topic={ withcom } />
-               : null) }
-            <div>Objects with property <code>{ propdat.name }</code>:</div>
-            { (objls.length ?
-               <ul className="DataList">
-                   { objls }
-               </ul>
-               : null) }
-        </div>
+        </ObjListCtx.Provider>
     )
 }

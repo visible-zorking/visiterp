@@ -9,7 +9,7 @@ import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
 import { ObjListSorter, sorter_for_key, contains_label } from '../custom/cwidgets';
 
-export type ObjTreeContextContent = {
+type ObjTreeContextContent = {
     map: Map<number, ZObject>;
     selected: number;
     setSelected: (val:number) => void;
