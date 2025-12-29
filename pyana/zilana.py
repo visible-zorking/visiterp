@@ -1,5 +1,6 @@
 from zillex import Token, TokType
 from zillex import tokIN
+from monkey import ismonkeyskip
 
 class ZObject:
     def __init__(self, name, flag, desc, desctok, objtok):
@@ -134,14 +135,6 @@ def stripifdefs(ls, compileconstants, gameid=None):
     ls.clear()
     ls.extend(newls)
 
-def ismonkeyskip(tok, gameid):
-    if gameid == 'zork2-r48-s840904':
-        if tok.typ is TokType.STR and tok.val == 'You must explain how to do that.':
-            return True
-        if tok.typ is TokType.STR and tok.val == 'Wasn\'t he a sailor?':
-            return True
-    return False
-    
 def teststaticcond(cgrp, compileconstants):
     if cgrp.typ is TokType.GROUP and cgrp.val == '()' and len(cgrp.children) == 2:
         condgrp = cgrp.children[0]

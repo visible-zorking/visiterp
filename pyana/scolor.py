@@ -2,7 +2,8 @@ from enum import StrEnum
 
 from zillex import Lexer, TokType, dumptokens
 from zillex import posLE, posGT
-from zilana import ismonkeyskip, teststaticcond, ZRoutine
+from zilana import teststaticcond, ZRoutine
+from monkey import ismonkeyskip
 from writer import get_attributes, get_properties
 
 gameid = None
