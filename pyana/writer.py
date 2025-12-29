@@ -328,6 +328,9 @@ def write_globals(filename, zcode):
 
 def display_globals(zcode):
     load_gameinfo()
+    if not sourcefile_binorder_map:
+        print('ERROR: --showglob requires order info for SourceFile')
+        return
     print('* Globals (%d), in what we hope is their correct order:' % len(zcode.globals),)
     ls = zcode.globals.copy()
     def func(glob):
