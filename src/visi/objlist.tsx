@@ -50,22 +50,32 @@ export function ObjectAttrList({ attr } : { attr:number })
         
         if (curflag || origflag) {
             let changed = false;
-            let cla = '';
+            let namecla = '';
             if (curflag) {
                 if (!origflag) {
                     changed = true;
-                    cla = 'AddAttr';
+                    namecla = 'AddAttr';
                 }
             }
             else {
                 if (origflag) {
                     changed = true;
-                    cla = 'DelAttr';
+                    namecla = 'DelAttr';
                 }
             }
+
+            let cla = (obj.onum == selected) ? 'Selected' : '';
             
+            function evhan_click_select(ev: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+                ev.stopPropagation();
+                if (obj) {
+                    setSelected(obj.onum);
+                    rctx.setLoc(obj.sourceloc, false);
+                }
+            }
+
             objls.push(
-                <li key={ obj.onum }>
+                <li key={ obj.onum } className={ cla } onClick={ evhan_click_select }>
                     { (rctx.shownumbers ?
                        <span className="ShowAddr">({ obj.onum }) </span>
                        : null) }
@@ -73,7 +83,7 @@ export function ObjectAttrList({ attr } : { attr:number })
                     { (changed ?
                        <span className="ChangedNote">*</span>
                        : null) }
-                    <code className={ cla }>{ obj.name }</code>
+                    <code className={ namecla }>{ obj.name }</code>
                 </li>
             );
         }
@@ -148,9 +158,19 @@ export function ObjectPropList({ propnum } : { propnum:number })
             origvalues = [];
         else
             origvalues = origprop.values;
-            
+
+        let cla = (obj.onum == selected) ? 'Selected' : '';
+        
+        function evhan_click_select(ev: React.MouseEvent<HTMLLIElement, MouseEvent>) {
+            ev.stopPropagation();
+            if (obj) {
+                setSelected(obj.onum);
+                rctx.setLoc(obj.sourceloc, false);
+            }
+        }
+
         objls.push(
-            <li key={ obj.onum }>
+            <li key={ obj.onum } className={ cla } onClick={ evhan_click_select }>
                 { (rctx.shownumbers ?
                    <span className="ShowAddr">({ obj.onum }) </span>
                    : null) }
