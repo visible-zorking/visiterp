@@ -19,15 +19,24 @@ def monkeyadjustlex(lexer, ls):
                 ls.insert(pos, newtok)
     return ls
     
+extracompiledstrings = []
 
-
-def monkeyadjustifdef(tok, gameid):
+def monkeyadjustifdef(tok, gameid, forscolor=False):
     if gameid == 'zork2-r48-s840904':
         if tok.typ is TokType.STR and tok.val == 'You must explain how to do that.':
             return True
         if tok.typ is TokType.STR and tok.val == 'Wasn\'t he a sailor?':
             return True
         if tok.typ is TokType.GROUP and tok.val == '<>' and len(tok.children) == 3 and tok.children[0].val == 'GLOBAL' and tok.children[1].val == 'DUMMY' and tok.pos[0] == 'gverbs.zil':
-            return True
+            if not forscolor:
+                ltable = tok.children[2]
+                # "Too late for that."
+                extracompiledstrings.append(ltable.children[3])
+                # "Have your eyes checked."
+                extracompiledstrings.append(ltable.children[4])
+            return False
     return False
-    
+
+def monkeyextrastrings():
+    return extracompiledstrings
+

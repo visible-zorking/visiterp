@@ -77,7 +77,7 @@ def colorize(tokls, res, defentity):
         localids = set(defentity.args)
         
     for tok in tokls:
-        if gameid is not None and monkeyadjustifdef(tok, gameid):
+        if gameid is not None and monkeyadjustifdef(tok, gameid, forscolor=True):
             res.append( (tok, Color.IFNDEF) )
             continue
         if tok.typ is TokType.STR:
