@@ -8,42 +8,43 @@ fontcss = '''
 @font-face {
     font-family: "Lato";
     font-style: normal;
-    src: url("../font/Lato-Regular.ttf") format("truetype");
+    src: url("../visiterp/font/Lato-Regular.ttf") format("truetype");
 }
 @font-face {
     font-family: "Lato";
     font-style: italic;
-    src: url("../font/Lato-Italic.ttf") format("truetype");
+    src: url("../visiterp/font/Lato-Italic.ttf") format("truetype");
 }
 @font-face {
     font-family: "Lato";
     font-style: normal;
     font-weight: bold;
-    src: url("../font/Lato-Bold.ttf") format("truetype");
+    src: url("../visiterp/font/Lato-Bold.ttf") format("truetype");
 }
 @font-face {
     font-family: "Lato";
     font-style: italic;
     font-weight: bold;
-    src: url("../font/Lato-BoldItalic.ttf") format("truetype");
+    src: url("../visiterp/font/Lato-BoldItalic.ttf") format("truetype");
 }
 @font-face {
     font-family: "Courier Prime";
     font-style: normal;
-    src: url("../font/CourierPrime-Regular.ttf") format("truetype");
+    src: url("../visiterp/font/CourierPrime-Regular.ttf") format("truetype");
 }
 @font-face {
     font-family: "Courier Prime";
     font-style: normal;
     font-weight: bold;
-    src: url("../font/CourierPrime-Bold.ttf") format("truetype");
+    src: url("../visiterp/font/CourierPrime-Bold.ttf") format("truetype");
 }
 '''
 
 class Room:
     def __init__(self, nod):
         val = nod.getAttribute('id')
-        assert val.startswith('r-')
+        if not val.startswith('r-'):
+            raise Exception('room in rectlayer does not start with r-: %s' % (val,))
         self.name = val[ 2 : ].upper()
         self.xpos = float(nod.getAttribute('x'))
         self.ypos = float(nod.getAttribute('y'))
@@ -60,7 +61,7 @@ class Room:
             'height': self.height,
         }
 
-doc = parse('gamedat/zork1-map.svg')
+doc = parse(sys.argv[1])
 
 def remove_children(nod, func):
     ls = nod.childNodes
@@ -170,7 +171,7 @@ for nod in roomlayer.childNodes:
         roomlist.append(room)
 roomlist.sort(key=lambda room:room.name)
         
-outfl = open('css/map.svg', 'w')
+outfl = open('pic/map.svg', 'w')
 doc.writexml(outfl)
 outfl.close()
 
