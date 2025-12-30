@@ -287,6 +287,10 @@ function ArgShowProperty({ value }: { value:number })
         );
     }
 
+    if (value == 0) {
+        return (<i>no-prop</i>);
+    }
+
     return (<i>?prop:{ value }</i>);
 }
 

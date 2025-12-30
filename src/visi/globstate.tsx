@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
 import { ZObject } from './zstate';
-import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_verbs, check_commentary } from '../custom/gamedat';
+import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_verbs, gamedat_property_nums, check_commentary } from '../custom/gamedat';
 import { GlobalData, unpack_address, signed_zvalue } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
@@ -131,6 +131,9 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
         case 'VERB':
             vartype = <VarShowVerb value={ value } />;
             break;
+        case 'PROP':
+            vartype = <VarShowProperty value={ value } />;
+            break;
         case 'DATA':
             vartype = <i>data table in source</i>;
             break;
@@ -232,6 +235,22 @@ function VarShowVerb({ value }: { value:number })
     }
 
     return (<i>invalid verb { value }</i>);
+}
+
+function VarShowProperty({ value }: { value:number })
+{
+    let prop = gamedat_property_nums.get(value);
+    if (prop) {
+        return (
+            <span><code>P?{ prop.name }</code></span>
+        );
+    }
+
+    if (value == 0) {
+        return (<i>no property</i>);
+    }
+
+    return (<i>invalid property { value }</i>);
 }
 
 function VarShowString({ value }: { value:number })
