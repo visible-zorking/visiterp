@@ -133,12 +133,16 @@ def checktoken(token, linenum=None):
         prefix = None
         id = token
         
-    if prefix not in (None, 'OBJ', 'GLOB', 'ATTR', 'CONST', 'RTN', 'SRC'):
+    if prefix not in (None, 'OBJ', 'GLOB', 'ATTR', 'PROP', 'CONST', 'RTN', 'SRC'):
         raise Exception('invalid prefix %s: line %s' % (token, linenum))
     
     if prefix == 'ATTR':
         if id not in attributenames:
             raise Exception('invalid ATTR %s: line %s' % (id, linenum))
+        # no dest
+    if prefix == 'PROP':
+        if id not in propertynames:
+            raise Exception('invalid PROP %s: line %s' % (id, linenum))
         # no dest
     if prefix == 'OBJ':
         if id not in objectnames:
@@ -222,12 +226,14 @@ globals = loadjsonp('src/game/globals.js')
 constants = loadjsonp('src/game/constants.js')
 objects = loadjsonp('src/game/objects.js')
 attributes = loadjsonp('src/game/attributes.js')
+properties = loadjsonp('src/game/properties.js')
 
 routinenames = dict([ (obj['name'], obj) for obj in routines ])
 globalnames = dict([ (obj['name'], obj) for obj in globals ])
 constantnames = dict([ (obj['name'], obj) for obj in constants ])
 objectnames = dict([ (obj['name'], obj) for obj in objects ])
 attributenames = dict([ (obj['name'], obj) for obj in attributes ])
+propertynames = dict([ (obj['name'], obj) for obj in properties ])
 
 entries = parse(sys.argv[1])
 
