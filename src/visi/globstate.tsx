@@ -7,6 +7,7 @@ import { GlobalData, unpack_address, signed_zvalue } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
+import { global_value_display } from '../custom/cwidgets';
 
 export type GlobListContextContent = {
     selected: number;
@@ -109,40 +110,46 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
         )
     }
 
-    let vartype = null;
+    let vartype: JSX.Element|null = null;
     let withnum = false;
 
-    switch (glo.vartype) {
-    case 'OBJ':
-        vartype = <VarShowObject value={ value } />;
-        break;
-    case 'STR':
-        vartype = <VarShowString value={ value } />;
-        break;
-    case 'WORD':
-        vartype = <VarShowWord value={ value } />;
-        break;
-    case 'VERB':
-        vartype = <VarShowVerb value={ value } />;
-        break;
-    case 'DATA':
-        vartype = <i>data table in source</i>;
-        break;
-    case 'TABLE':
-        vartype = <i>runtime table</i>;
-        break;
-    case 'UNUSED':
-        vartype = <>{ value } <i>(not used)</i></>
-        withnum = true;
-        break;
-    case '':
-    case undefined:
-        vartype = <span>{ signed_zvalue(value) }</span>;
-        withnum = true;
-        break;
-    default:
-        vartype = <i>{ glo.vartype }</i>;
-        break;
+    if (glo.vartype) {
+        vartype = global_value_display(glo.vartype, value, glo);
+    }
+
+    if (vartype == null) {
+        switch (glo.vartype) {
+        case 'OBJ':
+            vartype = <VarShowObject value={ value } />;
+            break;
+        case 'STR':
+            vartype = <VarShowString value={ value } />;
+            break;
+        case 'WORD':
+            vartype = <VarShowWord value={ value } />;
+            break;
+        case 'VERB':
+            vartype = <VarShowVerb value={ value } />;
+            break;
+        case 'DATA':
+            vartype = <i>data table in source</i>;
+            break;
+        case 'TABLE':
+            vartype = <i>runtime table</i>;
+            break;
+        case 'UNUSED':
+            vartype = <>{ value } <i>(not used)</i></>
+            withnum = true;
+            break;
+        case '':
+        case undefined:
+            vartype = <span>{ signed_zvalue(value) }</span>;
+            withnum = true;
+            break;
+        default:
+            vartype = <i>{ glo.vartype }</i>;
+            break;
+        }
     }
 
     let origtext = 'original value: ';
