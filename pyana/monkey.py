@@ -3,20 +3,14 @@ from zillex import Token, TokType
 def monkeyadjustlex(lexer, ls):
     if lexer.monkeypatch == 'zork2-r48-s840904':
         if lexer.filename == 'zork2.zil':
-            #### on the end is probably fine?
-            pos = None
-            for ix, tok in enumerate(ls):
-                if tok.matchform('IFILE', 1) and tok.children[1].val == 'GGLOBALS':
-                    pos = ix
-                    break
-            if pos is not None:
-                tok = ls[pos]
-                newtok = Token(TokType.GROUP, '<', tok.pos, [
-                    Token(TokType.ID, 'IFILE', tok.pos),
-                    Token(TokType.STR, 'CRUFTY', tok.pos),
-                    Token(TokType.ID, 'T', tok.pos),
-                ])
-                ls.insert(pos, newtok)
+            # Add a synthetic include at the end of the top file.
+            pos = lexer.getpos()
+            newtok = Token(TokType.GROUP, '<', pos, [
+                Token(TokType.ID, 'IFILE', pos),
+                Token(TokType.STR, 'CRUFTY', pos),
+                Token(TokType.ID, 'T', pos),
+            ])
+            ls.append(newtok)
     return ls
     
 extracompiledstrings = []
