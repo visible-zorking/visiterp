@@ -1,9 +1,10 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap, sourceloc_for_key } from '../custom/gamedat';
+import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap, sourceloc_for_key, check_commentary } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
+import { Commentary } from './widgets';
 
 export type FileListContextContent = {
     selected: string;
@@ -26,6 +27,8 @@ export function SourceFileList()
     
     let rctx = useContext(ReactCtx);
 
+    let withcom = check_commentary('FILES-LEGEND');
+
     let ells = sourcefile_presentation_list.map((name) => {
         let key = gamedat_sourcefile_keymap[name];
         if (!key) {
@@ -44,6 +47,9 @@ export function SourceFileList()
     return (
         <FileListCtx.Provider value={ { selected, setSelected } }>
             <div className="ScrollContent" onClick={ evhan_click_background }>
+                { (withcom ?
+                   <Commentary topic={ withcom } />
+                   : null) }
                 <div>
                     { ells.length } source files:
                 </div>

@@ -28,6 +28,8 @@ export function TimerTable()
     let rctx = useContext(ReactCtx);
     let zstate = rctx.zstate;
 
+    let withcom = check_commentary('TIMERS-LEGEND');
+
     let C_INTS = gamedat_global_names.get('C-INTS');
     if (!C_INTS) {
         return <i>No C-INTS</i>;
@@ -61,7 +63,9 @@ export function TimerTable()
     return (
         <TimerListCtx.Provider value={ { selected, setSelected } }>
             <div className="ScrollContent" onClick={ evhan_click_background }>
-                <Commentary topic={ 'TIMERS-LEGEND' } />
+                { (withcom ?
+                   <Commentary topic={ withcom } />
+                   : null) }
                 <div>
                     { ells.length } timers, { activecount } active:
                 </div>
