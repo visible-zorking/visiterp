@@ -34,6 +34,8 @@ export function ObjectTree()
     let rctx = useContext(ReactCtx);
     let zstate = rctx.zstate;
 
+    let withcom = check_commentary('OBJTREE-LEGEND');
+
     let roots: ZObject[] = [];
     let map: Map<number, ZObject> = new Map();
     for (let tup of zstate.objects) {
@@ -56,7 +58,9 @@ export function ObjectTree()
     return (
         <ObjTreeCtx.Provider value={ { map, selected, setSelected } }>
             <div className="ScrollContent" onClick={ evhan_click_background }>
-                <Commentary topic={ 'OBJTREE-LEGEND' } />
+                { (withcom ?
+                   <Commentary topic={ withcom } />
+                   : null) }
                 <ObjListSorter followKey={ followKey } setFollowKey={ setFollowKey } />
                 { (rctx.shownumbers ?
                    <div>
