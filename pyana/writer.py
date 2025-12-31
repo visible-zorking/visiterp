@@ -131,7 +131,32 @@ def sort_zcode_routines(ls, sourceorder):
     res = ls.copy()
     res.sort(key=func)
     return res
+
+def write_filenames(filename):
+    print('...writing filename data:', filename)
+    load_gameinfo()
+
+    keymap = dict()
+    capmap = dict()
+    revmap = dict()
+    for name, key in sourcefile_map.items():
+        keymap[name] = key
+        revmap[key] = name
+        sname, _, _ = name.rpartition('.')
+        capmap[sname.upper()] = key
     
+    fl = open(filename, 'w')
+    fl.write('window.gamedat_sourcefile_keymap = ');
+    json.dump(keymap, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.write('window.gamedat_sourcefile_capkeymap = ');
+    json.dump(capmap, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.write('window.gamedat_sourcefile_revkeymap = ');
+    json.dump(revmap, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.close()
+
 def write_dictwords(filename, dictdat):
     print('...writing dictword data:', filename)
 
