@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, useRef, useEffect } from 'react';
 
-import { sourcefile_map, gamedat_sourcefiles } from '../custom/gamedat';
+import { gamedat_sourcefile_revkeymap, gamedat_sourcefiles } from '../custom/gamedat';
 import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names, parse_sourceloc } from '../custom/gamedat';
 import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
 
@@ -29,7 +29,7 @@ export function SourceView()
     }
 
     let filestr = loc[0];
-    let filename = sourcefile_map[filestr] || '???';
+    let filename = gamedat_sourcefile_revkeymap[filestr] || '???';
 
     function evhan_click_id(val: string) {
         let obj = gamedat_object_names.get(val);
@@ -127,7 +127,7 @@ function rebuild_sourcefile(nodel: HTMLDivElement, locstr: string, lochi: boolea
     if (!loc)
         return;
     
-    let filename = sourcefile_map[loc.filekey] || '???';
+    let filename = gamedat_sourcefile_revkeymap[loc.filekey] || '???';
 
     let hiset = new Set();
     for (let val of hilites) {
