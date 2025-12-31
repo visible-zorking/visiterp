@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { sourcefile_list, gamedat_sourcefiles, sourceloc_for_key } from '../custom/gamedat';
+import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap, sourceloc_for_key } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -26,9 +26,15 @@ export function SourceFileList()
     
     let rctx = useContext(ReactCtx);
 
-    let ells = sourcefile_list.map(([name, key]) =>
-        <SourceFile filename={ name } key={ key } filekey={ key } />
-    );  
+    let ells = sourcefile_presentation_list.map((name) => {
+        let key = gamedat_sourcefile_keymap[name];
+        if (!key) {
+            return <li>{ name }: no key</li>
+        }
+        return (
+            <SourceFile filename={ name } key={ key } filekey={ key } />
+        );
+    });  
 
     function evhan_click_background(ev: React.MouseEvent<HTMLDivElement, MouseEvent>) {
         ev.stopPropagation();
