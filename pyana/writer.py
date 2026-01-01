@@ -312,6 +312,7 @@ def write_routines(filename, zcode, txdat):
     fl.close()
 
 def guessargtype(funcname, argname, index):
+    # This guesser may be Zork-specific. The display of MFLAG as well.
     if argname in ('O', 'OBJ', 'R', 'RM', 'ROOM'):
         return 'OBJ'
     if argname == 'STR':
