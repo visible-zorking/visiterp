@@ -89,7 +89,7 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                     mapdoc.rootElement.setAttribute('data-curselect', herestr);
                 }
 
-                let mobcount = 0;
+                let mobcounts: {[key: string]: number} = {};
                 for (let mobid of mobiles) {
                     // We rely on the fact that the zstate reports
                     // objects in order (1-based).
@@ -114,11 +114,12 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                         }
                     }
                     if (mobcen) {
+                        let mobcount = mobcounts[obj.name] ?? 0;
                         let posx = mobcen.x;
                         let posy = mobcen.y + 10*mobcount;
                         el.classList.remove('Offstage');
                         el.setAttribute('transform', 'translate('+posx+','+posy+')');
-                        mobcount++;
+                        mobcounts[obj.name] = mobcount+1;
                     }
                     else {
                         el.classList.add('Offstage');
