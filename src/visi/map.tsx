@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRef, useContext, useEffect } from 'react';
 
-import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from '../custom/gamedat';
+import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names, ObjectData } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -104,8 +104,9 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                         continue;
                     
                     let mobcen: OptPosition = null;
+                    let mobloc: ObjectData|undefined;
                     if (zobj.parent) {
-                        let mobloc = gamedat_object_ids.get(zobj.parent);
+                        mobloc = gamedat_object_ids.get(zobj.parent);
                         if (mobloc) {
                             let throomobj = gamedat_roominfo_names.get(mobloc.name);
                             if (throomobj) {
@@ -113,13 +114,13 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                             }
                         }
                     }
-                    if (mobcen) {
-                        let mobcount = mobcounts[obj.name] ?? 0;
+                    if (mobcen && mobloc) {
+                        let mobcount = mobcounts[mobloc.name] ?? 0;
                         let posx = mobcen.x;
                         let posy = mobcen.y + 10*mobcount;
                         el.classList.remove('Offstage');
                         el.setAttribute('transform', 'translate('+posx+','+posy+')');
-                        mobcounts[obj.name] = mobcount+1;
+                        mobcounts[mobloc.name] = mobcount+1;
                     }
                     else {
                         el.classList.add('Offstage');
