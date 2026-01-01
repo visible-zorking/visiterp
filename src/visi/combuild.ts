@@ -102,6 +102,9 @@ function build_commentary(topic: string) : Node|undefined
             let val = '(contrib: ' + span[1] + ')';
             el.appendChild(document.createTextNode(val));
             pel.appendChild(el);
+            if (pel.children.length <= 1) {
+                pel.className = 'Right';
+            }
             break;
         }
             

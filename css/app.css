@@ -440,6 +440,10 @@ body {
     margin: 16px 20px;
 }
 
+.Commentary p.Right {
+    text-align: right;
+}
+
 .Commentary code {
     font-size: 85%;
 }
@@ -463,6 +467,10 @@ body {
 }
 .DarkTheme .Commentary a.SourceOnly {
     color: #F99;
+}
+
+.Commentary .Contrib {
+    font-size: 85%;
 }
 
 .Commentary .Com_Id {

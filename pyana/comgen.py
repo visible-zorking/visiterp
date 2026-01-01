@@ -36,10 +36,11 @@ class Entry:
         else:
             self.text += ('\n' + ln)
 
-    PAT_MARK = re.compile('[\n*`[]', re.MULTILINE)
+    PAT_MARK = re.compile('[\n*`[]|[(]c:', re.MULTILINE)
     PAT_CLOSEQUOTE = re.compile('`')
     PAT_CLOSESTAR = re.compile('[*]')
     PAT_CLOSEBRACKET = re.compile('[]]')
+    PAT_CLOSEPAREN = re.compile('[)]')
             
     def build(self):
         text = self.text
@@ -57,6 +58,7 @@ class Entry:
                 pos = newpos
             
             ch = match.group()
+            lench = len(ch)
             if ch == '\n':
                 res.append(['br'])
                 pos += 1
@@ -64,25 +66,28 @@ class Entry:
 
             newmatch = None
             if ch == '`':
-                newmatch = self.PAT_CLOSEQUOTE.search(text, pos+1)
+                newmatch = self.PAT_CLOSEQUOTE.search(text, pos+lench)
                 cla = 'code'
             elif ch == '*':
-                newmatch = self.PAT_CLOSESTAR.search(text, pos+1)
+                newmatch = self.PAT_CLOSESTAR.search(text, pos+lench)
                 cla = 'emph'
             elif ch == '[':
-                newmatch = self.PAT_CLOSEBRACKET.search(text, pos+1)
+                newmatch = self.PAT_CLOSEBRACKET.search(text, pos+lench)
                 cla = 'a'
+            elif ch == '(c:':
+                newmatch = self.PAT_CLOSEPAREN.search(text, pos+lench)
+                cla = 'credit'
             else:
-                raise Exception('weird char at %s' % (self.linenum,))
+                raise Exception('weird char at %s: %s' % (self.linenum, ch))
             if not newmatch:
                 raise Exception('mismatched group at %s' % (self.linenum,))
             newpos = newmatch.start()
-            val = text[ pos+1 : newpos ]
+            val = text[ pos+lench : newpos ]
             if cla == 'a':
                 res.append(self.linkify(val))
             else:
                 res.append([cla, val])
-            pos = newpos+1
+            pos = newpos+lench
 
         self.outls = res
 
