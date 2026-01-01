@@ -96,6 +96,15 @@ function build_commentary(topic: string) : Node|undefined
             break;
         }
             
+        case 'credit': {
+            let el = document.createElement('span');
+            el.className = 'Contrib';
+            let val = '(contrib: ' + span[1] + ')';
+            el.appendChild(document.createTextNode(val));
+            pel.appendChild(el);
+            break;
+        }
+            
         case 'extlink': {
             let [ __, url, label ] = span;
             if (!label.length)
