@@ -116,8 +116,8 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                     }
                     if (mobcen && mobloc) {
                         let mobcount = mobcounts[mobloc.name] ?? 0;
-                        let posx = mobcen.x;
-                        let posy = mobcen.y + 10*mobcount;
+                        let posx = mobcen.x + 2*mobcount;
+                        let posy = mobcen.y + 4*mobcount;
                         el.classList.remove('Offstage');
                         el.setAttribute('transform', 'translate('+posx+','+posy+')');
                         mobcounts[mobloc.name] = mobcount+1;
