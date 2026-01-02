@@ -2,10 +2,11 @@ import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
 import { ZObject, ZStackCall, ZStackItem, ZStackPrint, new_stack_call } from './zstate';
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_verbs, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
+import { gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
+import { stack_call_arg_display } from '../custom/cwidgets';
 
 import { ReactCtx } from './context';
-import { ObjPageLink } from './widgets';
+import { ArgShowObject, ArgShowProperty, ArgShowRoutine, ArgShowString, ArgShowVerb, ArgShowWord, ArgShowMFlag } from './actshowers';
 
 type SelPair = [ number, number ];
 
@@ -199,6 +200,12 @@ export function StackCall({ call }: { call:ZStackCall })
 
 export function StackCallArg({ value, argtype }: { value:number, argtype:string|null })
 {
+    if (argtype) {
+        let res = stack_call_arg_display(argtype, value);
+        if (res)
+            return res;
+    }
+    
     switch (argtype) {
     case 'OBJ':
         return (
@@ -245,117 +252,5 @@ export function StackCallArg({ value, argtype }: { value:number, argtype:string|
     }
 }
 
-function ArgShowObject({ value }: { value:number })
-{
-    if (value == 0)
-        return (<i>nothing</i>);
-
-    let obj = gamedat_object_ids.get(value);
-    if (obj) {
-        return (
-            <>
-                <ObjPageLink onum={ value } />
-                <span><code>{ obj.name }</code></span>
-            </>
-        );
-    }
-
-    return (<i>?obj:{ value }</i>);
-}
-
-function ArgShowRoutine({ value }: { value:number })
-{
-    if (value == 0)
-        return (<i>false</i>);
-
-    let func = gamedat_routine_addrs.get(unpack_address(value));
-    if (func) {
-        return (
-            <span><code>{ func.name }</code></span>
-        );
-    }
-
-    return (<i>?rtn:{ value }</i>);
-}
-
-function ArgShowProperty({ value }: { value:number })
-{
-    let prop = gamedat_property_nums.get(value);
-    if (prop) {
-        return (
-            <span><code>P?{ prop.name }</code></span>
-        );
-    }
-
-    if (value == 0) {
-        return (<i>no-prop</i>);
-    }
-
-    return (<i>?prop:{ value }</i>);
-}
-
-function ArgShowString({ value }: { value:number })
-{
-    let obj = gamedat_string_map.get(unpack_address(value));
-    if (obj) {
-        let text = obj.text;
-        if (text.length > 16)
-            text = text.slice(0, 16)+'...';
-        return (<span className="PrintString">&#x201C;{ text }&#x201D;</span>);
-    }
-
-    return (<span>???</span>);
-}
-
-function ArgShowVerb({ value }: { value:number })
-{
-    if (value >= 0 && value < gamedat_verbs.length) {
-        return (
-            <>
-                <span><code>{ gamedat_verbs[value] }</code></span>
-            </>
-        );
-    }
-
-    return (<i>?verb:{ value }</i>);
-}
-
-function ArgShowWord({ value }: { value:number })
-{
-    if (value == 0) {
-        return <i>no word</i>;
-    }
-    
-    let wd = gamedat_dictword_addrs.get(value);
-
-    if (wd) {
-        return (<span className="PrintDictWord">&#x2018;{ wd.text }&#x2019;</span>);
-    }
-
-    return (<i>?word{ value }</i>);
-}
-
-function ArgShowMFlag({ value }: { value:number })
-{
-    /* Zork-specific -- see gmain.zil */
-    let flag: string|null;
-
-    switch (value) {
-    case 1:
-        return (<span><code>,M-BEG</code></span>);
-    case 2:
-        return (<span><code>,M-ENTER</code></span>);
-    case 3:
-        return (<span><code>,M-LOOK</code></span>);
-    case 4:
-        return (<span><code>,M-FLASH</code></span>);
-    case 5:
-        return (<span><code>,M-OBJDESC</code></span>);
-    case 6:
-        return (<span><code>,M-END</code></span>);
-    default:
-        return (<span> { signed_zvalue(value) }</span>);
-    }
-}
 
 type ChangeEv = React.ChangeEvent<HTMLInputElement>;
