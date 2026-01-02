@@ -1,6 +1,6 @@
 import { createContext } from 'react';
 
-import { ZStatePlus, zstateplus_empty } from './zstate';
+import { ZStatePlus, zstateplus_empty, new_stack_call } from './zstate';
 import { sourceloc_start } from '../custom/gamedat';
 
 export type ObjPageFocus = null | {
@@ -58,3 +58,4 @@ export const ReactCtx = createContext({
     showCommentary: (topic) => {},
 } as ContextContent);
 
+export const StackCallCtx = createContext(new_stack_call());

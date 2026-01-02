@@ -1,11 +1,11 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { ZObject, ZStackCall, ZStackItem, ZStackPrint, new_stack_call } from './zstate';
+import { ZObject, ZStackCall, ZStackItem, ZStackPrint } from './zstate';
 import { gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
 import { stack_call_arg_display } from '../custom/cwidgets';
 
-import { ReactCtx } from './context';
+import { ReactCtx, StackCallCtx } from './context';
 import { ArgShowObject, ArgShowProperty, ArgShowRoutine, ArgShowString, ArgShowVerb, ArgShowWord, ArgShowMFlag } from './actshowers';
 
 type SelPair = [ number, number ];
@@ -26,7 +26,6 @@ function new_context() : ListContextContent
 }
 
 const ListCtx = createContext(new_context());
-const StackCallCtx = createContext(new_stack_call());
 
 export function CallActivity()
 {
@@ -230,20 +229,6 @@ export function StackCallArg({ value, argtype }: { value:number, argtype:string|
     case 'MFLAG':
         return (
             <ArgShowMFlag value={ value } />
-        )
-    case 'PERFORMO': /* Zork-specific */
-        let ctx = useContext(StackCallCtx);
-        if (ctx.args[0] == 137) {
-            return (
-                <ArgShowProperty value={ value } />
-            );
-        }
-        return (
-            <ArgShowObject value={ value } />
-        )
-    case 'PERFORMI': /* Zork-specific */
-        return (
-            <ArgShowObject value={ value } />
         )
     default:
         return (
