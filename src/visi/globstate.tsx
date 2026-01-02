@@ -2,11 +2,12 @@ import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
 import { ZObject } from './zstate';
-import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_verbs, gamedat_property_nums, check_commentary } from '../custom/gamedat';
+import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids, check_commentary } from '../custom/gamedat';
 import { GlobalData, unpack_address, signed_zvalue } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
+import { VarShowObject, VarShowString, VarShowWord, VarShowVerb, VarShowProperty } from './globshow';
 import { global_value_display } from '../custom/cwidgets';
 
 export type GlobListContextContent = {
@@ -205,76 +206,3 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
         </li>
     );
 }
-
-function VarShowObject({ value }: { value:number })
-{
-    if (value == 0)
-        return (<i>nothing</i>);
-
-    let obj = gamedat_object_ids.get(value);
-    if (obj) {
-        return (
-            <>
-                <ObjPageLink onum={ value } />
-                <span><code>{ obj.name }</code></span>
-            </>
-        );
-    }
-
-    return (<i>invalid object { value }</i>);
-}
-
-function VarShowVerb({ value }: { value:number })
-{
-    if (value >= 0 && value < gamedat_verbs.length) {
-        return (
-            <>
-                <span><code>{ gamedat_verbs[value] }</code></span>
-            </>
-        );
-    }
-
-    return (<i>invalid verb { value }</i>);
-}
-
-function VarShowProperty({ value }: { value:number })
-{
-    let prop = gamedat_property_nums.get(value);
-    if (prop) {
-        return (
-            <span><code>P?{ prop.name }</code></span>
-        );
-    }
-
-    if (value == 0) {
-        return (<i>no property</i>);
-    }
-
-    return (<i>invalid property { value }</i>);
-}
-
-function VarShowString({ value }: { value:number })
-{
-    let obj = gamedat_string_map.get(unpack_address(value));
-    if (obj) {
-        return (<span className="PrintString">&#x201C;{ obj.text }&#x201D;</span>);
-    }
-
-    return (<span>???</span>);
-}
-
-function VarShowWord({ value }: { value:number })
-{
-    if (value == 0) {
-        return <i>no word</i>;
-    }
-    
-    let wd = gamedat_dictword_addrs.get(value);
-
-    if (wd) {
-        return (<span className="PrintDictWord">&#x2018;{ wd.text }&#x2019;</span>);
-    }
-
-    return (<i>invalid word { value }</i>);
-}
-
