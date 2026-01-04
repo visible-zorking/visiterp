@@ -937,7 +937,7 @@ function handleZ_print_num(engine, a) {
     return engine._handler_zOut('""+_unsigned2signed('+a[0]+')',0);
 }
 function handleZ_random(engine, a) {
-    // We pass in the opcode address so that _vm_rig_random() can do its thing.
+    // We pass in the opcode address so that rig_vm_random() can do its thing.
     return engine._storer("_random_number("+a[0]+","+engine.m_pc+")");
 }
 function handleZ_push(engine, a) {
@@ -3024,8 +3024,40 @@ GnustoEngine.prototype = {
         return result;
     },
 
+    m_random_rigged_rolls: {},
+    
+    // Set up a loaded die for the @random opcode. The next time the opcode
+    // is called *at a specific address*, return the given value instead of
+    // using the RNG.
+    // (The address is really the last byte of the opcode, not the first.
+    // Just easier that way.)
+    // If this is called more than once for a given address, the values are
+    // queued up.
+    rig_vm_random: function(addr, value) {
+        let arr = this.m_random_rigged_rolls[addr];
+        if (arr === undefined) {
+            arr = [];
+            this.m_random_rigged_rolls[addr] = arr;
+        }
+        arr.push(value);
+    },
+
     _random_number: function ge_random_number(arg, pc) {
         arg = this._unsigned2signed(arg);
+        if (pc && this.m_random_rigged_rolls[pc]) {
+            let arr = this.m_random_rigged_rolls[pc];
+            if (arr.length) {
+                // Pull a value off the queue. Discard the queue if empty.
+                let value = arr.shift();
+                if (!arr.length)
+                    this.m_random_rigged_rolls[pc] = undefined;
+                console.log('forcing @random at', pc, 'to', value);
+                if (arg <= 0 || value > arg) {
+                    console.log('BUG: forced value appears invalid', arg, value)
+                }
+                return value;
+            }
+        }
 
         if (arg==0) {
 

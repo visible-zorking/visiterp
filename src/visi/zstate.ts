@@ -22,6 +22,7 @@ export type GnustoEngine = {
     prepare_vm_report: (dat:any) => void;
     reset_vm_report: () => void;
     get_vm_report: () => ZState;
+    rig_vm_random: (address:number, value:number) => void;
 };
 
 /* And for the Commentary module. */
