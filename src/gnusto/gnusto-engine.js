@@ -937,7 +937,8 @@ function handleZ_print_num(engine, a) {
     return engine._handler_zOut('""+_unsigned2signed('+a[0]+')',0);
 }
 function handleZ_random(engine, a) {
-    return engine._storer("_random_number("+a[0]+")");
+    // We pass in the opcode address so that _vm_rig_random() can do its thing.
+    return engine._storer("_random_number("+a[0]+","+engine.m_pc+")");
 }
 function handleZ_push(engine, a) {
     return 'm_gamestack.push('+a[0]+')';
@@ -3023,7 +3024,7 @@ GnustoEngine.prototype = {
         return result;
     },
 
-    _random_number: function ge_random_number(arg) {
+    _random_number: function ge_random_number(arg, pc) {
         arg = this._unsigned2signed(arg);
 
         if (arg==0) {
