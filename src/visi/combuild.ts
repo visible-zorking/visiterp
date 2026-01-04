@@ -27,7 +27,13 @@ export function show_commentary(topic: string)
     }
 
     // Perhaps the commentary triggers a special effect.
-    show_commentary_hook(topic, runner.e);
+    let res = show_commentary_hook(topic, runner.e);
+    if (res) {
+        // The hook can adjust the displayed topic.
+        topic = res;
+        nod = build_commentary(topic);
+        // But we don't call the hook again, because come on.
+    }
     
     runner.commentary.show(nod, topic);
 }
