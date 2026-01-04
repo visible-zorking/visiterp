@@ -18,6 +18,7 @@ export type GnustoRunner = {
 export type GnustoEngine = {
     getUnsignedWord: (address:number) => number;
     setWord: (value:number, address:number) => void;
+    m_vars_start: number;
     
     prepare_vm_report: (dat:any) => void;
     reset_vm_report: () => void;
