@@ -24,11 +24,22 @@ const releaseTarget = process.env.NODE_ENV;
 
 let engine: GnustoEngine;
 let initprefs: CookiePrefs;
+let launchloc: { idtype:string, id:string } | undefined;
 
-export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs)
+export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, launchtokenv?: string)
 {
     engine = enginev;
     initprefs = initprefsv;
+
+    launchloc = undefined;
+    if (launchtokenv) {
+        launchloc = { idtype:'', id:launchtokenv };
+        let pos = launchtokenv.indexOf(':');
+        if (pos >= 0) {
+            launchloc.idtype = launchtokenv.slice(0, pos);
+            launchloc.id = launchtokenv.slice(pos+1);
+        }
+    }
 }
 
 export function VisiZorkApp()
@@ -132,6 +143,16 @@ export function VisiZorkApp()
         };
     }, [ sourcelocs, sourcelocpos ]);
 
+    useEffect(() => {
+        if (launchloc) {
+            let dat = launchloc;
+            launchloc = undefined;
+            window.setTimeout(() => {
+                window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
+            }, 100);
+        }
+    }, []);
+    
     useEffect(() => {
         let resizer: ResizeObserver|undefined;
         let panesize = -1;
