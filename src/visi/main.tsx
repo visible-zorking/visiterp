@@ -26,6 +26,13 @@ let engine: GnustoEngine;
 let initprefs: CookiePrefs;
 let launchloc: { idtype:string, id:string } | undefined;
 
+/* Prepare global context which the React app will need to run.
+   See the init() routine in the game app (initapp.tsx).
+   - engine: The GnustoEngine interpreter object.
+   - initprefs: User prefs as extracted from cookies.
+   - launchtoken: If the app URL had a "#SRC:LOC" fragment, stash it
+     to set the initial source location.
+ */
 export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, launchtokenv?: string)
 {
     engine = enginev;
@@ -100,6 +107,9 @@ export function VisiZorkApp()
         }
     }
 
+    /* Redraw the world when the Z-machine state changes. The GnustoRunner
+       sends this.
+    */
     useEffect(() => {
         function evhan_zstate(ev: Event) {
             let newstate = get_updated_report(engine);
@@ -123,6 +133,9 @@ export function VisiZorkApp()
         };
     }, [ tab ]);
 
+    /* Handle the "zil-source-location" event, which is sent by clicking
+       links in the comment pane.
+    */
     useEffect(() => {
         function evhan_sourceloc(ev: Event) {
             let detail = (ev as CustomEvent).detail;
@@ -143,16 +156,27 @@ export function VisiZorkApp()
         };
     }, [ sourcelocs, sourcelocpos ]);
 
+    /* This is pretty hacky, but I'm not sure if there's a better React
+       way to do it.
+       At startup, we want to set the display location to launchloc,
+       if provided. However, this involves scrolling to a specific line.
+       So we don't want to do this until the display has settled down.
+       The delay approximates this.
+    */
     useEffect(() => {
         if (launchloc) {
             let dat = launchloc;
             launchloc = undefined;
             window.setTimeout(() => {
                 window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
-            }, 100);
+            }, 150);
         }
     }, []);
-    
+
+    /* Handle changes in the window size. Most of our layout is CSS, but
+       we apply a Narrow class if things get really thin.
+       (Possibly no longer used?)
+    */
     useEffect(() => {
         let resizer: ResizeObserver|undefined;
         let panesize = -1;
@@ -179,6 +203,8 @@ export function VisiZorkApp()
         };        
     }, []);
 
+    /* Handle the OS display theme changing from dark to light to dark.
+     */
     useEffect(() => {
         let matcher = window.matchMedia('(prefers-color-scheme: dark)');
         set_body_ospref_theme(matcher.matches ? 'dark' : 'light');
