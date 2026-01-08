@@ -165,6 +165,7 @@ export function VisiZorkApp()
     */
     useEffect(() => {
         if (launchloc) {
+            // We want to do this exactly once, at startup.
             let dat = launchloc;
             launchloc = undefined;
             window.setTimeout(() => {
