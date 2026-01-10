@@ -40,7 +40,7 @@ export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, 
 
     launchtoken = undefined;
     if (launchtokenv) {
-        launchtoken = launchtokenv;
+        launchtoken = launchtokenv.toUpperCase();
     }
 }
 
