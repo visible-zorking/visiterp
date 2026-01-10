@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { gamedat_ids, gamedat_global_names, gamedat_object_ids, sourceloc_start, find_sourceloc_for_id, sourceloc_for_srctoken } from '../custom/gamedat';
+import { gamedat_ids, gamedat_global_names, gamedat_object_ids, gamedat_commentary, sourceloc_start, find_sourceloc_for_id, sourceloc_for_srctoken } from '../custom/gamedat';
 
 import { ZStatePlus, get_updated_report } from './zstate';
 import { GnustoRunner, GnustoEngine } from './zstate';
@@ -173,7 +173,9 @@ export function VisiZorkApp()
             
             window.setTimeout(() => {
                 window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
-                show_commentary(token);
+                if (gamedat_commentary[token]) {
+                    show_commentary(token);
+                }
             }, 150);
         }
     }, []);
