@@ -20,6 +20,9 @@ export function set_runner(runnerref: GnustoRunner)
 export function show_commentary(topic: string)
 {
     let nod = build_commentary(topic);
+    if (!nod) {
+        return;
+    }
 
     if (!runner) {
         console.log('BUG: runner not set');
