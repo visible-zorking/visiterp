@@ -5,16 +5,21 @@
 
 This is the framework for a web app that plays Zork, or another ZIL game, and displays the game state as you play. Call it an exercise in exploratory coding.
 
-To try the Visible Zorker, [play it here][visizork]. For more about the intent and origins of the project, see my [blog post on the subject][post].
+To try the Visible Zorker, [play Zork 1][visizork1] or [Zork 2][visizork2]. For more about the intent and origins of the project, see my [blog post on the subject][post].
 
 [post]: https://blog.zarfhome.com/2025/01/the-visible-zorker
-[visizork]: https://eblong.com/infocom/visi-zork1/
+[visizork1]: https://eblong.com/infocom/visi-zork1/
+[visizork2]: https://eblong.com/infocom/visi-zork2/
 
-Since the Visible Zorker can (or will soon) play more than one Zork, I have divided it into two parts. This repository contains the common framework: the instrumented Z-code interpreter and display layer. A second repository contains the [information about Zork itself][vzork1].
+Since the Visible Zorker can play more than one Zork, I have divided it into parts. This repository contains the common framework: the instrumented Z-code interpreter and display layer. Separate repositories contain the information about the game itself:
+
+- [Zork 1 data][vzork1]
+- [Zork 2 data][vzork2]
 
 [vzork1]: https://github.com/erkyrath/visizork
+[vzork2]: https://github.com/erkyrath/visizork2
 
-Thus, the code in this repository is incomplete. It won't work on its own. It's only meaningful as part of the [visizork][vzork1] repo.
+Thus, the code in this repository is incomplete. It won't work on its own. It's only meaningful as part of the [game][vzork1] repo.
 
 ## The contents of this repository
 
@@ -72,6 +77,6 @@ The fonts used are Courier Prime, Lato, and Libre Baskerville. The header backgr
 
 Zork itself was originally written by Tim Anderson, Marc Blank, Bruce Daniels, and Dave Lebling. The commercial versions are copyright 1981 (etc) by Infocom, then Activision, then renamed to Mediagenic, then Bobby Kotick bought it and renamed it Activision, then Vivendi bought it and merged it with Blizzard, then Microsoft consumed the lot.
 
-The Visible Zorker is copyright 2025 by Andrew Plotkin. My work on this project is under the MIT license.
+The Visible Zorker is copyright 2025-2026 by Andrew Plotkin. My work on this project is under the MIT license.
 
 
