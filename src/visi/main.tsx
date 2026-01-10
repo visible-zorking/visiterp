@@ -24,7 +24,7 @@ const releaseTarget = process.env.NODE_ENV;
 
 let engine: GnustoEngine;
 let initprefs: CookiePrefs;
-let launchloc: { idtype:string, id:string } | undefined;
+let launchtoken: string | undefined;
 
 /* Prepare global context which the React app will need to run.
    See the init() routine in the game app (initapp.tsx).
@@ -38,14 +38,9 @@ export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, 
     engine = enginev;
     initprefs = initprefsv;
 
-    launchloc = undefined;
+    launchtoken = undefined;
     if (launchtokenv) {
-        launchloc = { idtype:'', id:launchtokenv };
-        let pos = launchtokenv.indexOf(':');
-        if (pos >= 0) {
-            launchloc.idtype = launchtokenv.slice(0, pos);
-            launchloc.id = launchtokenv.slice(pos+1);
-        }
+        launchtoken = launchtokenv;
     }
 }
 
@@ -158,18 +153,27 @@ export function VisiZorkApp()
 
     /* This is pretty hacky, but I'm not sure if there's a better React
        way to do it.
-       At startup, we want to set the display location to launchloc,
+       At startup, we want to set the display location to launchtoken,
        if provided. However, this involves scrolling to a specific line.
        So we don't want to do this until the display has settled down.
        The delay approximates this.
     */
     useEffect(() => {
-        if (launchloc) {
+        if (launchtoken) {
             // We want to do this exactly once, at startup.
-            let dat = launchloc;
-            launchloc = undefined;
+            let token = launchtoken;
+            launchtoken = undefined;
+
+            let dat = { idtype:'', id:token };
+            let pos = token.indexOf(':');
+            if (pos >= 0) {
+                dat.idtype = token.slice(0, pos);
+                dat.id = token.slice(pos+1);
+            }
+            
             window.setTimeout(() => {
                 window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
+                show_commentary(token);
             }, 150);
         }
     }, []);
