@@ -172,7 +172,9 @@ export function VisiZorkApp()
             }
             
             window.setTimeout(() => {
-                window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
+                if (dat.idtype) {
+                    window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
+                }
                 if (gamedat_commentary[token]) {
                     show_commentary(token);
                 }
