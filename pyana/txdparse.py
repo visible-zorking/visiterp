@@ -227,6 +227,14 @@ class DictDumpData:
                     special = [ int(val, 16) for val in valls ]
                     self.words.append(DictWord(num, addr, text, special, flags))
 
+class Action:
+    def __init__(self, num, preactionrtn, actionrtn):
+        self.num = num
+        self.preactionrtn = preactionrtn
+        self.actionrtn = actionrtn
+
+    def __repr__(self):
+        return '<Action %d pre=%d rtn=%d>' % (self.num, self.preactionrtn, self.actionrtn)
 
 class Preposition:
     def __init__(self, num, textls):
@@ -248,21 +256,23 @@ class GrammarDumpData:
         self.prepositions = []
 
     def readdump(self, filename):
-        pat_sect = re.compile('.*[*][*][*][*]\\s*(\\S*)\\s*[*][*][*][*]')
-        pat_prep = re.compile('([0-9]+)[.]\\s+(.*)')
+        pat_sect = re.compile('.*[*][*][*][*]\\s*([^*]+)\\s*[*][*][*][*]')
+        pat_prep = re.compile('\\s*([0-9]+)[.]\\s+(.*)')
+        pat_action = re.compile('\\s*([0-9]+)[.]\\s+([0-9a-f]+)\\s+([0-9a-f]+)\\s*verb:')
         
         section = None
         with open(filename) as infl:
             for ln in infl.readlines():
                 match = pat_sect.match(ln)
                 if match:
-                    if match.group(1) == 'Parse tables':
+                    val = match.group(1).strip()
+                    if val == 'Parse tables':
                         section = 'parse'
                         continue
-                    if match.group(1) == 'Verb action routines':
+                    if val == 'Verb action routines':
                         section = 'action'
                         continue
-                    if match.group(1) == 'Prepositions':
+                    if val == 'Prepositions':
                         section = 'prep'
                         continue
                     raise Exception('bad section')
@@ -282,4 +292,12 @@ class GrammarDumpData:
                             val = val[ 1 : -1 ]
                             prepls.append(val)
                         self.prepositions.append(Preposition(prepnum, prepls))
+                        
+                if section == 'action':
+                    match = pat_action.match(ln)
+                    if match:
+                        actnum = int(match.group(1))
+                        prefunc = int(match.group(2), 16)
+                        func = int(match.group(3), 16)
+                        self.actions.append(Action(actnum, prefunc, func))
                         
