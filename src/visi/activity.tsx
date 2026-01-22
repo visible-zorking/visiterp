@@ -218,7 +218,7 @@ export function StackCallArg({ value, argtype }: { value:number, argtype:string|
         return (
             <ArgShowString value={ value } />
         )
-    case 'VERB':
+    case 'ACTION':
         return (
             <ArgShowAction value={ value } />
         )

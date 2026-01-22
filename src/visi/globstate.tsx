@@ -129,7 +129,7 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
         case 'WORD':
             vartype = <VarShowWord value={ value } />;
             break;
-        case 'VERB':
+        case 'ACTION':
             vartype = <VarShowAction value={ value } />;
             break;
         case 'PROP':
