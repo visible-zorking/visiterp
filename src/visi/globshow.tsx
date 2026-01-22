@@ -31,7 +31,7 @@ export function VarShowAction({ value }: { value:number })
         );
     }
 
-    return (<i>invalid verb { value }</i>);
+    return (<i>invalid action { value }</i>);
 }
 
 export function VarShowProperty({ value }: { value:number })

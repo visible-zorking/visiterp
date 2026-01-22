@@ -76,7 +76,7 @@ export function ArgShowAction({ value }: { value:number })
         );
     }
 
-    return (<i>?verb:{ value }</i>);
+    return (<i>?action:{ value }</i>);
 }
 
 export function ArgShowWord({ value }: { value:number })
