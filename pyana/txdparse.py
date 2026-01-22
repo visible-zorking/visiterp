@@ -226,13 +226,26 @@ class DictDumpData:
                     valls = match.group(4).split()
                     special = [ int(val, 16) for val in valls ]
                     self.words.append(DictWord(num, addr, text, special, flags))
-                    
-                    
+
+
+class Preposition:
+    def __init__(self, num, textls):
+        self.num = num
+        self.text = textls[0]
+        self.synonyms = textls[ 1 : ]
+    
+    def __repr__(self):
+        synstr = ''
+        if self.synonyms:
+            ls = [ '"'+val+'"' for val in self.synonyms ]
+            synstr = ' (' + ', '.join(ls) + ')'
+        return '<Preposition %d "%s"%s>' % (self.num, self.text, synstr)
+
 class GrammarDumpData:
     def __init__(self):
         self.lines = []
         self.actions = []
-        self.prepositions = {}
+        self.prepositions = []
 
     def readdump(self, filename):
         pat_sect = re.compile('.*[*][*][*][*]\\s*(\\S*)\\s*[*][*][*][*]')
@@ -268,5 +281,5 @@ class GrammarDumpData:
                                 raise Exception('preposition is not quoted')
                             val = val[ 1 : -1 ]
                             prepls.append(val)
-                        self.prepositions[prepnum] = prepls
+                        self.prepositions.append(Preposition(prepnum, prepls))
                         

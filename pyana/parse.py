@@ -100,6 +100,8 @@ if opts.grammardump:
     grammardat = GrammarDumpData()
     grammardat.readdump('gamedat/grammar-dump.txt')
     print('grammar lines:', len(grammardat.lines))
+    print('actions:', len(grammardat.actions))
+    print('prepositions:', len(grammardat.prepositions))
     
 if opts.gamedat:
     write_filenames('src/game/filenames.js')
