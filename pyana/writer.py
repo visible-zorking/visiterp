@@ -163,8 +163,8 @@ def write_dictwords(filename, dictdat):
     ls = []
     for wd in dictdat.words:
         dat = { 'num': wd.num, 'text': wd.text, 'flags': wd.flags }
-        # This is a simplification of the actual dict-flag rules. I look
-        # forward to seeing where it goes wrong.
+        # The dict-flag rules are quite terrible. See Michael Ko
+        # page 22.
         if 'P' in wd.flags:
             dat['prepnum'] = wd.special[1]
         if 'A' in wd.flags:
