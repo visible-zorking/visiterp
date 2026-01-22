@@ -165,11 +165,29 @@ def write_dictwords(filename, dictdat):
         dat = { 'num': wd.num, 'text': wd.text, 'flags': wd.flags }
         # This is a simplification of the actual dict-flag rules. I look
         # forward to seeing where it goes wrong.
+        if 'P' in wd.flags:
+            dat['prepnum'] = wd.special[1]
         if 'A' in wd.flags:
-            if wd.special[0] & 0x02:
+            if (wd.special[0] & 0x03) == 0x02:
                 dat['adjnum'] = wd.special[1]
-            else:
+            elif wd.special[0] & 0x20:
                 dat['adjnum'] = wd.special[2]
+            else:
+                raise Exception('adj flag without bits')
+        if 'V' in wd.flags:
+            if (wd.special[0] & 0x03) == 0x01:
+                dat['verbnum'] = wd.special[1]
+            elif wd.special[0] & 0x40:
+                dat['verbnum'] = wd.special[2]
+            else:
+                raise Exception('verb flag without bits')
+        if 'D' in wd.flags:
+            if (wd.special[0] & 0x03) == 0x03:
+                dat['dirnum'] = wd.special[1]
+            elif wd.special[0] & 0x10:
+                dat['dirnum'] = wd.special[2]
+            else:
+                raise Exception('dir flag without bits')
         ls.append(dat)
 
     fl = open(filename, 'w')
