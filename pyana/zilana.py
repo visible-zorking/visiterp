@@ -326,15 +326,15 @@ class Zcode:
                         eqpos = ix
                         break
                 if eqpos:
-                    verbtok = tok.children[eqpos+1]
-                    if verbtok.idmatch(lambda val: val.startswith('V-')):
-                        val = verbtok.val[ 2 : ]
-                        verb = self.actionmap.get(val)
-                        if not verb:
-                            verb = ZAction(val)
-                            self.actions.append(verb)
-                            self.actionmap[val] = verb
-                        verb.vtoks.append(tok)
+                    actiontok = tok.children[eqpos+1]
+                    if actiontok.idmatch(lambda val: val.startswith('V-')):
+                        val = actiontok.val[ 2 : ]
+                        action = self.actionmap.get(val)
+                        if not action:
+                            action = ZAction(val)
+                            self.actions.append(action)
+                            self.actionmap[val] = action
+                        action.vtoks.append(tok)
                         
 
     def findstringsintok(self, tok):
