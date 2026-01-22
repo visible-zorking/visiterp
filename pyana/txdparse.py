@@ -235,7 +235,38 @@ class GrammarDumpData:
         self.prepositions = {}
 
     def readdump(self, filename):
+        pat_sect = re.compile('.*[*][*][*][*]\\s*(\\S*)\\s*[*][*][*][*]')
+        pat_prep = re.compile('([0-9]+)[.]\\s+(.*)')
+        
+        section = None
         with open(filename) as infl:
             for ln in infl.readlines():
-                pass
-            
+                match = pat_sect.match(ln)
+                if match:
+                    if match.group(1) == 'Parse tables':
+                        section = 'parse'
+                        continue
+                    if match.group(1) == 'Verb action routines':
+                        section = 'action'
+                        continue
+                    if match.group(1) == 'Prepositions':
+                        section = 'prep'
+                        continue
+                    raise Exception('bad section')
+                
+                if section == 'prep':
+                    match = pat_prep.match(ln)
+                    if match:
+                        prepnum = int(match.group(1))
+                        prepls = []
+                        ls = match.group(2).split(',')
+                        for val in ls:
+                            val = val.strip()
+                            if val.startswith('synonyms ='):
+                                val = val[ 10 : ].strip()
+                            if not (val.startswith('"') and val.endswith('"')):
+                                raise Exception('preposition is not quoted')
+                            val = val[ 1 : -1 ]
+                            prepls.append(val)
+                        self.prepositions[prepnum] = prepls
+                        
