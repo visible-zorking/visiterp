@@ -59,13 +59,13 @@ class ZRoutine:
     def __repr__(self):
         return '<ZRoutine %s>' % (self.name,)
     
-class ZVerb:
+class ZAction:
     def __init__(self, name):
         self.name = name
         self.vtoks = []
 
     def __repr__(self):
-        return '<ZVerb %s>' % (self.name,)
+        return '<ZAction %s>' % (self.name,)
     
 def markcomments(ls):
     def setcomment(tok):
@@ -331,7 +331,7 @@ class Zcode:
                         val = verbtok.val[ 2 : ]
                         verb = self.verbmap.get(val)
                         if not verb:
-                            verb = ZVerb(val)
+                            verb = ZAction(val)
                             self.verbs.append(verb)
                             self.verbmap[val] = verb
                         verb.vtoks.append(tok)
