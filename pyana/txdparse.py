@@ -228,3 +228,14 @@ class DictDumpData:
                     self.words.append(DictWord(num, addr, text, special, flags))
                     
                     
+class GrammarDumpData:
+    def __init__(self):
+        self.lines = []
+        self.actions = []
+        self.prepositions = {}
+
+    def readdump(self, filename):
+        with open(filename) as infl:
+            for ln in infl.readlines():
+                pass
+            

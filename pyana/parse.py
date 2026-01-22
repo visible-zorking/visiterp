@@ -11,7 +11,7 @@ from zilana import Zcode
 from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
-from txdparse import TXDData, ObjDumpData, DictDumpData
+from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
 from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, display_globals, compute_room_distances
 from gensource import write_source, write_source_colored
 
@@ -41,6 +41,9 @@ popt.add_option('-o', '--obj',
 popt.add_option('-d', '--dict',
                 action='store_true', dest='dictdump',
                 help='read dict-dump.txt (needed to write dictwords.js)')
+popt.add_option('-g', '--grammar',
+                action='store_true', dest='grammardump',
+                help='read grammar-dump.txt (needed to ###)')
 popt.add_option('--showglob',
                 action='store_true', dest='showglob',
                 help='list globals in (mostly) compiled order')
@@ -91,6 +94,12 @@ if opts.dictdump:
     dictdat = DictDumpData()
     dictdat.readdump('gamedat/dict-dump.txt')
     print('dict words:', len(dictdat.words))
+    
+if opts.grammardump:
+    print('reading grammar dump...')
+    grammardat = GrammarDumpData()
+    grammardat.readdump('gamedat/grammar-dump.txt')
+    print('grammar lines:', len(grammardat.lines))
     
 if opts.gamedat:
     write_filenames('src/game/filenames.js')
