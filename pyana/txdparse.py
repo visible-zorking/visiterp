@@ -259,6 +259,7 @@ class GrammarDumpData:
         pat_sect = re.compile('.*[*][*][*][*]\\s*([^*]+)\\s*[*][*][*][*]')
         pat_prep = re.compile('\\s*([0-9]+)[.]\\s+(.*)')
         pat_action = re.compile('\\s*([0-9]+)[.]\\s+([0-9a-f]+)\\s+([0-9a-f]+)\\s*verb:')
+        pat_verbstart = re.compile('\\s*([0-9]+)[.]\\s+([0-9]+) (entry|entries), verb = (.*)')
         
         section = None
         with open(filename) as infl:
@@ -301,3 +302,10 @@ class GrammarDumpData:
                         func = int(match.group(3), 16)
                         self.actions.append(Action(actnum, prefunc, func))
                         
+                if section == 'parse':
+                    match = pat_verbstart.match(ln)
+                    if match:
+                        verbnum = int(match.group(1))
+                        count = int(match.group(2))
+                        print('###', verbnum, count)
+                        continue
