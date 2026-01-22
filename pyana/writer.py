@@ -276,7 +276,7 @@ def write_actions(filename, zcode):
     ls = [ verb.name for verb in zcode.verbs ]
 
     fl = open(filename, 'w')
-    fl.write('window.gamedat_verbs = ');
+    fl.write('window.gamedat_actions = ');
     json.dump(ls, fl)
     fl.write(';\n')
     fl.close()

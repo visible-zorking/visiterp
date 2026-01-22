@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_verbs, gamedat_property_nums, unpack_address } from '../custom/gamedat';
+import { gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_actions, gamedat_property_nums, unpack_address } from '../custom/gamedat';
 import { ObjPageLink } from './widgets';
 
 export function VarShowObject({ value }: { value:number })
@@ -23,10 +23,10 @@ export function VarShowObject({ value }: { value:number })
 
 export function VarShowVerb({ value }: { value:number })
 {
-    if (value >= 0 && value < gamedat_verbs.length) {
+    if (value >= 0 && value < gamedat_actions.length) {
         return (
             <>
-                <span><code>{ gamedat_verbs[value] }</code></span>
+                <span><code>{ gamedat_actions[value] }</code></span>
             </>
         );
     }

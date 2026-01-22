@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_verbs, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
+import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
 
 import { ObjPageLink } from './widgets';
 
@@ -68,10 +68,10 @@ export function ArgShowString({ value }: { value:number })
 
 export function ArgShowVerb({ value }: { value:number })
 {
-    if (value >= 0 && value < gamedat_verbs.length) {
+    if (value >= 0 && value < gamedat_actions.length) {
         return (
             <>
-                <span><code>{ gamedat_verbs[value] }</code></span>
+                <span><code>{ gamedat_actions[value] }</code></span>
             </>
         );
     }
