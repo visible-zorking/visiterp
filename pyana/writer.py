@@ -273,7 +273,7 @@ def write_attributes(filename):
 def write_actions(filename, zcode):
     print('...writing actions:', filename)
 
-    ls = [ verb.name for verb in zcode.verbs ]
+    ls = [ act.name for act in zcode.actions ]
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_actions = ');

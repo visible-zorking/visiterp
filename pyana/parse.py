@@ -70,7 +70,7 @@ if opts.zilfile:
     print('inline strings:', len(zcode.istrings))
     print('routines:', len(zcode.routines))
     print('objects:', len(zcode.objects))
-    print('verbs:', len(zcode.verbs))
+    print('actions:', len(zcode.actions))
 
 if opts.txdfile:
     print('reading TXD dump...')

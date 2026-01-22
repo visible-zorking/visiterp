@@ -186,8 +186,8 @@ class Zcode:
         self.routines = []
         self.objects = []
         self.roomnames = []
-        self.verbs = []
-        self.verbmap = {}
+        self.actions = []
+        self.actionmap = {}
         self.attrnameset = set()
         self.directions = []
         self.directionset = set()
@@ -329,11 +329,11 @@ class Zcode:
                     verbtok = tok.children[eqpos+1]
                     if verbtok.idmatch(lambda val: val.startswith('V-')):
                         val = verbtok.val[ 2 : ]
-                        verb = self.verbmap.get(val)
+                        verb = self.actionmap.get(val)
                         if not verb:
                             verb = ZAction(val)
-                            self.verbs.append(verb)
-                            self.verbmap[val] = verb
+                            self.actions.append(verb)
+                            self.actionmap[val] = verb
                         verb.vtoks.append(tok)
                         
 
