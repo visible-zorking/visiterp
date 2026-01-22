@@ -66,7 +66,7 @@ export function ArgShowString({ value }: { value:number })
     return (<span>???</span>);
 }
 
-export function ArgShowVerb({ value }: { value:number })
+export function ArgShowAction({ value }: { value:number })
 {
     if (value >= 0 && value < gamedat_actions.length) {
         return (

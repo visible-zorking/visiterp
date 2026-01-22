@@ -21,7 +21,7 @@ export function VarShowObject({ value }: { value:number })
     return (<i>invalid object { value }</i>);
 }
 
-export function VarShowVerb({ value }: { value:number })
+export function VarShowAction({ value }: { value:number })
 {
     if (value >= 0 && value < gamedat_actions.length) {
         return (

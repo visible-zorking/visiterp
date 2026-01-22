@@ -6,7 +6,7 @@ import { gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, sign
 import { stack_call_arg_display } from '../custom/cwidgets';
 
 import { ReactCtx, StackCallCtx } from './context';
-import { ArgShowObject, ArgShowProperty, ArgShowRoutine, ArgShowString, ArgShowVerb, ArgShowWord, ArgShowMFlag } from './actshowers';
+import { ArgShowObject, ArgShowProperty, ArgShowRoutine, ArgShowString, ArgShowAction, ArgShowWord, ArgShowMFlag } from './actshowers';
 
 type SelPair = [ number, number ];
 
@@ -220,7 +220,7 @@ export function StackCallArg({ value, argtype }: { value:number, argtype:string|
         )
     case 'VERB':
         return (
-            <ArgShowVerb value={ value } />
+            <ArgShowAction value={ value } />
         )
     case 'WORD':
         return (
