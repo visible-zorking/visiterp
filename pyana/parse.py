@@ -12,7 +12,7 @@ from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
 from txdparse import TXDData, ObjDumpData, DictDumpData
-from writer import write_filenames, write_properties, write_attributes, write_verbs, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, display_globals, compute_room_distances
+from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, display_globals, compute_room_distances
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()
@@ -99,7 +99,7 @@ if opts.gamedat:
     if opts.dictdump:
         write_dictwords('src/game/dictwords.js', dictdat)
     if opts.zilfile:
-        write_verbs('src/game/verbs.js', zcode)
+        write_actions('src/game/actions.js', zcode)
     if opts.zilfile:
         write_globals('src/game/globals.js', zcode)
         write_constants('src/game/constants.js', zcode)

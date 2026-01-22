@@ -270,8 +270,8 @@ def write_attributes(filename):
     fl.write(';\n')
     fl.close()
     
-def write_verbs(filename, zcode):
-    print('...writing verbs:', filename)
+def write_actions(filename, zcode):
+    print('...writing actions:', filename)
 
     ls = [ verb.name for verb in zcode.verbs ]
 
