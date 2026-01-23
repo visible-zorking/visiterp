@@ -326,6 +326,27 @@ def write_actions(filename, zcode, grammardat):
     fl.write(';\n')
     fl.close()
 
+def interpret_locbits(val):
+    # See constants in gparser.zil.
+    ls = []
+    if val & 128:
+        ls.append('HELD')
+    if val & 64:
+        ls.append('CARRIED')
+    if val & 32:
+        ls.append('IN-ROOM')
+    if val & 16:
+        ls.append('ON-GROUND')
+    if val & 8:
+        ls.append('TAKE')
+    if val & 4:
+        ls.append('MANY')
+    if val & 2:
+        ls.append('HAVE')
+    if val & 1:
+        ls.append('???')
+    return '(' + ' '.join(ls) + ')'
+    
 def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     print('...writing grammar:', filename)
     load_gameinfo()
@@ -346,16 +367,20 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.dobjprep:
                     ls.append(prepwds[gline.dobjprep].text)
                 if gline.dobjattr:
-                    ls.append(attrnames[gline.dobjattr])
+                    ls.append('O:'+attrnames[gline.dobjattr])
                 else:
                     ls.append('OBJ')
+                if gline.dobjloc:
+                    ls.append(interpret_locbits(gline.dobjloc))
             if gline.objcount >= 2:
                 if gline.iobjprep:
                     ls.append(prepwds[gline.iobjprep].text)
                 if gline.iobjattr:
-                    ls.append(attrnames[gline.iobjattr])
+                    ls.append('O:'+attrnames[gline.iobjattr])
                 else:
                     ls.append('OBJ')
+                if gline.iobjloc:
+                    ls.append(interpret_locbits(gline.iobjloc))
             print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
 
     fl = open(filename, 'w')
