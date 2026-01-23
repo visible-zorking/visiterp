@@ -111,8 +111,8 @@ if opts.gamedat:
         write_dictwords('src/game/dictwords.js', dictdat)
     if opts.zilfile and opts.grammardump:
         write_actions('src/game/actions.js', zcode, grammardat)
-    if opts.grammardump and opts.dictdump and opts.txdfile:
-        write_grammar('src/game/grammar.js', grammardat, dictdat, txdat)
+    if opts.grammardump and opts.dictdump and opts.txdfile and opts.zilfile:
+        write_grammar('src/game/grammar.js', grammardat, dictdat, zcode, txdat)
     if opts.zilfile:
         write_globals('src/game/globals.js', zcode)
         write_constants('src/game/constants.js', zcode)

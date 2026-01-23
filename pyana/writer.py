@@ -326,13 +326,37 @@ def write_actions(filename, zcode, grammardat):
     fl.write(';\n')
     fl.close()
 
-def write_grammar(filename, grammardat, dictdat, txdat):
+def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     print('...writing grammar:', filename)
     load_gameinfo()
+
+    attrnames = { num: attr for num, attr in attribute_list }
+    prepwds = { prep.num: prep for prep in grammardat.prepositions }
+    verbwds = {}
+    for wd in dictdat.words:
+        prepnum, adjnum, verbnum, dirnum = interpret_dictflags(wd)
+        if verbnum is not None:
+            ### but which are the synonyms?
+            verbwds[verbnum] = wd
     
     for verb in grammardat.verbs:
         for gline in verb.lines:
-            pass
+            ls = [ verbwds[verb.num].text ]
+            if gline.objcount >= 1:
+                if gline.dobjprep:
+                    ls.append(prepwds[gline.dobjprep].text)
+                if gline.dobjattr:
+                    ls.append(attrnames[gline.dobjattr])
+                else:
+                    ls.append('OBJ')
+            if gline.objcount >= 2:
+                if gline.iobjprep:
+                    ls.append(prepwds[gline.iobjprep].text)
+                if gline.iobjattr:
+                    ls.append(attrnames[gline.iobjattr])
+                else:
+                    ls.append('OBJ')
+            print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
 
     fl = open(filename, 'w')
     fl.close()
