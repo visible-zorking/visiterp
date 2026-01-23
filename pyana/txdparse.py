@@ -227,6 +227,11 @@ class DictDumpData:
                     special = [ int(val, 16) for val in valls ]
                     self.words.append(DictWord(num, addr, text, special, flags))
 
+class VerbGrammar:
+    def __init__(self, num):
+        self.num = num
+        self.lines = []
+                    
 class Action:
     def __init__(self, num, preactionrtn, actionrtn):
         self.num = num
@@ -251,7 +256,7 @@ class Preposition:
 
 class GrammarDumpData:
     def __init__(self):
-        self.lines = []
+        self.verbs = []
         self.actions = []
         self.prepositions = []
 
@@ -260,8 +265,12 @@ class GrammarDumpData:
         pat_prep = re.compile('\\s*([0-9]+)[.]\\s+(.*)')
         pat_action = re.compile('\\s*([0-9]+)[.]\\s+([0-9a-f]+)\\s+([0-9a-f]+)\\s*verb:')
         pat_verbstart = re.compile('\\s*([0-9]+)[.]\\s+([0-9]+) (entry|entries), verb = (.*)')
+        pat_verbline = re.compile('\\s*\\[([^]]+)\\]')
         
         section = None
+        curverb = None
+        lastcount = None
+        
         with open(filename) as infl:
             for ln in infl.readlines():
                 match = pat_sect.match(ln)
@@ -305,7 +314,19 @@ class GrammarDumpData:
                 if section == 'parse':
                     match = pat_verbstart.match(ln)
                     if match:
+                        if curverb and lastcount != len(curverb.lines):
+                            raise Exception('line count mismatch')
                         verbnum = int(match.group(1))
-                        count = int(match.group(2))
-                        print('###', verbnum, count)
+                        lastcount = int(match.group(2))
+                        curverb = VerbGrammar(verbnum)
+                        self.verbs.append(curverb)
                         continue
+                    match = pat_verbline.match(ln)
+                    if match:
+                        val = match.group(1)
+                        ls = val.split(' ')
+                        bls = [ int(val.strip(), 16) for val in ls ]
+                        if len(bls) != 8:
+                            raise Exception('bad grammar line length')
+                        curverb.lines.append(bls)
+                        

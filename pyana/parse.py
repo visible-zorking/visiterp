@@ -99,7 +99,7 @@ if opts.grammardump:
     print('reading grammar dump...')
     grammardat = GrammarDumpData()
     grammardat.readdump('gamedat/grammar-dump.txt')
-    print('grammar lines:', len(grammardat.lines))
+    print('verbs:', len(grammardat.verbs))
     print('actions:', len(grammardat.actions))
     print('prepositions:', len(grammardat.prepositions))
     
