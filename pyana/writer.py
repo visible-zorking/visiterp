@@ -326,7 +326,7 @@ def write_actions(filename, zcode, grammardat):
     fl.write(';\n')
     fl.close()
 
-def write_grammar(filename, grammardat, txdat):
+def write_grammar(filename, grammardat, dictdat, txdat):
     print('...writing grammar:', filename)
     load_gameinfo()
     

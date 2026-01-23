@@ -40,7 +40,7 @@ popt.add_option('-o', '--obj',
                 help='read obj-dump.txt (needed to write objects.js and strings.js)')
 popt.add_option('-d', '--dict',
                 action='store_true', dest='dictdump',
-                help='read dict-dump.txt (needed to write dictwords.js)')
+                help='read dict-dump.txt (needed to write dictwords.js and grammar.js)')
 popt.add_option('-g', '--grammar',
                 action='store_true', dest='grammardump',
                 help='read grammar-dump.txt (needed to write actions.js and grammar.js)')
@@ -111,8 +111,8 @@ if opts.gamedat:
         write_dictwords('src/game/dictwords.js', dictdat)
     if opts.zilfile and opts.grammardump:
         write_actions('src/game/actions.js', zcode, grammardat)
-    if opts.grammardump and opts.txdfile:
-        write_grammar('src/game/grammar.js', grammardat, txdat)
+    if opts.grammardump and opts.dictdump and opts.txdfile:
+        write_grammar('src/game/grammar.js', grammardat, dictdat, txdat)
     if opts.zilfile:
         write_globals('src/game/globals.js', zcode)
         write_constants('src/game/constants.js', zcode)
