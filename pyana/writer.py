@@ -299,6 +299,12 @@ def write_actions(filename, zcode):
     fl.write(';\n')
     fl.close()
 
+def write_grammar(filename, grammardat, txdat):
+    print('...writing grammar:', filename)
+
+    fl = open(filename, 'w')
+    fl.close()
+    
 def write_routines(filename, zcode, txdat):
     print('...writing routine data:', filename)
     load_gameinfo()
@@ -331,6 +337,7 @@ def write_routines(filename, zcode, txdat):
 
 def guessargtype(funcname, argname, index):
     # This guesser may be Zork-specific. The display of MFLAG as well.
+    ### Use source #DECL?
     if argname in ('O', 'OBJ', 'R', 'RM', 'ROOM'):
         return 'OBJ'
     if argname == 'STR':
