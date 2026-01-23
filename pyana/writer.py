@@ -395,6 +395,8 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             addr += 8
             lines.append(linedat)
 
+    verbls.sort(key=lambda obj: verbwds[obj['num']].text)
+
     fl = open(filename, 'w')
     fl.write('window.gamedat_grammar = ');
     json.dump(verbls, fl, separators=(',', ':'))
