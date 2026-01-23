@@ -234,7 +234,21 @@ class VerbGrammar:
 
     def __repr__(self):
         return '<VerbGrammar %d (%d)>' % (self.num, len(self.lines),)
-                    
+
+class GrammarLine:
+    def __init__(self, ls):
+        self.action = ls[7]
+        self.objcount = ls[0]
+        self.dobjprep = ls[1]
+        self.iobjprep = ls[2]
+        self.dobjattr = ls[3]
+        self.iobjattr = ls[4]
+        self.dobjloc = ls[5]
+        self.iobjloc = ls[6]
+    
+    def __repr__(self):
+        return '<GrammarLine action=%d>' % (self.action,)
+
 class Action:
     def __init__(self, num, preactionrtn, actionrtn):
         self.num = num
@@ -331,5 +345,5 @@ class GrammarDumpData:
                         bls = [ int(val.strip(), 16) for val in ls ]
                         if len(bls) != 8:
                             raise Exception('bad grammar line length')
-                        curverb.lines.append(bls)
+                        curverb.lines.append(GrammarLine(bls))
                         
