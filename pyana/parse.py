@@ -43,7 +43,7 @@ popt.add_option('-d', '--dict',
                 help='read dict-dump.txt (needed to write dictwords.js)')
 popt.add_option('-g', '--grammar',
                 action='store_true', dest='grammardump',
-                help='read grammar-dump.txt (needed to ###)')
+                help='read grammar-dump.txt (needed to write actions.js and grammar.js)')
 popt.add_option('--showglob',
                 action='store_true', dest='showglob',
                 help='list globals in (mostly) compiled order')
@@ -109,8 +109,8 @@ if opts.gamedat:
     write_attributes('src/game/attributes.js')
     if opts.dictdump:
         write_dictwords('src/game/dictwords.js', dictdat)
-    if opts.zilfile:
-        write_actions('src/game/actions.js', zcode)
+    if opts.zilfile and opts.grammardump:
+        write_actions('src/game/actions.js', zcode, grammardat)
     if opts.grammardump and opts.txdfile:
         write_grammar('src/game/grammar.js', grammardat, txdat)
     if opts.zilfile:

@@ -288,10 +288,21 @@ def write_attributes(filename):
     fl.write(';\n')
     fl.close()
     
-def write_actions(filename, zcode):
+def write_actions(filename, zcode, grammardat):
     print('...writing actions:', filename)
-
-    ls = [ act.name for act in zcode.actions ]
+    if len(zcode.actions) != len(grammardat.actions):
+        raise Exception('action count mismatch')
+    
+    ls = []
+    for ix, act in enumerate(zcode.actions):
+        dat = { 'num': ix, 'name': act.name }
+        gact = grammardat.actions[ix]
+        assert gact.num == ix
+        if gact.actionrtn:
+            dat['acrtn'] = gact.actionrtn
+        if gact.preactionrtn:
+            dat['preacrtn'] = gact.preactionrtn
+        ls.append(dat)
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_actions = ');
