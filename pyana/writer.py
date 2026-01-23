@@ -352,7 +352,10 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     load_gameinfo()
 
     attrnames = { num: attr for num, attr in attribute_list }
-    prepwds = { prep.num: prep for prep in grammardat.prepositions }
+    prepwds = {}
+    for prep in grammardat.prepositions:
+        ls = [ prep.text ] + prep.synonyms
+        prepwds[prep.num] = '/'.join(ls)
     verbwds = {}
     for wd in dictdat.words:
         prepnum, adjnum, verbnum, dirnum = interpret_dictflags(wd)
@@ -365,7 +368,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             ls = [ verbwds[verb.num].text ]
             if gline.objcount >= 1:
                 if gline.dobjprep:
-                    ls.append(prepwds[gline.dobjprep].text)
+                    ls.append(prepwds[gline.dobjprep])
                 if gline.dobjattr:
                     ls.append('O:'+attrnames[gline.dobjattr])
                 else:
@@ -374,7 +377,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                     ls.append(interpret_locbits(gline.dobjloc))
             if gline.objcount >= 2:
                 if gline.iobjprep:
-                    ls.append(prepwds[gline.iobjprep].text)
+                    ls.append(prepwds[gline.iobjprep])
                 if gline.iobjattr:
                     ls.append('O:'+attrnames[gline.iobjattr])
                 else:
