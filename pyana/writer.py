@@ -157,37 +157,53 @@ def write_filenames(filename):
     fl.write(';\n')
     fl.close()
 
+def interpret_dictflags(wd):
+    prepnum = adjnum = verbnum = dirnum = None
+    
+    # The dict-flag rules are quite terrible. See Michael Ko
+    # page 22.
+    
+    if 'P' in wd.flags:
+        prepnum = wd.special[1]
+    if 'A' in wd.flags:
+        if (wd.special[0] & 0x03) == 0x02:
+            adjnum = wd.special[1]
+        elif wd.special[0] & 0x20:
+            adjnum = wd.special[2]
+        else:
+            raise Exception('adj flag without bits')
+    if 'V' in wd.flags:
+        if (wd.special[0] & 0x03) == 0x01:
+            verbnum = wd.special[1]
+        elif wd.special[0] & 0x40:
+            verbnum = wd.special[2]
+        else:
+            raise Exception('verb flag without bits')
+    if 'D' in wd.flags:
+        if (wd.special[0] & 0x03) == 0x03:
+            dirnum = wd.special[1]
+        elif wd.special[0] & 0x10:
+            dirnum = wd.special[2]
+        else:
+            raise Exception('dir flag without bits')
+    
+    return (prepnum, adjnum, verbnum, dirnum)
+    
 def write_dictwords(filename, dictdat):
     print('...writing dictword data:', filename)
 
     ls = []
     for wd in dictdat.words:
         dat = { 'num': wd.num, 'text': wd.text, 'flags': wd.flags }
-        # The dict-flag rules are quite terrible. See Michael Ko
-        # page 22.
-        if 'P' in wd.flags:
-            dat['prepnum'] = wd.special[1]
-        if 'A' in wd.flags:
-            if (wd.special[0] & 0x03) == 0x02:
-                dat['adjnum'] = wd.special[1]
-            elif wd.special[0] & 0x20:
-                dat['adjnum'] = wd.special[2]
-            else:
-                raise Exception('adj flag without bits')
-        if 'V' in wd.flags:
-            if (wd.special[0] & 0x03) == 0x01:
-                dat['verbnum'] = wd.special[1]
-            elif wd.special[0] & 0x40:
-                dat['verbnum'] = wd.special[2]
-            else:
-                raise Exception('verb flag without bits')
-        if 'D' in wd.flags:
-            if (wd.special[0] & 0x03) == 0x03:
-                dat['dirnum'] = wd.special[1]
-            elif wd.special[0] & 0x10:
-                dat['dirnum'] = wd.special[2]
-            else:
-                raise Exception('dir flag without bits')
+        prepnum, adjnum, verbnum, dirnum = interpret_dictflags(wd)
+        if prepnum is not None:
+            dat['prepnum'] = prepnum
+        if adjnum is not None:
+            dat['adjnum'] = adjnum
+        if verbnum is not None:
+            dat['verbnum'] = verbnum
+        if dirnum is not None:
+            dat['dirnum'] = dirnum
         ls.append(dat)
 
     fl = open(filename, 'w')
@@ -312,6 +328,11 @@ def write_actions(filename, zcode, grammardat):
 
 def write_grammar(filename, grammardat, txdat):
     print('...writing grammar:', filename)
+    load_gameinfo()
+    
+    for verb in grammardat.verbs:
+        for gline in verb.lines:
+            pass
 
     fl = open(filename, 'w')
     fl.close()
