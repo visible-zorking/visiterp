@@ -231,6 +231,9 @@ class VerbGrammar:
     def __init__(self, num):
         self.num = num
         self.lines = []
+
+    def __repr__(self):
+        return '<VerbGrammar %d (%d)>' % (self.num, len(self.lines),)
                     
 class Action:
     def __init__(self, num, preactionrtn, actionrtn):
