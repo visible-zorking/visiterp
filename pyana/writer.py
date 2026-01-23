@@ -362,8 +362,14 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
         if verbnum is not None:
             ### but which are the synonyms?
             verbwds[verbnum] = wd
+
+    verbls = []
     
     for verb in grammardat.verbs:
+        lines = []
+        dat = { 'num': verb.num, 'addr': verb.addr, 'lines': lines }
+        verbls.append(dat)
+        addr = verb.addr + 1
         for gline in verb.lines:
             ls = [ verbwds[verb.num].text ]
             if gline.objcount >= 1:
@@ -385,8 +391,14 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.iobjloc:
                     ls.append(interpret_locbits(gline.iobjloc))
             print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
+            linedat = { 'addr': addr, 'text': ' '.join(ls) }
+            addr += 8
+            lines.append(linedat)
 
     fl = open(filename, 'w')
+    fl.write('window.gamedat_grammar = ');
+    json.dump(verbls, fl, separators=(',', ':'))
+    fl.write(';\n')
     fl.close()
     
 def write_routines(filename, zcode, txdat):
