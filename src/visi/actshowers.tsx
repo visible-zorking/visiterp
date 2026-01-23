@@ -71,7 +71,7 @@ export function ArgShowAction({ value }: { value:number })
     if (value >= 0 && value < gamedat_actions.length) {
         return (
             <>
-                <span><code>{ gamedat_actions[value] }</code></span>
+                <span><code>{ gamedat_actions[value].name }</code></span>
             </>
         );
     }
