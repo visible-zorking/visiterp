@@ -228,12 +228,13 @@ class DictDumpData:
                     self.words.append(DictWord(num, addr, text, special, flags))
 
 class VerbGrammar:
-    def __init__(self, num):
+    def __init__(self, num, addr):
         self.num = num
+        self.addr = addr
         self.lines = []
 
     def __repr__(self):
-        return '<VerbGrammar %d (%d)>' % (self.num, len(self.lines),)
+        return '<VerbGrammar %d (%d at %d)>' % (self.num, len(self.lines), self.addr,)
 
 class GrammarLine:
     def __init__(self, ls):
@@ -281,7 +282,7 @@ class GrammarDumpData:
         pat_sect = re.compile('.*[*][*][*][*]\\s*([^*]+)\\s*[*][*][*][*]')
         pat_prep = re.compile('\\s*([0-9]+)[.]\\s+(.*)')
         pat_action = re.compile('\\s*([0-9]+)[.]\\s+([0-9a-f]+)\\s+([0-9a-f]+)\\s*verb:')
-        pat_verbstart = re.compile('\\s*([0-9]+)[.]\\s+([0-9]+) (entry|entries), verb = (.*)')
+        pat_verbstart = re.compile('\\s*([0-9]+)[.]\\s+([0-9]+) (entry|entries) at ([0-9a-f]+), verb = (.*)')
         pat_verbline = re.compile('\\s*\\[([^]]+)\\]')
         
         section = None
@@ -335,7 +336,8 @@ class GrammarDumpData:
                             raise Exception('line count mismatch')
                         verbnum = int(match.group(1))
                         lastcount = int(match.group(2))
-                        curverb = VerbGrammar(verbnum)
+                        addr = int(match.group(4), 16)
+                        curverb = VerbGrammar(verbnum, addr)
                         self.verbs.append(curverb)
                         continue
                     match = pat_verbline.match(ln)
