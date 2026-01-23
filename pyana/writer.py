@@ -391,7 +391,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.iobjloc:
                     ls.append(interpret_locbits(gline.iobjloc))
             print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
-            linedat = { 'addr': addr, 'text': ' '.join(ls) }
+            linedat = { 'addr': addr, 'text': ' '.join(ls), 'action': gline.action }
             addr += 8
             lines.append(linedat)
 
