@@ -151,7 +151,7 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     if (clause.loc) {
         locel = (
             <>
-                :<i>[{ clause.loc.toLowerCase() }]</i>
+                :<code>{ clause.loc.toLowerCase() }</code>
             </>
         );
     }
