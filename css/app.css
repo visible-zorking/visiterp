@@ -577,6 +577,10 @@ button.ObjPage {
     clear: both;
 }
 
+.GrammarLine.StartGroup {
+    margin-top: 16px;
+}
+
 .GrammarLineAction {
     float: right;
 }

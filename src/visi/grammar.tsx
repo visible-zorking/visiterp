@@ -12,14 +12,18 @@ export function GrammarTable()
     let glinels = [];
 
     for (let gline of gamedat_grammar_lines) {
+        let startgroup = false;
         if (gline.num != lastverb) {
             lastverb = gline.num;
+            startgroup = true;
+            /*
             glinels.push(
                 <GrammarLineHead key={ counter } gline={ gline } />
-            );
+                );
+                */
         }
         glinels.push(
-            <GrammarLine key={ counter } gline={ gline } />
+            <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
         );
         counter++;
     }
@@ -59,7 +63,7 @@ function GrammarLineHead({ gline }: { gline:GrammarLineData })
     );
 }
 
-function GrammarLine({ gline }: { gline:GrammarLineData })
+function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?:boolean })
 {
     let rctx = useContext(ReactCtx);
 
@@ -147,14 +151,16 @@ function GrammarLine({ gline }: { gline:GrammarLineData })
             );
         }
     }
+
+    let cla = (startgroup ? "GrammarLine StartGroup" : "GrammarLine");
     
     return (
-        <li className="GrammarLine">
+        <li className={ cla }>
             <div className="GrammarLineAction">
                 { prefuncel } { funcel }
             </div>
             <div className="GrammarLineDef">
-                <span className="PrintDictWord">&#x2014;</span>
+                <span className="PrintDictWord">{ verb.words[0] }</span>
                 {' '}{ clausels }
             </div>
         </li>
