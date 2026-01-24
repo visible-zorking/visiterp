@@ -581,6 +581,10 @@ button.ObjPage {
     float: right;
 }
 
+.GrammarLineDef {
+    text-indent: 20px hanging;
+}
+
 a.CommentButton {
     position: relative;
     top: -4px;
