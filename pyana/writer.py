@@ -345,7 +345,7 @@ def interpret_locbits(val):
         ls.append('H')
     if val & 1:
         ls.append('?')
-    return '(' + ''.join(ls) + ')'
+    return ''.join(ls)
     
 def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     print('...writing grammar:', filename)
@@ -376,27 +376,27 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
         verbls.append(dat)
         addr = verb.addr + 1
         for gline in verb.lines:
-            ls = [ verbwds[verb.num][0].text ]
+            clauses = []
             if gline.objcount >= 1:
+                odat = {}
                 if gline.dobjprep:
-                    ls.append(prepwds[gline.dobjprep])
+                    odat['prep'] = prepwds[gline.dobjprep]
                 if gline.dobjattr:
-                    ls.append('O:'+attrnames[gline.dobjattr])
-                else:
-                    ls.append('OBJ')
+                    odat['attr'] = attrnames[gline.dobjattr]
                 if gline.dobjloc:
-                    ls.append(interpret_locbits(gline.dobjloc))
+                    odat['loc'] = interpret_locbits(gline.dobjloc)
+                clauses.append(odat)
             if gline.objcount >= 2:
+                odat = {}
                 if gline.iobjprep:
-                    ls.append(prepwds[gline.iobjprep])
+                    odat['prep'] = prepwds[gline.iobjprep]
                 if gline.iobjattr:
-                    ls.append('O:'+attrnames[gline.iobjattr])
-                else:
-                    ls.append('OBJ')
+                    odat['attr'] = attrnames[gline.iobjattr]
                 if gline.iobjloc:
-                    ls.append(interpret_locbits(gline.iobjloc))
-            print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
-            linedat = { 'num': verb.num, 'addr': addr, 'text': ' '.join(ls), 'action': gline.action }
+                    odat['loc'] = interpret_locbits(gline.iobjloc)
+                clauses.append(odat)
+            linedat = { 'num': verb.num, 'addr': addr, 'action': gline.action, 'clauses': clauses }
+            
             addr += 8
             lines.append(linedat)
 
