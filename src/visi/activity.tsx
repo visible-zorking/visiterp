@@ -214,6 +214,10 @@ export function StackCallArg({ value, argtype }: { value:number, argtype:string|
         return (
             <ArgShowRoutine value={ value } />
         )
+    case 'PROP':
+        return (
+            <ArgShowProperty value={ value } />
+        )
     case 'STR':
         return (
             <ArgShowString value={ value } />

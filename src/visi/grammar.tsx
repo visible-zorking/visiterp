@@ -29,6 +29,10 @@ export function GrammarTable()
     glinels.push(
         <GrammarLineTail key={ counter } verbnum={ lastverb } />
     );
+
+    //### sort by action or alpha
+    //### legend for loc flags
+    //### many show-addr checks
     
     return (
         <div className="ScrollContent">
