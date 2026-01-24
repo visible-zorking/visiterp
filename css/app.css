@@ -592,6 +592,10 @@ button.ObjPage {
 .GrammarLineDef code {
     font-size: 85%;
 }
+.GrammarLineDef .ClauseObj {
+    font-style: italic;
+    font-weight: bold;
+}
 
 a.CommentButton {
     position: relative;

@@ -330,19 +330,19 @@ def interpret_locbits(val):
     # See constants in gparser.zil.
     ls = []
     if val & 128:
-        ls.append('D')
+        ls.append('d')
     if val & 64:
-        ls.append('C')
+        ls.append('c')
     if val & 32:
-        ls.append('I')
+        ls.append('i')
     if val & 16:
-        ls.append('O')
+        ls.append('o')
     if val & 8:
-        ls.append('T')
+        ls.append('t')
     if val & 4:
-        ls.append('M')
+        ls.append('m')
     if val & 2:
-        ls.append('H')
+        ls.append('h')
     if val & 1:
         ls.append('?')
     return ''.join(ls)
