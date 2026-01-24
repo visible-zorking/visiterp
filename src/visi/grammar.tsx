@@ -37,10 +37,22 @@ export function GrammarTable()
     }
     else {
         let lastaction = -1;
+        let lastverb = -1;
         for (let addr of gamedat_grammaractionlines) {
             let gline = gamedat_grammar_line_addrs.get(addr);
             if (!gline)
                 continue;
+
+            if (gline.action != lastaction || gline.num != lastverb) {
+                let tmpverb = lastverb;
+                lastverb = gline.num;
+                if (tmpverb >= 0) {
+                    glinels.push(
+                        <GrammarLineTail key={ counter } verbnum={ tmpverb } />
+                    );
+                    counter++;
+                }
+            }
             
             let startgroup = false;
             if (lastaction != gline.action) {
@@ -51,7 +63,13 @@ export function GrammarTable()
                 <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
             );
             counter++;
-            //### GrammarLineTail?
+        }
+        if (lastverb >= 0) {
+            let tmpverb = lastverb;
+            glinels.push(
+                <GrammarLineTail key={ counter } verbnum={ tmpverb } />
+            );
+            counter++;
         }
     }
 
