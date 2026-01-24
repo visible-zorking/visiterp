@@ -238,6 +238,7 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
                 { prefuncel } { funcel }
             </div>
             <div className="GrammarLineDef">
+                { (rctx.shownumbers ? <span className="ShowAddr">{ verb.num }:</span> : null) }
                 <span className="PrintDictWord">{ verb.words[0] }</span>
                 {' '}{ clausels }
             </div>
