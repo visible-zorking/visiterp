@@ -192,6 +192,7 @@ class Zcode:
         self.directions = []
         self.directionset = set()
         self.sourceorder = []
+        self.synonyms = {}
 
     def build(self):
         self.findsourceorder()
@@ -273,6 +274,12 @@ class Zcode:
                     raise Exception('Directions encountered twice')
                 self.directions = [ dirtok.val for dirtok in tok.children[ 1 : ] ]
                 self.directionset = set(self.directions)
+            if tok.matchform('SYNONYM', 1):
+                orig = tok.children[1].val
+                if orig not in self.synonyms:
+                    self.synonyms[orig] = []
+                for syntok in tok.children[ 2 : ]:
+                    self.synonyms[orig].append(syntok.val)
             if tok.matchform('ROUTINE', 2):
                 idtok = tok.children[1]
                 if idtok.typ is TokType.ID:
