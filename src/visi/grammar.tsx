@@ -82,12 +82,28 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     if (clause.prep) {
         let prep = gamedat_preposition_nums.get(clause.prep);
         if (prep) {
-            prepel = (
-                <>
-                    {' '}
-                    <span className="PrintDictWord">{ prep.text }</span>
-                </>
-            );
+            if (!prep.syn) {
+                prepel = (
+                    <>
+                        {' '}
+                        <span className="PrintDictWord">{ prep.text }</span>
+                    </>
+                );
+            }
+            else {
+                let ls = [ <span>{ prep.text }</span> ];
+                for (let val of prep.syn) {
+                    ls.push(<span>/</span>);
+                    ls.push(<wbr/>);
+                    ls.push(<span>{ val }</span>);
+                }
+                prepel = (
+                    <>
+                        {' '}
+                        <span className="PrintDictWord">{ ls }</span>
+                    </>
+                );
+            }
         }
         else {
             prepel = (
