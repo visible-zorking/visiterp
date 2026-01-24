@@ -585,6 +585,7 @@ button.ObjPage {
 
 .GrammarLineAction {
     float: right;
+    text-align: right;
     margin-left: 16px;
 }
 

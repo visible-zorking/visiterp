@@ -32,7 +32,8 @@ export function GrammarTable()
 
     //### sort by action or alpha
     //### legend for loc flags
-    //### many show-addr checks
+    //### many show-addr checks, include argshow and globshow
+    //### dotted lines?
     
     return (
         <div className="ScrollContent">
@@ -192,23 +193,38 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
     if (action.acrtn) {
         let func = gamedat_routine_addrs.get(action.acrtn);
         if (!func) {
-            funcel = <i>???</i>
+            funcel = (
+                <>
+                    { (rctx.shownumbers ? <span className="ShowAddr">{ action.acrtn }:</span> : null) }
+                    <i>???</i>
+                </>
+            );
         }
         else {
             funcel = (
-                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code>
+                <>
+                    { (rctx.shownumbers ? <span className="ShowAddr">{ action.acrtn }:</span> : null) }
+                    <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code>
+                </>
             );
         }
     }
     if (action.preacrtn) {
         let func = gamedat_routine_addrs.get(action.preacrtn);
         if (!func) {
-            prefuncel = <i>???</i>
+            prefuncel = (
+                <>
+                    { (rctx.shownumbers ? <span className="ShowAddr">{ action.preacrtn }:</span> : null) }
+                    <i>???</i>
+                </>
+            );
         }
         else {
             prefuncel = (
                 <>
-                    <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code> /
+                    { (rctx.shownumbers ? <span className="ShowAddr">{ action.preacrtn }:</span> : null) }
+                    <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code> /{' '}
+                    { (rctx.shownumbers ? <br/> : null) }
                 </>
             );
         }
