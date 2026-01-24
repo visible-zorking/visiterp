@@ -75,3 +75,14 @@ export function VarShowWord({ value }: { value:number })
     return (<i>invalid word { value }</i>);
 }
 
+export function VarShowGrammarLine({ value }: { value:number })
+{
+    if (value == 0) {
+        return <i>no grammar</i>;
+    }
+
+    //###
+    
+    return (<i>invalid grammar { value }</i>);
+}
+

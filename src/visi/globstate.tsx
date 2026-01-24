@@ -7,7 +7,7 @@ import { GlobalData, unpack_address, signed_zvalue } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';
-import { VarShowObject, VarShowString, VarShowWord, VarShowAction, VarShowProperty } from './globshow';
+import { VarShowObject, VarShowString, VarShowWord, VarShowGrammarLine, VarShowAction, VarShowProperty } from './globshow';
 import { global_value_display } from '../custom/cwidgets';
 
 export type GlobListContextContent = {
@@ -128,6 +128,9 @@ export function GlobalVar({ index, value, origvalue }: { index:number, value:num
             break;
         case 'WORD':
             vartype = <VarShowWord value={ value } />;
+            break;
+        case 'GLINE':
+            vartype = <VarShowGrammarLine value={ value } />;
             break;
         case 'ACTION':
             vartype = <VarShowAction value={ value } />;

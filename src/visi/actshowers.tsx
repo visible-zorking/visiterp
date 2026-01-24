@@ -109,6 +109,17 @@ export function ArgShowPreposition({ value }: { value:number })
     return (<i>?prep{ value }</i>);
 }
 
+export function ArgShowGrammarLine({ value }: { value:number })
+{
+    if (value == 0) {
+        return <i>none</i>;
+    }
+    
+    //###
+    
+    return (<i>?grammar{ value }</i>);
+}
+
 export function ArgShowMFlag({ value }: { value:number })
 {
     /* Zork-specific -- see gmain.zil */
