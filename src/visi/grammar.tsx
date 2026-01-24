@@ -7,6 +7,8 @@ import { ReactCtx } from './context';
 
 export function GrammarTable()
 {
+    const [ sort, setSort ] = useState('alpha');
+    
     let counter = 0;
     let lastverb = -1;
     let glinels = [];
@@ -34,8 +36,19 @@ export function GrammarTable()
     //### legend for loc flags
     //### dotted lines?
     
+    function evhan_sort_change(val: string) {
+        setSort(val);
+    }
+    
     return (
         <div className="ScrollContent">
+            <div>
+                Sort by{' '}
+                <input id="sortalpha_radio" type="radio" name="sort" value="alpha" checked={ sort=='alpha' } onChange={ (ev) => evhan_sort_change('alpha') } />
+                <label htmlFor="sortalpha_radio">Alpha</label>{' '}
+                <input id="sortaction_radio" type="radio" name="sort" value="action" checked={ sort=='action' } onChange={ (ev) => evhan_sort_change('action') } />
+                <label htmlFor="sortaction_radio">Action</label>
+            </div>
             <ul className="DataList">
                 { glinels }
             </ul>
