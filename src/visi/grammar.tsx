@@ -32,7 +32,6 @@ export function GrammarTable()
 
     //### sort by action or alpha
     //### legend for loc flags
-    //### many show-addr checks, include argshow and globshow
     //### dotted lines?
     
     return (
