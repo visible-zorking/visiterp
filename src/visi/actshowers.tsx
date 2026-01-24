@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
+import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
 
 import { ObjPageLink } from './widgets';
 
@@ -114,8 +114,43 @@ export function ArgShowGrammarLine({ value }: { value:number })
     if (value == 0) {
         return <i>none</i>;
     }
-    
-    //###
+
+    let gline = gamedat_grammar_line_addrs.get(value);
+
+    if (gline) {
+        let verb = gamedat_grammar_verbnums.get(gline.num);
+        let verbwd = '???';
+        if (verb?.words)
+            verbwd = verb.words[0];
+        let ls = [
+            <span className="PrintDictWord">&#x2018;{ verbwd }</span>
+        ];
+        if (gline.clauses) {
+            for (let clause of gline.clauses) {
+                if (clause.prep) {
+                    let prep = gamedat_preposition_nums.get(clause.prep);
+                    if (prep) {
+                        ls.push(
+                            <>
+                                {' '}<span className="PrintDictWord">{ prep.text }</span>
+                            </>
+                        );
+                    }
+                }
+                ls.push(
+                    <span className="PrintDictWord">...</span>
+                );
+                break;
+            }
+        }
+        ls.push(
+            <span className="PrintDictWord">&#x2019;</span>
+        );
+
+        return (
+            <span>{ ls }</span>
+        );
+    }
     
     return (<i>?grammar{ value }</i>);
 }
