@@ -573,8 +573,12 @@ button.ObjPage {
     color: #FA6;
 }
 
+.GrammarLine {
+    clear: both;
+}
+
 .GrammarLineAction {
-    margin-left: 2em;
+    float: right;
 }
 
 a.CommentButton {

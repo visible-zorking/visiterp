@@ -8,9 +8,16 @@ import { ReactCtx } from './context';
 export function GrammarTable()
 {
     let counter = 0;
+    let lastverb = -1;
     let glinels = [];
 
     for (let gline of gamedat_grammar_lines) {
+        if (gline.num != lastverb) {
+            lastverb = gline.num;
+            glinels.push(
+                <GrammarLineHead key={ counter } gline={ gline } />
+            );
+        }
         glinels.push(
             <GrammarLine key={ counter } gline={ gline } />
         );
@@ -26,7 +33,33 @@ export function GrammarTable()
     );
 }
 
-export function GrammarLine({ gline }: { gline:GrammarLineData })
+function GrammarLineHead({ gline }: { gline:GrammarLineData })
+{
+    let verb = gamedat_grammar_verbnums.get(gline.num);
+    if (!verb) {
+        return (<i>unknown verb: { gline.num }</i>);
+    }
+
+    let ls = [];
+    for (let ix=1; ix<verb.words.length; ix++) {
+        let val = verb.words[ix];
+        if (ix > 1) {
+            ls.push(<span>, </span>);
+        }
+        ls.push(
+            <span key={ ix } className="PrintDictWord">{ val }</span>
+        );
+    }
+
+    return (
+        <li className="GrammarLine">
+            <span className="PrintDictWord">{ verb.words[0] }</span>
+            { ls.length ? <> ({ ls })</> : null }
+        </li>
+    );
+}
+
+function GrammarLine({ gline }: { gline:GrammarLineData })
 {
     let rctx = useContext(ReactCtx);
 
@@ -117,12 +150,12 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
     
     return (
         <li className="GrammarLine">
-            <div className="GrammarLineDef">
-                <span className="PrintDictWord">{ verb.words[0] }</span>
-                {' '}{ clausels }
-            </div>
             <div className="GrammarLineAction">
                 { prefuncel } { funcel }
+            </div>
+            <div className="GrammarLineDef">
+                <span className="PrintDictWord">&#x2014;</span>
+                {' '}{ clausels }
             </div>
         </li>
     );
