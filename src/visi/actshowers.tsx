@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
+import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, unpack_address, signed_zvalue, DictWordData, StringData } from '../custom/gamedat';
 
 import { ObjPageLink } from './widgets';
 
@@ -92,6 +92,21 @@ export function ArgShowWord({ value }: { value:number })
     }
 
     return (<i>?word{ value }</i>);
+}
+
+export function ArgShowPreposition({ value }: { value:number })
+{
+    if (value == 0) {
+        return <i>no-prep</i>;
+    }
+    
+    let prep = gamedat_preposition_nums.get(value);
+
+    if (prep) {
+        return (<span className="PrintDictWord">&#x2018;{ prep.text }&#x2019;</span>);
+    }
+
+    return (<i>?prep{ value }</i>);
 }
 
 export function ArgShowMFlag({ value }: { value:number })
