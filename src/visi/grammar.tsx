@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums } from '../custom/gamedat';
+import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_grammaractionlines, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -13,24 +13,40 @@ export function GrammarTable()
     let lastverb = -1;
     let glinels = [];
 
-    for (let gline of gamedat_grammar_lines) {
-        let startgroup = false;
-        if (gline.num != lastverb) {
+    if (sort == 'alpha') {
+        for (let gline of gamedat_grammar_lines) {
+            let startgroup = false;
+            if (gline.num != lastverb) {
+                glinels.push(
+                    <GrammarLineTail key={ counter } verbnum={ lastverb } />
+                );
+                counter++;
+                
+                lastverb = gline.num;
+                startgroup = true;
+            }
             glinels.push(
-                <GrammarLineTail key={ counter } verbnum={ lastverb } />
+                <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
             );
-            
-            lastverb = gline.num;
-            startgroup = true;
+            counter++;
         }
         glinels.push(
-            <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
+            <GrammarLineTail key={ counter } verbnum={ lastverb } />
         );
         counter++;
     }
-    glinels.push(
-        <GrammarLineTail key={ counter } verbnum={ lastverb } />
-    );
+    else {
+        for (let addr of gamedat_grammaractionlines) {
+            let gline = gamedat_grammar_line_addrs.get(addr);
+            if (gline) {
+                let startgroup = false;
+                glinels.push(
+                    <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
+                );
+                counter++;
+            }
+        }
+    }
 
     //### sort by action or alpha
     //### legend for loc flags

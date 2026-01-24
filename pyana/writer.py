@@ -404,8 +404,15 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             addr += 8
             lines.append(linedat)
 
-    verbls.sort(key=lambda obj: obj['words'])
+    verbls.sort(key=lambda dat: dat['words'])
 
+    verbacls = []
+    for dat in verbls:
+        for linedat in dat['lines']:
+            verbacls.append(linedat)
+    print('###', verbacls)
+    verbacaddrs = [ dat['addr'] for dat in verbacls ]
+    
     prepls = []
     for prep in grammardat.prepositions:
         dat = { 'num': prep.num, 'text': prep.text }
@@ -416,6 +423,9 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     fl = open(filename, 'w')
     fl.write('window.gamedat_grammar = ');
     json.dump(verbls, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.write('window.gamedat_grammaractionlines = ');
+    json.dump(verbacaddrs, fl, separators=(',', ':'))
     fl.write(';\n')
     fl.write('window.gamedat_prepositions = ');
     json.dump(prepls, fl, separators=(',', ':'))
