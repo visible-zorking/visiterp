@@ -45,6 +45,7 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
     let clausels = gline.clauses.map(clause => {
         let prepel: JSX.Element|null = null;
         let attrel: JSX.Element|null = null;
+        let locel: JSX.Element|null = null;
         if (clause.prep) {
             prepel = (
                 <>
@@ -60,9 +61,16 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
                 </>
             );
         }
+        if (clause.loc) {
+            locel = (
+                <>
+                    :<i>[{ clause.loc.toLowerCase() }]</i>
+                </>
+            );
+        }
         return (
             <>
-                { prepel } <i>obj</i>{ attrel }
+                { prepel } <i>obj</i>{ attrel }{ locel }
             </>
         );
     });
