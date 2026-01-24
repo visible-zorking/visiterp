@@ -36,19 +36,24 @@ export function GrammarTable()
         counter++;
     }
     else {
+        let lastaction = -1;
         for (let addr of gamedat_grammaractionlines) {
             let gline = gamedat_grammar_line_addrs.get(addr);
             if (gline) {
                 let startgroup = false;
+                if (lastaction != gline.action) {
+                    startgroup = true;
+                    lastaction = gline.action;
+                }
                 glinels.push(
                     <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
                 );
                 counter++;
             }
+            //### GrammarLineTail?
         }
     }
 
-    //### sort by action or alpha
     //### legend for loc flags
     //### dotted lines?
     

@@ -406,11 +406,13 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
 
     verbls.sort(key=lambda dat: dat['words'])
 
+    acnames = { ix:act.name for ix, act in enumerate(zcode.actions) }
+    
     verbacls = []
     for dat in verbls:
         for linedat in dat['lines']:
             verbacls.append(linedat)
-    print('###', verbacls)
+    verbacls.sort(key=lambda dat: acnames[dat['action']])
     verbacaddrs = [ dat['addr'] for dat in verbacls ]
     
     prepls = []
