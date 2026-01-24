@@ -116,11 +116,14 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
     }
     
     return (
-        <li>
-            <span className="PrintDictWord">&#x2018;{ verb.words[0] }&#x2019;</span>
-            {' '}{ clausels }
-            {' '}{ prefuncel }
-            {' '}{ funcel }
+        <li className="GrammarLine">
+            <div className="GrammarLineDef">
+                <span className="PrintDictWord">&#x2018;{ verb.words[0] }&#x2019;</span>
+                {' '}{ clausels }
+            </div>
+            <div className="GrammarLineAction">
+                { prefuncel } { funcel }
+            </div>
         </li>
     );
 }
