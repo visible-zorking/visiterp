@@ -372,6 +372,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     for verb in grammardat.verbs:
         lines = []
         dat = { 'num': verb.num, 'addr': verb.addr, 'lines': lines }
+        dat['words'] = [ wd.text for wd in verbwds[verb.num] ]
         verbls.append(dat)
         addr = verb.addr + 1
         for gline in verb.lines:
@@ -395,11 +396,11 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.iobjloc:
                     ls.append(interpret_locbits(gline.iobjloc))
             print('### %r -> %s' % (' '.join(ls), zcode.actions[gline.action].name,))
-            linedat = { 'addr': addr, 'text': ' '.join(ls), 'action': gline.action }
+            linedat = { 'num': verb.num, 'addr': addr, 'text': ' '.join(ls), 'action': gline.action }
             addr += 8
             lines.append(linedat)
 
-    verbls.sort(key=lambda obj: verbwds[obj['num']][0].text)
+    verbls.sort(key=lambda obj: obj['words'])
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_grammar = ');
