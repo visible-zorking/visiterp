@@ -364,8 +364,16 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 verbwds[verbnum] = []
             verbwds[verbnum].append(wd)
 
+    # This is an approximation of Z-machine dict word encoding.
+    synbasewords = set()
+    for wd in zcode.synonyms:
+        wd = wd[ 0 : 6 ].lower()
+        if '$' in wd:
+            wd = wd[ 0 : 3  ]
+        synbasewords.add(wd)
+            
     for verbnum in verbwds:
-        verbwds[verbnum].sort(key=lambda wd: '' if wd.text.upper() in zcode.synonyms else wd.text)
+        verbwds[verbnum].sort(key=lambda wd: '' if wd.text in synbasewords else wd.text)
             
     verbls = []
     
