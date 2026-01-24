@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names } from '../custom/gamedat';
+import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -80,12 +80,23 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     let attrel: JSX.Element|null = null;
     let locel: JSX.Element|null = null;
     if (clause.prep) {
-        prepel = (
-            <>
-                {' '}
-                <span className="PrintDictWord">{ clause.prep }</span>
-            </>
-        );
+        let prep = gamedat_preposition_nums.get(clause.prep);
+        if (prep) {
+            prepel = (
+                <>
+                    {' '}
+                    <span className="PrintDictWord">{ prep.text }</span>
+                </>
+            );
+        }
+        else {
+            prepel = (
+                <>
+                    {' '}
+                    <span className="PrintDictWord">{ clause.prep }</span>
+                </>
+            );
+        }
     }
     if (clause.attr) {
         let attr = gamedat_attribute_names.get(clause.attr);
