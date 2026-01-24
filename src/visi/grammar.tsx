@@ -67,6 +67,55 @@ function GrammarLineTail({ verbnum }: { verbnum: number })
     );
 }
 
+let prepcache: Map<number, JSX.Element> = new Map();
+
+// Preposition display is completely static (based on gamedat_prepositions),
+// so we memoize it.
+function prep_element_full(val: number): JSX.Element
+{
+    let el = prepcache.get(val);
+    if (el) 
+        return el;
+
+    let prep = gamedat_preposition_nums.get(val);
+    let prepel: JSX.Element;
+    if (prep) {
+        if (!prep.syn) {
+            prepel = (
+                <>
+                    {' '}
+                    <span className="PrintDictWord">{ prep.text }</span>
+                </>
+            );
+        }
+        else {
+            let ls = [ <span>{ prep.text }</span> ];
+            for (let val of prep.syn) {
+                ls.push(<span>/</span>);
+                ls.push(<wbr/>);
+                ls.push(<span>{ val }</span>);
+            }
+            prepel = (
+                <>
+                    {' '}
+                    <span className="PrintDictWord">{ ls }</span>
+                </>
+            );
+        }
+    }
+    else {
+        prepel = (
+            <>
+                {' '}
+                <span className="PrintDictWord">{ val }</span>
+            </>
+        );
+    }
+
+    prepcache.set(val, prepel);
+    return prepel;
+}
+
 function GrammarClause({ clause }: { clause:GrammarClauseData })
 {
     let rctx = useContext(ReactCtx);
@@ -80,39 +129,7 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     let attrel: JSX.Element|null = null;
     let locel: JSX.Element|null = null;
     if (clause.prep) {
-        let prep = gamedat_preposition_nums.get(clause.prep);
-        if (prep) {
-            if (!prep.syn) {
-                prepel = (
-                    <>
-                        {' '}
-                        <span className="PrintDictWord">{ prep.text }</span>
-                    </>
-                );
-            }
-            else {
-                let ls = [ <span>{ prep.text }</span> ];
-                for (let val of prep.syn) {
-                    ls.push(<span>/</span>);
-                    ls.push(<wbr/>);
-                    ls.push(<span>{ val }</span>);
-                }
-                prepel = (
-                    <>
-                        {' '}
-                        <span className="PrintDictWord">{ ls }</span>
-                    </>
-                );
-            }
-        }
-        else {
-            prepel = (
-                <>
-                    {' '}
-                    <span className="PrintDictWord">{ clause.prep }</span>
-                </>
-            );
-        }
+        prepel = prep_element_full(clause.prep);
     }
     if (clause.attr) {
         let attr = gamedat_attribute_names.get(clause.attr);
