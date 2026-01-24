@@ -330,22 +330,22 @@ def interpret_locbits(val):
     # See constants in gparser.zil.
     ls = []
     if val & 128:
-        ls.append('HELD')
+        ls.append('D')
     if val & 64:
-        ls.append('CARRIED')
+        ls.append('C')
     if val & 32:
-        ls.append('IN-ROOM')
+        ls.append('I')
     if val & 16:
-        ls.append('ON-GROUND')
+        ls.append('O')
     if val & 8:
-        ls.append('TAKE')
+        ls.append('T')
     if val & 4:
-        ls.append('MANY')
+        ls.append('M')
     if val & 2:
-        ls.append('HAVE')
+        ls.append('H')
     if val & 1:
-        ls.append('???')
-    return '(' + ' '.join(ls) + ')'
+        ls.append('?')
+    return '(' + ''.join(ls) + ')'
     
 def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     print('...writing grammar:', filename)
