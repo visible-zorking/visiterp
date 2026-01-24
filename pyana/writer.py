@@ -406,9 +406,19 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
 
     verbls.sort(key=lambda obj: obj['words'])
 
+    prepls = []
+    for prep in grammardat.prepositions:
+        dat = { 'num': prep.num, 'text': prep.text }
+        if prep.synonyms:
+            dat['syn'] = prep.synonyms
+        prepls.append(dat)
+
     fl = open(filename, 'w')
     fl.write('window.gamedat_grammar = ');
     json.dump(verbls, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.write('window.gamedat_prepositions = ');
+    json.dump(prepls, fl, separators=(',', ':'))
     fl.write(';\n')
     fl.close()
     
