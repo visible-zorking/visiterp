@@ -385,6 +385,8 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                     odat['attr'] = attrnames[gline.dobjattr]
                 if gline.dobjloc:
                     odat['loc'] = interpret_locbits(gline.dobjloc)
+                if gline.objcount >= 2:
+                    odat['count'] = 1
                 clauses.append(odat)
             if gline.objcount >= 2:
                 odat = {}
@@ -394,6 +396,8 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                     odat['attr'] = attrnames[gline.iobjattr]
                 if gline.iobjloc:
                     odat['loc'] = interpret_locbits(gline.iobjloc)
+                if gline.objcount >= 2:
+                    odat['count'] = 2
                 clauses.append(odat)
             linedat = { 'num': verb.num, 'addr': addr, 'action': gline.action, 'clauses': clauses }
             
