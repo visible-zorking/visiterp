@@ -124,9 +124,10 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
                 </>
             );
         }
+        let obj = (clause.count ? 'obj'+clause.count : 'obj');
         return (
             <>
-                { prepel } &nbsp;<i>obj</i>{ attrel }{ locel }&nbsp;
+                { prepel } &nbsp;<i>{ obj }</i>{ attrel }{ locel }&nbsp;
             </>
         );
     });
@@ -151,7 +152,9 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
         }
         else {
             prefuncel = (
-                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code>
+                <>
+                    <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code> /
+                </>
             );
         }
     }
