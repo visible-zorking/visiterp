@@ -14,19 +14,21 @@ export function GrammarTable()
     for (let gline of gamedat_grammar_lines) {
         let startgroup = false;
         if (gline.num != lastverb) {
+            glinels.push(
+                <GrammarLineTail key={ counter } verbnum={ lastverb } />
+            );
+            
             lastverb = gline.num;
             startgroup = true;
-            /*
-            glinels.push(
-                <GrammarLineHead key={ counter } gline={ gline } />
-                );
-                */
         }
         glinels.push(
             <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
         );
         counter++;
     }
+    glinels.push(
+        <GrammarLineTail key={ counter } verbnum={ lastverb } />
+    );
     
     return (
         <div className="ScrollContent">
@@ -37,11 +39,14 @@ export function GrammarTable()
     );
 }
 
-function GrammarLineHead({ gline }: { gline:GrammarLineData })
+function GrammarLineTail({ verbnum }: { verbnum: number })
 {
-    let verb = gamedat_grammar_verbnums.get(gline.num);
+    let verb = gamedat_grammar_verbnums.get(verbnum);
     if (!verb) {
-        return (<i>unknown verb: { gline.num }</i>);
+        return null;
+    }
+    if (verb.words.length <= 1) {
+        return null;
     }
 
     let ls = [];
@@ -57,8 +62,7 @@ function GrammarLineHead({ gline }: { gline:GrammarLineData })
 
     return (
         <li className="GrammarLine">
-            <span className="PrintDictWord">{ verb.words[0] }</span>
-            { ls.length ? <> ({ ls })</> : null }
+            (... or { ls })
         </li>
     );
 }
