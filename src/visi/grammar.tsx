@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs } from '../custom/gamedat';
+import { GrammarLineData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -37,11 +37,16 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
     
     let action = gamedat_actions[gline.action];
 
-    function evhan_click(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, func: RoutineData) {
+    function evhan_click_rtn(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, func: RoutineData) {
         ev.preventDefault();
         rctx.setLoc(func.sourceloc, false);
     }
 
+    function evhan_click_attr(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
+        ev.preventDefault();
+        rctx.setObjPage({ type:'ATTR', val:index });
+    }
+    
     let clausels = gline.clauses.map(clause => {
         let prepel: JSX.Element|null = null;
         let attrel: JSX.Element|null = null;
@@ -55,11 +60,21 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
             );
         }
         if (clause.attr) {
-            attrel = (
-                <>
-                    :<code>{ clause.attr }</code>
-                </>
-            );
+            let attr = gamedat_attribute_names.get(clause.attr);
+            if (attr) {
+                attrel = (
+                    <>
+                        :<code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
+                    </>
+                );
+            }
+            else {
+                attrel = (
+                    <>
+                        :<code>{ clause.attr }</code>
+                    </>
+                );
+            }
         }
         if (clause.loc) {
             locel = (
@@ -84,7 +99,7 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
         }
         else {
             funcel = (
-                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click(ev, func) }>{ func.name }</a></code>
+                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code>
             );
         }
     }
@@ -95,7 +110,7 @@ export function GrammarLine({ gline }: { gline:GrammarLineData })
         }
         else {
             prefuncel = (
-                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click(ev, func) }>{ func.name }</a></code>
+                <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_rtn(ev, func) }>{ func.name }</a></code>
             );
         }
     }
