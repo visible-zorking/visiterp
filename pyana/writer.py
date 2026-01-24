@@ -461,6 +461,8 @@ def guessargtype(funcname, argname, index):
         return 'STR'
     if argname == 'RTN':
         return 'RTN'
+    if argname == 'PREP':
+        return 'PREP'
     if argname == 'RARG':
         return 'MFLAG'
     return None
