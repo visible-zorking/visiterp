@@ -360,9 +360,13 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
     for wd in dictdat.words:
         prepnum, adjnum, verbnum, dirnum = interpret_dictflags(wd)
         if verbnum is not None:
-            ### but which are the synonyms?
-            verbwds[verbnum] = wd
+            if verbnum not in verbwds:
+                verbwds[verbnum] = []
+            verbwds[verbnum].append(wd)
 
+    for verbnum in verbwds:
+        verbwds[verbnum].sort(key=lambda wd: '' if wd.text.upper() in zcode.synonyms else wd.text)
+            
     verbls = []
     
     for verb in grammardat.verbs:
@@ -371,7 +375,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
         verbls.append(dat)
         addr = verb.addr + 1
         for gline in verb.lines:
-            ls = [ verbwds[verb.num].text ]
+            ls = [ verbwds[verb.num][0].text ]
             if gline.objcount >= 1:
                 if gline.dobjprep:
                     ls.append(prepwds[gline.dobjprep])
@@ -395,7 +399,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             addr += 8
             lines.append(linedat)
 
-    verbls.sort(key=lambda obj: verbwds[obj['num']].text)
+    verbls.sort(key=lambda obj: verbwds[obj['num']][0].text)
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_grammar = ');
