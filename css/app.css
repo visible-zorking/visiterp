@@ -589,6 +589,9 @@ button.ObjPage {
 .GrammarLineDef {
     text-indent: 20px hanging;
 }
+.GrammarLineDef code {
+    font-size: 85%;
+}
 
 a.CommentButton {
     position: relative;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names } from '../custom/gamedat';
+import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -67,6 +67,58 @@ function GrammarLineTail({ verbnum }: { verbnum: number })
     );
 }
 
+function GrammarClause({ clause }: { clause:GrammarClauseData })
+{
+    let rctx = useContext(ReactCtx);
+
+    function evhan_click_attr(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
+        ev.preventDefault();
+        rctx.setObjPage({ type:'ATTR', val:index });
+    }
+    
+    let prepel: JSX.Element|null = null;
+    let attrel: JSX.Element|null = null;
+    let locel: JSX.Element|null = null;
+    if (clause.prep) {
+        prepel = (
+            <>
+                {' '}
+                <span className="PrintDictWord">{ clause.prep }</span>
+            </>
+        );
+    }
+    if (clause.attr) {
+        let attr = gamedat_attribute_names.get(clause.attr);
+        if (attr) {
+            attrel = (
+                <>
+                    :<code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
+                </>
+            );
+        }
+        else {
+            attrel = (
+                <>
+                    :<code>{ clause.attr }</code>
+                </>
+            );
+        }
+    }
+    if (clause.loc) {
+        locel = (
+            <>
+                :<i>[{ clause.loc.toLowerCase() }]</i>
+            </>
+        );
+    }
+    let obj = (clause.count ? 'obj'+clause.count : 'obj');
+    return (
+        <span>
+            { prepel } &nbsp;<i>{ obj }</i>{ locel }{ attrel }&nbsp;
+        </span>
+    );
+}
+
 function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?:boolean })
 {
     let rctx = useContext(ReactCtx);
@@ -83,54 +135,9 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
         rctx.setLoc(func.sourceloc, false);
     }
 
-    function evhan_click_attr(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
-        ev.preventDefault();
-        rctx.setObjPage({ type:'ATTR', val:index });
-    }
-    
-    let clausels = gline.clauses.map(clause => {
-        let prepel: JSX.Element|null = null;
-        let attrel: JSX.Element|null = null;
-        let locel: JSX.Element|null = null;
-        if (clause.prep) {
-            prepel = (
-                <>
-                    {' '}
-                    <span className="PrintDictWord">{ clause.prep }</span>
-                </>
-            );
-        }
-        if (clause.attr) {
-            let attr = gamedat_attribute_names.get(clause.attr);
-            if (attr) {
-                attrel = (
-                    <>
-                        :<code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
-                    </>
-                );
-            }
-            else {
-                attrel = (
-                    <>
-                        :<code>{ clause.attr }</code>
-                    </>
-                );
-            }
-        }
-        if (clause.loc) {
-            locel = (
-                <>
-                    :<i>[{ clause.loc.toLowerCase() }]</i>
-                </>
-            );
-        }
-        let obj = (clause.count ? 'obj'+clause.count : 'obj');
-        return (
-            <>
-                { prepel } &nbsp;<i>{ obj }</i>{ attrel }{ locel }&nbsp;
-            </>
-        );
-    });
+    let clausels = gline.clauses.map(clause => (
+        <GrammarClause clause={ clause } />
+    ));
     
     let funcel: JSX.Element|null = null;
     let prefuncel: JSX.Element|null = null;

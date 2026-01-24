@@ -380,7 +380,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             if gline.objcount >= 1:
                 odat = {}
                 if gline.dobjprep:
-                    odat['prep'] = prepwds[gline.dobjprep]
+                    odat['prep'] = gline.dobjprep
                 if gline.dobjattr:
                     odat['attr'] = attrnames[gline.dobjattr]
                 if gline.dobjloc:
@@ -391,7 +391,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
             if gline.objcount >= 2:
                 odat = {}
                 if gline.iobjprep:
-                    odat['prep'] = prepwds[gline.iobjprep]
+                    odat['prep'] = gline.iobjprep
                 if gline.iobjattr:
                     odat['attr'] = attrnames[gline.iobjattr]
                 if gline.iobjloc:
