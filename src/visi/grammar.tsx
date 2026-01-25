@@ -1,14 +1,17 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_grammaractionlines, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums } from '../custom/gamedat';
+import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_grammaractionlines, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums, check_commentary } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
+import { Commentary } from './widgets';
 
 export function GrammarTable()
 {
     const [ sort, setSort ] = useState('alpha');
     
+    let withcom = check_commentary('GRAMMAR-LEGEND');
+
     let counter = 0;
     let lastverb = -1;
     let glinels = [];
@@ -82,6 +85,9 @@ export function GrammarTable()
     
     return (
         <div className="ScrollContent">
+            { (withcom ?
+               <Commentary topic={ withcom } />
+               : null) }
             <div>
                 Sort by{' '}
                 <input id="sortalpha_radio" type="radio" name="sort" value="alpha" checked={ sort=='alpha' } onChange={ (ev) => evhan_sort_change('alpha') } />
