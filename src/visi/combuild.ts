@@ -105,6 +105,13 @@ function build_commentary(topic: string) : Node|undefined
             break;
         }
             
+        case 'bold': {
+            let el = document.createElement('b');
+            el.appendChild(document.createTextNode(span[1]));
+            pel.appendChild(el);
+            break;
+        }
+            
         case 'credit': {
             let el = document.createElement('span');
             el.className = 'Contrib';

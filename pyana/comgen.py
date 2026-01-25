@@ -39,6 +39,7 @@ class Entry:
     PAT_MARK = re.compile('[\n*`[]|[(]c:', re.MULTILINE)
     PAT_CLOSEQUOTE = re.compile('`')
     PAT_CLOSESTAR = re.compile('[*]')
+    PAT_CLOSETWOSTAR = re.compile('[*][*]')
     PAT_CLOSEBRACKET = re.compile('[]]')
     PAT_CLOSEPAREN = re.compile('[)]')
             
@@ -70,7 +71,12 @@ class Entry:
                 cla = 'code'
             elif ch == '*':
                 newmatch = self.PAT_CLOSESTAR.search(text, pos+lench)
-                cla = 'emph'
+                if newmatch.start() == pos+lench:
+                    lench += 1
+                    newmatch = self.PAT_CLOSETWOSTAR.search(text, pos+lench)
+                    cla = 'bold'
+                else:
+                    cla = 'emph'
             elif ch == '[':
                 newmatch = self.PAT_CLOSEBRACKET.search(text, pos+lench)
                 cla = 'a'
