@@ -76,9 +76,6 @@ export function GrammarTable()
         }
     }
 
-    //### legend for loc flags
-    //### dotted lines?
-    
     function evhan_sort_change(val: string) {
         setSort(val);
     }
