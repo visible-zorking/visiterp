@@ -49,6 +49,11 @@ body {
 #rightlink a:hover {
     background: #FFFFE040;
 }
+@media (max-width: 600px) {
+    #rightlink {
+        display: none;
+    }
+}
 
 #menubutton {
     background: #FFD;
