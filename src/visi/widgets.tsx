@@ -1,6 +1,8 @@
 import React from 'react';
 import { useContext } from 'react';
 
+import { getasset } from '../custom/gamedat';
+
 /* React widgets which are used across the UI. */
 
 import { ReactCtx } from './context';
@@ -37,7 +39,7 @@ export function Commentary({ topic, smaller }: { topic:string, smaller?:boolean 
     
     return (
         <a className={ cla } onClick={ evhan_click_showtopic }>
-            <img src="visiterp/css/comment.svg" />
+            <img src={ getasset('/css/comment.svg') } />
         </a>
     );
 }

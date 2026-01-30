@@ -2,6 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 
 import { set_cookie, set_body_pref_theme, set_body_pref_arrange } from './cookie';
+import { getasset } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 
@@ -39,7 +40,7 @@ export function AppMenu()
     return (
         <>
             <button id="menubutton" className={ menuopen ? 'Selected' : '' } onClick={ handle_click_menu }>
-                <img src="visiterp/css/menu.svg" />
+                <img src={ getasset('/css/menu.svg') } />
             </button>
             <div className={ menuopen ? 'Menu MenuOpen' : 'Menu' }>
                 <div>
@@ -73,7 +74,7 @@ export function AppMenu()
 function ArrangeButton({ arrange, curarrange, handle }: { arrange:string, curarrange:string, handle:(key:string)=>void })
 {
     let issel = (arrange == curarrange);
-    let imgsrc = "visiterp/css/arrange-" + arrange + ".svg";
+    let imgsrc = getasset("/css/arrange-" + arrange + ".svg");
     
     function handle_click_arrange(ev: React.MouseEvent<HTMLButtonElement, MouseEvent>) {
         ev.stopPropagation();

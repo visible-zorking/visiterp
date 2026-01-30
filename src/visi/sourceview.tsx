@@ -4,6 +4,7 @@ import { useState, useContext, useRef, useEffect } from 'react';
 import { gamedat_sourcefile_revkeymap, gamedat_sourcefiles } from '../custom/gamedat';
 import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names, parse_sourceloc } from '../custom/gamedat';
 import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
+import { getasset } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { SourceLocState } from './context';
@@ -188,7 +189,7 @@ function rebuild_sourcefile(nodel: HTMLDivElement, locstr: string, lochi: boolea
                     let ael = document.createElement('a');
                     ael.className = 'CommentButton';
                     let imgel = document.createElement('img');
-                    imgel.setAttribute('src', 'visiterp/css/comment.svg');
+                    imgel.setAttribute('src', getasset('/css/comment.svg'));
                     ael.appendChild(imgel);
                     ael.addEventListener('click', (ev) => { ev.preventDefault(); ev.stopPropagation(); handle_click_comment(token); });
                     linel.appendChild(ael);
