@@ -35,3 +35,6 @@ with open(os.path.join(gamedir, 'index.html'), 'w') as fl:
     fl.write(indexdat)
 
 
+### copy js, pic
+### pic/map tweak
+### if toplevel: copy visiterp/css, pic, font
