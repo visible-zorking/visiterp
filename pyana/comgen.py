@@ -108,6 +108,11 @@ class Entry:
 
         if dest.startswith('http:') or dest.startswith('https:'):
             return ['extlink', dest, (label or '') ]
+        if dest.startswith('relative:'):
+            dest = dest[ 9 : ]
+            if dest.startswith('/'):
+                dest = dest[ 1 : ]
+            return ['extlink', dest, (label or '') ]
         
         dest = dest.upper()
 
