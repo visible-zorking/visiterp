@@ -49,7 +49,15 @@ def copydirfiles(srcdir, destdir):
 copydirfiles('./js', os.path.join(gamedir, 'js'))
 copydirfiles('./pic', os.path.join(gamedir, 'pic'))
 
-### pic/map tweak
+if os.path.exists('./pic/map.svg'):
+    with open('./pic/map.svg') as fl:
+        mapdat = fl.read()
+        mapdat = mapdat.replace('../visiterp/font/', '../../font/')
+        path = os.path.join(gamedir, 'pic/map.svg')
+        print('writing', path)
+        with open(path, 'w') as fl:
+            fl.write(mapdat)
+        
 
 if args.common:
     copydirfiles('./visiterp/css', os.path.join(distdir, 'css'))
