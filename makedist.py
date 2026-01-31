@@ -32,6 +32,10 @@ with open('index.html') as fl:
 indexdat = indexdat.replace('"visiterp/css/', '"../css/')
 indexdat = indexdat.replace('"visiterp/pic/', '"../pic/')
 indexdat = indexdat.replace('// assetdir: \'visiterp\'', 'assetdir: \'..\'')
+indexdat = indexdat.replace(
+    '<span id="distlink">The Visible Zorker</span>',
+    '<a id="distlink" href="..">The Visible Zorker</a>'
+)
 
 path = os.path.join(gamedir, 'index.html')
 print('writing', path)

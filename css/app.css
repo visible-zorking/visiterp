@@ -31,6 +31,16 @@ body {
     font-family: "Lato";
 }
 
+a#distlink {
+    text-decoration: none;
+    color: inherit;
+}
+a#distlink:hover {
+    text-decoration: underline;
+    text-decoration-color: #EDC;
+    text-shadow: 2px 2px 5px #FC8, -2px -2px 5px #FC8;
+}
+
 #rightlink {
     position: absolute;
     height: 50px;
