@@ -1,12 +1,14 @@
 #!/usr/bin/env python3
 
 import os, os.path
+import shutil
 import argparse
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dist', default='dist')
 parser.add_argument('--game')
+parser.add_argument('--common', action='store_true')
 
 args = parser.parse_args()
 
@@ -30,11 +32,27 @@ with open('index.html') as fl:
 indexdat = indexdat.replace('"visiterp/css/', '"../css/')
 indexdat = indexdat.replace('"visiterp/pic/', '"../pic/')
 indexdat = indexdat.replace('// assetdir: \'visiterp\'', 'assetdir: \'..\'')
-    
-with open(os.path.join(gamedir, 'index.html'), 'w') as fl:
+
+path = os.path.join(gamedir, 'index.html')
+print('writing', path)
+with open(path, 'w') as fl:
     fl.write(indexdat)
 
+def copydirfiles(srcdir, destdir):
+    print('copying to', destdir)
+    if not os.path.exists(destdir):
+        os.mkdir(destdir)
+    for ent in os.scandir(srcdir):
+        if ent.is_file() and not ent.path.endswith('~'):
+            shutil.copy(ent.path, destdir)
 
-### copy js, pic
+copydirfiles('./js', os.path.join(gamedir, 'js'))
+copydirfiles('./pic', os.path.join(gamedir, 'pic'))
+
 ### pic/map tweak
-### if toplevel: copy visiterp/css, pic, font
+
+if args.common:
+    copydirfiles('./visiterp/css', os.path.join(distdir, 'css'))
+    copydirfiles('./visiterp/pic', os.path.join(distdir, 'pic'))
+    copydirfiles('./visiterp/font', os.path.join(distdir, 'font'))
+
