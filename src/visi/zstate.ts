@@ -74,6 +74,8 @@ export type ZState = {
     specifics: any;
 };
 
+export type ReportSpecifics = (engine: GnustoEngine) => any;
+
 /* Extract the source location for the first string printed in a
    calltree.
 */
@@ -196,11 +198,11 @@ let globalsupdate: number[] | undefined;
    We also keep the previous turn's globals, so that we can do the
    "when did each global last change?" check.
 */
-export function get_updated_report(engine: GnustoEngine, extra: (engine:GnustoEngine)=>any) : ZStatePlus
+export function get_updated_report(engine: GnustoEngine, reportspecs?: ReportSpecifics) : ZStatePlus
 {
     let report = engine.get_vm_report();
-    if (extra) {
-        report.specifics = extra(engine);
+    if (reportspecs) {
+        report.specifics = reportspecs(engine);
     }
 
     if (origglobals === undefined) {

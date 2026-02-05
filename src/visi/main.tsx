@@ -5,7 +5,7 @@ import { createPortal } from 'react-dom';
 import { gamedat_ids, gamedat_global_names, gamedat_object_ids, gamedat_commentary, sourceloc_start, find_sourceloc_for_id, sourceloc_for_srctoken } from '../custom/gamedat';
 
 import { ZStatePlus, get_updated_report } from './zstate';
-import { GnustoRunner, GnustoEngine } from './zstate';
+import { GnustoRunner, GnustoEngine, ReportSpecifics } from './zstate';
 import { sourceloc_for_first_text } from './zstate';
 import { show_commentary } from './combuild';
 import { CookiePrefs, set_cookie, set_body_ospref_theme, set_body_pref_theme, set_body_pref_arrange } from './cookie';
@@ -25,11 +25,11 @@ const releaseTarget = process.env.NODE_ENV;
 let engine: GnustoEngine;
 let initprefs: CookiePrefs;
 let launchtoken: string | undefined;
-let reportspecs: (engine:GnustoEngine)=>any | undefined;
+let reportspecs: ReportSpecifics | undefined;
 
 export type AppContext = {
     launchtoken?: string;
-    reportspecs?: (engine:GnustoEngine)=>any;
+    reportspecs?: ReportSpecifics;
 };
 
 /* Prepare global context which the React app will need to run.
