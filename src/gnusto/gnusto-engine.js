@@ -2263,7 +2263,9 @@ GnustoEngine.prototype = {
 
     // Called at the end of a turn (just before awaiting input) to get
     // a report on the current state of affairs.
-    get_vm_report: function()
+    // If reportspecs is provided, we call it to add more information
+    // to the report.
+    get_vm_report: function(reportspecs)
     {
         if (!m_report_info || !m_report_accum)
             return null;
@@ -2277,6 +2279,7 @@ GnustoEngine.prototype = {
             objtableaddr: this.m_objs_start,
             proptable: this.m_memory.slice(m_report_info.PROP_TABLE_START, m_report_info.PROP_TABLE_END),
             strings: m_report_accum.strings,
+            specifics: undefined,
         };
         
         report.objects = [];
@@ -2339,6 +2342,10 @@ GnustoEngine.prototype = {
             }
         }
         report.calltree = calltree;
+
+        if (reportspecs) {
+            report.specifics = reportspecs(this, report);
+        }
 
         m_report_counter++;
         m_last_report = report;
