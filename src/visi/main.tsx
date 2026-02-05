@@ -25,10 +25,11 @@ const releaseTarget = process.env.NODE_ENV;
 let engine: GnustoEngine;
 let initprefs: CookiePrefs;
 let launchtoken: string | undefined;
+let reportspecs: (engine:GnustoEngine)=>any | undefined;
 
 export type AppContext = {
     launchtoken?: string;
-    specific_report?: (engine:GnustoEngine)=>any;
+    reportspecs?: (engine:GnustoEngine)=>any;
 };
 
 /* Prepare global context which the React app will need to run.
@@ -43,9 +44,11 @@ export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, 
     engine = enginev;
     initprefs = initprefsv;
 
-    launchtoken = undefined;
     if (appctx.launchtoken) {
         launchtoken = appctx.launchtoken.toUpperCase();
+    }
+    if (appctx.reportspecs) {
+        reportspecs = appctx.reportspecs;
     }
 }
 
@@ -53,7 +56,7 @@ export function VisiZorkApp()
 {
     let viewpaneref = useRefDiv();
     
-    const [ zstate, setZState ] = useState(get_updated_report(engine));
+    const [ zstate, setZState ] = useState(get_updated_report(engine, reportspecs));
     const [ tab, setTab ] = useState('activity');
     const [ objpage, setObjPage ] = useState(null as ObjPageFocus);
     const [ shownumbers, setShowNumbers ] = useState(initprefs.shownumbers);
@@ -112,7 +115,7 @@ export function VisiZorkApp()
     */
     useEffect(() => {
         function evhan_zstate(ev: Event) {
-            let newstate = get_updated_report(engine);
+            let newstate = get_updated_report(engine, reportspecs);
             setZState(newstate);
             if (tab == 'activity') {
                 let loc = sourceloc_for_first_text(newstate.calltree);

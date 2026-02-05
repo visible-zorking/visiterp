@@ -71,7 +71,7 @@ export type ZState = {
     calltree: ZStackItem;
     proptable: Uint8Array;
     timertable: Uint8Array;
-    specific: any;
+    specifics: any;
 };
 
 /* Extract the source location for the first string printed in a
@@ -165,7 +165,7 @@ export function zstateplus_empty() : ZStatePlus
         calltree: new_stack_call(),
         proptable: new Uint8Array(),
         timertable: new Uint8Array(),
-        specific: null,
+        specifics: null,
 
         origglobals: [],
         origprops: new Map(),
@@ -196,9 +196,12 @@ let globalsupdate: number[] | undefined;
    We also keep the previous turn's globals, so that we can do the
    "when did each global last change?" check.
 */
-export function get_updated_report(engine: GnustoEngine) : ZStatePlus
+export function get_updated_report(engine: GnustoEngine, extra: (engine:GnustoEngine)=>any) : ZStatePlus
 {
     let report = engine.get_vm_report();
+    if (extra) {
+        report.specifics = extra(engine);
+    }
 
     if (origglobals === undefined) {
         origglobals = report.globals;
