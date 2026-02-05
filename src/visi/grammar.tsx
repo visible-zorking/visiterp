@@ -32,6 +32,10 @@ export function GrammarTable()
                 <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
             );
             counter++;
+            glinels.push(
+                <GrammarLineGloss key={ counter } gline={ gline } />
+            );
+            counter++;
         }
         glinels.push(
             <GrammarLineTail key={ counter } verbnum={ lastverb } />
@@ -64,6 +68,10 @@ export function GrammarTable()
             }
             glinels.push(
                 <GrammarLine key={ counter } gline={ gline } startgroup={ startgroup } />
+            );
+            counter++;
+            glinels.push(
+                <GrammarLineGloss key={ counter } gline={ gline } />
             );
             counter++;
         }
@@ -180,30 +188,42 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
 {
     let rctx = useContext(ReactCtx);
 
+    let prepel: JSX.Element|null = null;
+    if (clause.prep) {
+        prepel = prep_element_full(clause.prep);
+    }
+    let obj = (clause.count ? 'obj'+clause.count : 'obj');
+    return (
+        <span>
+            { prepel } &nbsp;<span className="ClauseObj">{ obj }</span>&nbsp;
+        </span>
+    );
+}
+
+function GrammarClauseGloss({ clause }: { clause:GrammarClauseData })
+{
+    let rctx = useContext(ReactCtx);
+
     function evhan_click_attr(ev: React.MouseEvent<HTMLAnchorElement, MouseEvent>, index: number) {
         ev.preventDefault();
         rctx.setObjPage({ type:'ATTR', val:index });
     }
     
-    let prepel: JSX.Element|null = null;
     let attrel: JSX.Element|null = null;
     let locel: JSX.Element|null = null;
-    if (clause.prep) {
-        prepel = prep_element_full(clause.prep);
-    }
     if (clause.attr) {
         let attr = gamedat_attribute_names.get(clause.attr);
         if (attr) {
             attrel = (
                 <>
-                    <code>:<a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
+                    <code><a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
                 </>
             );
         }
         else {
             attrel = (
                 <>
-                    <code>:{ clause.attr }</code>
+                    <code>{ clause.attr }</code>
                 </>
             );
         }
@@ -211,14 +231,14 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     if (clause.loc) {
         locel = (
             <>
-                <code>:{ clause.loc }</code>
+                <code>{ clause.loc }</code>
             </>
         );
     }
     let obj = (clause.count ? 'obj'+clause.count : 'obj');
     return (
         <span>
-            { prepel } &nbsp;<span className="ClauseObj">{ obj }</span>{ locel }{ attrel }&nbsp;
+            <span className="ClauseObj">{ obj }:</span> { locel }{ (locel && attrel ? ', ' : '' ) }{ attrel }{' '}
         </span>
     );
 }
@@ -297,6 +317,33 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
                 <span className="PrintDictWord">{ verb.words[0] }</span>
                 {' '}{ clausels }
             </div>
+        </li>
+    );
+}
+
+function GrammarLineGloss({ gline }: { gline:GrammarLineData })
+{
+    let rctx = useContext(ReactCtx);
+
+    let clausels: JSX.Element[] = [];
+    for (let clause of gline.clauses) {
+        if (clause.attr || clause.loc) {
+            if (clausels.length) {
+                clausels.push(<span>; </span>);
+            }
+            clausels.push(
+                <GrammarClauseGloss clause={ clause } />
+            );
+        }
+    }
+
+    if (clausels.length == 0) {
+        return null;
+    }
+    
+    return (
+        <li className="GrammarLineGloss">
+            ({ clausels })
         </li>
     );
 }
