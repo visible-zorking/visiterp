@@ -71,7 +71,6 @@ export type ZState = {
     calltree: ZStackItem;
     proptable: Uint8Array;
     timertable: Uint8Array;
-    specifics: any;
 };
 
 /* Type for a function that pulls game-specific information out of
@@ -148,6 +147,8 @@ export function zobj_properties(proptable: Uint8Array, onum: number): ZProp[]
 */
 export interface ZStatePlus extends ZState
 {
+    // Additional game-specific info.
+    specifics: any;
     // Global values from when the game first started.
     origglobals: number[];
     // Property values from when the game first started.
@@ -204,8 +205,10 @@ let globalsupdate: number[] | undefined;
 export function get_updated_report(engine: GnustoEngine, reportspecs?: ReportSpecifics) : ZStatePlus
 {
     let report = engine.get_vm_report();
+    let specifics: any = undefined;
+    
     if (reportspecs) {
-        report.specifics = reportspecs(engine, report);
+        specifics = reportspecs(engine, report);
     }
 
     if (origglobals === undefined) {
@@ -243,6 +246,7 @@ export function get_updated_report(engine: GnustoEngine, reportspecs?: ReportSpe
 
     return {
         ...report,
+        specifics: specifics,
         origglobals: origglobals,
         origprops: origprops,
         origattrs: origattrs,
