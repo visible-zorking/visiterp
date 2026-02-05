@@ -16,6 +16,7 @@ export type GnustoRunner = {
 
 /* Highly abbreviated typedef for GnustoEngine. */
 export type GnustoEngine = {
+    getWord: (address:number) => number;
     getUnsignedWord: (address:number) => number;
     setWord: (value:number, address:number) => void;
     m_vars_start: number;
@@ -70,6 +71,7 @@ export type ZState = {
     calltree: ZStackItem;
     proptable: Uint8Array;
     timertable: Uint8Array;
+    specific: any;
 };
 
 /* Extract the source location for the first string printed in a
@@ -163,6 +165,7 @@ export function zstateplus_empty() : ZStatePlus
         calltree: new_stack_call(),
         proptable: new Uint8Array(),
         timertable: new Uint8Array(),
+        specific: null,
 
         origglobals: [],
         origprops: new Map(),
