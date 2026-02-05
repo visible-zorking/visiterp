@@ -26,6 +26,11 @@ let engine: GnustoEngine;
 let initprefs: CookiePrefs;
 let launchtoken: string | undefined;
 
+export type AppContext = {
+    launchtoken?: string;
+    specific_report?: (engine:GnustoEngine)=>any;
+};
+
 /* Prepare global context which the React app will need to run.
    See the init() routine in the game app (initapp.tsx).
    - engine: The GnustoEngine interpreter object.
@@ -33,14 +38,14 @@ let launchtoken: string | undefined;
    - launchtoken: If the app URL had a "#SRC:LOC" fragment, stash it
      to set the initial source location.
  */
-export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, launchtokenv?: string)
+export function set_app_context(enginev: GnustoEngine, initprefsv: CookiePrefs, appctx: AppContext)
 {
     engine = enginev;
     initprefs = initprefsv;
 
     launchtoken = undefined;
-    if (launchtokenv) {
-        launchtoken = launchtokenv.toUpperCase();
+    if (appctx.launchtoken) {
+        launchtoken = appctx.launchtoken.toUpperCase();
     }
 }
 
