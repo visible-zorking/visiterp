@@ -74,7 +74,10 @@ export type ZState = {
     specifics: any;
 };
 
-export type ReportSpecifics = (engine: GnustoEngine) => any;
+/* Type for a function that pulls game-specific information out of
+   the engine.
+*/
+export type ReportSpecifics = (engine: GnustoEngine, state: ZState) => any;
 
 /* Extract the source location for the first string printed in a
    calltree.
@@ -202,7 +205,7 @@ export function get_updated_report(engine: GnustoEngine, reportspecs?: ReportSpe
 {
     let report = engine.get_vm_report();
     if (reportspecs) {
-        report.specifics = reportspecs(engine);
+        report.specifics = reportspecs(engine, report);
     }
 
     if (origglobals === undefined) {
