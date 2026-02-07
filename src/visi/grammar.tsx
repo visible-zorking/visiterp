@@ -196,14 +196,14 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
         if (attr) {
             attrel = (
                 <>
-                    <code>:<a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a></code>
+                    <a className="Src_Id" href="#" onClick={ (ev) => evhan_click_attr(ev, attr.num) }>{ clause.attr }</a>
                 </>
             );
         }
         else {
             attrel = (
                 <>
-                    <code>:{ clause.attr }</code>
+                    { clause.attr }
                 </>
             );
         }
@@ -211,14 +211,17 @@ function GrammarClause({ clause }: { clause:GrammarClauseData })
     if (clause.loc) {
         locel = (
             <>
-                <code>:{ clause.loc }</code>
+                { clause.loc }
             </>
         );
     }
     let obj = (clause.count ? 'obj'+clause.count : 'obj');
     return (
         <span>
-            { prepel } &nbsp;<span className="ClauseObj">{ obj }</span>{ locel }{ attrel }&nbsp;
+            { prepel } &nbsp;<span className="ClauseObj">{ obj }</span>
+            { (locel || attrel) ?
+              <> <code>({ locel }{ (attrel && locel) ? ',' : '' }{ attrel })</code></>
+              : null }
         </span>
     );
 }
