@@ -142,8 +142,8 @@ export function VisiZorkApp()
         };
     }, [ tab ]);
 
-    /* Handle the "zil-source-location" event, which is sent by clicking
-       links in the comment pane.
+    /* Handle the "zil-source-location" event. This is sent in a few
+       places, including comment-pane links and the launch token.
     */
     useEffect(() => {
         function evhan_sourceloc(ev: Event) {
@@ -196,6 +196,9 @@ export function VisiZorkApp()
     useEffect(() => {
         if (launchtoken) {
             // We want to do this exactly once, at startup.
+            // (This code is rather redundant with the zil-source-location
+            // handler. We could probably rely completely on that event
+            // rather than doing this work.)
             let token = launchtoken;
             launchtoken = undefined;
 
