@@ -1,8 +1,9 @@
 import React from 'react';
 import { useState, useContext, useRef, useEffect } from 'react';
 
+import { parse_sourceloc } from './gametypes';
 import { gamedat_sourcefile_revkeymap, gamedat_sourcefiles } from '../custom/gamedat';
-import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names, parse_sourceloc } from '../custom/gamedat';
+import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names } from '../custom/gamedat';
 import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
 import { getasset } from '../custom/gamedat';
 
