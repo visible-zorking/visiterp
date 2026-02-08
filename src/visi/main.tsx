@@ -32,6 +32,12 @@ export type AppContext = {
     reportspecs?: ReportSpecifics;
 };
 
+export type ZilSourceLoc = {
+    id: string;
+    idtype?: string;
+    commentary?: boolean;
+};
+
 /* Prepare global context which the React app will need to run.
    See the init() routine in the game app (initapp.tsx).
    - engine: The GnustoEngine interpreter object.
@@ -141,17 +147,38 @@ export function VisiZorkApp()
     */
     useEffect(() => {
         function evhan_sourceloc(ev: Event) {
-            let detail: any = (ev as CustomEvent).detail;
+            let detail: ZilSourceLoc = (ev as CustomEvent).detail;
+            let id: string = detail.id;
+            let idtype: string;
+            if (detail.idtype) {
+                idtype = detail.idtype;
+            }
+            else {
+                let pos = id.indexOf(':');
+                if (pos >= 0) {
+                    idtype = id.slice(0, pos);
+                    id = id.slice(pos+1);
+                }
+                else {
+                    idtype = '';
+                }
+            }
             let sourceloc;
             if (detail.idtype == 'SRC')
-                sourceloc = sourceloc_for_srctoken(detail.id);
+                sourceloc = sourceloc_for_srctoken(id);
             else
-                sourceloc = find_sourceloc_for_id(detail.idtype, detail.id);
+                sourceloc = find_sourceloc_for_id(idtype, id);
             if (!sourceloc) {
                 console.log('BUG: sourceloc not found', detail);
                 return;
             }
             setLoc(sourceloc, (detail.idtype == 'GLOB'));
+            if (detail.commentary) {
+                let token = (idtype ? idtype+':'+id : id);
+                if (gamedat_commentary[token]) {
+                    show_commentary(token);
+                }
+            }
         }
         window.addEventListener('zil-source-location', evhan_sourceloc);
         return () => {

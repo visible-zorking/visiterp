@@ -1,6 +1,7 @@
 /* Code to build a commentary DOM element for display. */
 
 import { GnustoRunner } from './zstate';
+import { ZilSourceLoc } from './main';
 import { show_commentary_hook } from '../custom/modgame';
 import { gamedat_commentary } from '../custom/gamedat';
 
@@ -61,7 +62,7 @@ function build_commentary(topic: string) : Node|undefined
         
         if (cla == 'src' || cla == 'comsrc') {
             if (typ) {
-                let dat = { idtype:typ, id:id };
+                let dat: ZilSourceLoc = { idtype:typ, id:id };
                 window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
             }
         }
