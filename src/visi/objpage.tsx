@@ -2,8 +2,9 @@ import React from 'react';
 import { useState, useMemo, useContext } from 'react';
 
 import { ZObject, ZProp, zobj_properties } from './zstate';
+import { signed_zvalue, unpack_address } from './gametypes';
 import { ObjectData, gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids } from '../custom/gamedat';
-import { unpack_address, signed_zvalue, gamedat_string_map, gamedat_dictword_addrs, gamedat_dictword_adjs, gamedat_routine_addrs, gamedat_property_nums, gamedat_attribute_nums, gamedat_global_nums } from '../custom/gamedat';
+import { gamedat_string_map, gamedat_dictword_addrs, gamedat_dictword_adjs, gamedat_routine_addrs, gamedat_property_nums, gamedat_attribute_nums, gamedat_global_nums } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink } from './widgets';
