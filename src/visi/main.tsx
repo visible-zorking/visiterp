@@ -141,7 +141,7 @@ export function VisiZorkApp()
     */
     useEffect(() => {
         function evhan_sourceloc(ev: Event) {
-            let detail = (ev as CustomEvent).detail;
+            let detail: any = (ev as CustomEvent).detail;
             let sourceloc;
             if (detail.idtype == 'SRC')
                 sourceloc = sourceloc_for_srctoken(detail.id);
