@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { ObjectData, gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids, check_commentary } from '../custom/gamedat';
+import { ObjectData } from './gametypes';
+import { gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids, check_commentary } from '../custom/gamedat';
 import { gamedat_ids } from '../custom/gamedat';
 import { ZObject } from './zstate';
 

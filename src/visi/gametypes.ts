@@ -19,6 +19,10 @@ export function sourceloc_for_key(filekey: string) : string
     return filekey + ':1:1:1:0';
 }
 
+export interface SourceFileMap {
+    [key: string]: string;
+}
+
 export type SourceLoc = {
     filekey: string;
     line: number;
@@ -68,3 +72,40 @@ export function parse_sourceloc(val: string) : SourceLoc|undefined
         endchar: endchar
     };
 }
+
+export type ObjectData = {
+    onum: number;
+    name: string;
+    isroom?: boolean;
+    desc: string;
+    propaddr: number;
+    origparent: number;
+    scenery?: number[];
+    iscenery?: number[];
+    sourceloc: string;
+};
+
+export type AttributeData = {
+    name: string;
+    num: number;
+};
+
+export type PropertyData = {
+    name: string;
+    num: number;
+    vartype?: string;
+};
+
+export type GlobalData = {
+    name: string;
+    num: number;
+    vartype?: string;
+    sourceloc: string;
+};
+
+export type ConstantData = {
+    name: string;
+    value: number;
+    sourceloc: string;
+};
+
