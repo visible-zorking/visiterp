@@ -174,6 +174,7 @@ export function VisiZorkApp()
             }
             setLoc(sourceloc, (detail.idtype == 'GLOB'));
             if (detail.commentary) {
+                // Display commentary if available.
                 let token = (idtype ? idtype+':'+id : id);
                 if (gamedat_commentary[token]) {
                     show_commentary(token);
