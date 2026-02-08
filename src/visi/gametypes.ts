@@ -13,3 +13,8 @@ export function signed_zvalue(val: number) : number
     return (val < 32768) ? val : (val - 65536);
 }
 
+/* Given a file key, return the sourceloc of its first line. */
+export function sourceloc_for_key(filekey: string) : string
+{
+    return filekey + ':1:1:1:0';
+}

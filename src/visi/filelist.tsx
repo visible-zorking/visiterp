@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap, sourceloc_for_key, check_commentary } from '../custom/gamedat';
+import { sourceloc_for_key } from './gametypes';
+import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap, check_commentary } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { Commentary } from './widgets';
