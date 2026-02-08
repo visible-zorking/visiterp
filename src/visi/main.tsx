@@ -193,26 +193,10 @@ export function VisiZorkApp()
     useEffect(() => {
         if (launchtoken) {
             // We want to do this exactly once, at startup.
-            // (This code is rather redundant with the zil-source-location
-            // handler. We could probably rely completely on that event
-            // rather than doing this work.)
-            let token = launchtoken;
+            let dat = { id:launchtoken, commentary:true };
             launchtoken = undefined;
-
-            let dat = { idtype:'', id:token };
-            let pos = token.indexOf(':');
-            if (pos >= 0) {
-                dat.idtype = token.slice(0, pos);
-                dat.id = token.slice(pos+1);
-            }
-            
             window.setTimeout(() => {
-                if (dat.idtype) {
-                    window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
-                }
-                if (gamedat_commentary[token]) {
-                    show_commentary(token);
-                }
+                window.dispatchEvent(new CustomEvent('zil-source-location', { detail:dat }));
             }, 150);
         }
     }, []);
