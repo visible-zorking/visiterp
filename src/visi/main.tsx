@@ -148,31 +148,27 @@ export function VisiZorkApp()
     useEffect(() => {
         function evhan_sourceloc(ev: Event) {
             let detail: ZilSourceLoc = (ev as CustomEvent).detail;
-            let id: string = detail.id;
-            let idtype: string;
-            if (detail.idtype) {
-                idtype = detail.idtype;
-            }
-            else {
+            let { id, idtype } = detail;
+            if (!idtype) {
                 let pos = id.indexOf(':');
                 if (pos >= 0) {
                     idtype = id.slice(0, pos);
                     id = id.slice(pos+1);
                 }
-                else {
-                    idtype = '';
-                }
             }
-            let sourceloc;
-            if (detail.idtype == 'SRC')
-                sourceloc = sourceloc_for_srctoken(id);
-            else
-                sourceloc = find_sourceloc_for_id(idtype, id);
-            if (!sourceloc) {
-                console.log('BUG: sourceloc not found', detail);
-                return;
+
+            if (idtype) {
+                let sourceloc;
+                if (detail.idtype == 'SRC')
+                    sourceloc = sourceloc_for_srctoken(id);
+                else
+                    sourceloc = find_sourceloc_for_id(idtype, id);
+                if (!sourceloc) 
+                    console.log('BUG: sourceloc not found', detail);
+                else 
+                    setLoc(sourceloc, (detail.idtype == 'GLOB'));
             }
-            setLoc(sourceloc, (detail.idtype == 'GLOB'));
+            
             if (detail.commentary) {
                 // Display commentary if available.
                 let token = (idtype ? idtype+':'+id : id);
