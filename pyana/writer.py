@@ -614,13 +614,24 @@ def write_tables(filename, zcode, gamefile):
     def getword(addr):
         return gamefile[addr]*0x100 + gamefile[addr+1]
     globaladdr = getword(0x0C)
-    print('###', globaladdr)
+    def iterate(globname, tab, addr, suffix=''):
+        print('###', globname+suffix, addr, tab.tok.pos)
+        if tab.children:
+            if tab.typ == 'LTABLE':
+                addr += 2
+            ix = 1
+            for stab in tab.children:
+                if stab:
+                    newsuffix = '%s:%s' % (suffix, ix,)
+                    iterate(globname, stab, getword(addr), newsuffix)
+                ix += 1
+                addr += 2
     for glob in zcode.globals:
         if not glob.table:
             continue
         tab = glob.table
         index = globname_to_num[glob.name]
-        print('###', glob, getword(globaladdr+2*index))
+        iterate(glob.name, tab, getword(globaladdr+2*index))
     
 def compute_room_distances(filename, zcode):
     print('...writing room distances:', filename)
