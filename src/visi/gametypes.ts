@@ -165,6 +165,13 @@ export type ActionData = {
     preacrtn?: number;
 }
 
+export type TableData = {
+    addr: number;
+    name: string;
+    len: number;
+    ltable?: boolean;
+    sourceloc: string;
+}
 
 type CommentarySpan = string | string[];
 type CommentaryLine = number | string;
