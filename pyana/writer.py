@@ -608,6 +608,20 @@ def write_objects(filename, zcode, objdat):
     fl.write(';\n')
     fl.close()
 
+def write_tables(filename, zcode, gamefile):
+    print('...writing table addresses:', filename)
+    load_gameinfo()
+    def getword(addr):
+        return gamefile[addr]*0x100 + gamefile[addr+1]
+    globaladdr = getword(0x0C)
+    print('###', globaladdr)
+    for glob in zcode.globals:
+        if not glob.table:
+            continue
+        tab = glob.table
+        index = globname_to_num[glob.name]
+        print('###', glob, getword(globaladdr+2*index))
+    
 def compute_room_distances(filename, zcode):
     print('...writing room distances:', filename)
     load_gameinfo()

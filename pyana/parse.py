@@ -12,7 +12,7 @@ from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
 from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
-from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, display_globals, compute_room_distances
+from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, display_globals, compute_room_distances
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()
@@ -132,6 +132,8 @@ if opts.gamedat:
         write_routines('src/game/routines.js', zcode, txdat)
     if opts.zilfile and opts.txdfile and opts.objdump:
         write_strings('src/game/strings.js', zcode, txdat, objdat)
+    if opts.zilfile and opts.gamefile:
+        write_tables('src/game/tables.js', zcode, gamefile)
     if opts.zilfile:
         compute_room_distances('src/game/distances.js', zcode)
 
