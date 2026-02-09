@@ -614,8 +614,14 @@ def write_tables(filename, zcode, gamefile):
     def getword(addr):
         return gamefile[addr]*0x100 + gamefile[addr+1]
     globaladdr = getword(0x0C)
+    ls = []
     def iterate(globname, tab, addr, suffix=''):
-        print('###', globname+suffix, addr, tab.tok.pos)
+        ls.append({
+            'name': globname+suffix,
+            'type': tab.typ,
+            'addr': addr,
+            'sourceloc': sourceloc(tok=tab.tok)
+        })
         if tab.children:
             if tab.typ == 'LTABLE':
                 addr += 2
@@ -626,12 +632,19 @@ def write_tables(filename, zcode, gamefile):
                     iterate(globname, stab, getword(addr), newsuffix)
                 ix += 1
                 addr += 2
+    
     for glob in zcode.globals:
         if not glob.table:
             continue
         tab = glob.table
         index = globname_to_num[glob.name]
-        iterate(glob.name, tab, getword(globaladdr+2*index))
+        iterate(glob.name.lower(), tab, getword(globaladdr+2*index))
+    
+    fl = open(filename, 'w')
+    fl.write('window.gamedat_tables = ');
+    json.dump(ls, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.close()
     
 def compute_room_distances(filename, zcode):
     print('...writing room distances:', filename)
