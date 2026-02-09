@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { signed_zvalue, unpack_address } from './gametypes';
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs } from '../custom/gamedat';
+import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_table_addrs, gamedat_preposition_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs } from '../custom/gamedat';
 
 import { ObjPageLink } from './widgets';
 
@@ -65,6 +65,18 @@ export function ArgShowString({ value }: { value:number })
     }
 
     return (<span>???</span>);
+}
+
+export function ArgShowTable({ value }: { value:number })
+{
+    let tab = gamedat_table_addrs.get(value);
+    if (tab) {
+        return (
+            <span><code>,{ tab.name }</code></span>
+        );
+    }
+
+    return (<span> { signed_zvalue(value) }</span>);
 }
 
 export function ArgShowAction({ value }: { value:number })
