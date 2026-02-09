@@ -616,13 +616,15 @@ def write_tables(filename, zcode, gamefile):
     globaladdr = getword(0x0C)
     ls = []
     def iterate(globname, tab, addr, suffix=''):
-        ls.append({
+        dat = {
             'name': globname+suffix,
-            'type': tab.typ,
             'len': tab.length,
             'addr': addr,
             'sourceloc': sourceloc(tok=tab.tok)
-        })
+        }
+        if tab.typ == 'LTABLE':
+            dat['ltable'] = True
+        ls.append(dat)
         if tab.children:
             if tab.typ == 'LTABLE':
                 addr += 2
@@ -639,7 +641,7 @@ def write_tables(filename, zcode, gamefile):
             continue
         tab = glob.table
         index = globname_to_num[glob.name]
-        iterate(glob.name.lower(), tab, getword(globaladdr+2*index))
+        iterate(glob.name, tab, getword(globaladdr+2*index))
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');
