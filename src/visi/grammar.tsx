@@ -1,7 +1,8 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { GrammarLineData, GrammarClauseData, RoutineData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_grammaractionlines, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums, check_commentary } from '../custom/gamedat';
+import { RoutineData } from './gametypes';
+import { GrammarLineData, GrammarClauseData, gamedat_grammar_lines, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_grammaractionlines, gamedat_actions, gamedat_routine_addrs, gamedat_attribute_names, gamedat_preposition_nums, check_commentary } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { Commentary } from './widgets';

@@ -109,3 +109,14 @@ export type ConstantData = {
     sourceloc: string;
 };
 
+export type StringData = {
+    text: string;
+    sourceloc: string|string[];
+};
+
+export type RoutineData = {
+    name: string;
+    addr: number;
+    argtypes?: string[];
+    sourceloc: string;
+};
