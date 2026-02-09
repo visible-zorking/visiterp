@@ -164,3 +164,13 @@ export type ActionData = {
     acrtn?: number;
     preacrtn?: number;
 }
+
+type CommentarySpan = string | string[];
+type CommentaryLine = number | string;
+
+export interface CommentaryMap {
+    [key: string]: CommentarySpan[];
+};
+export interface CommentaryLineMap {
+    [key: string]: CommentaryLine[];
+};
