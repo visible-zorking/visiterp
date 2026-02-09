@@ -4,7 +4,8 @@ import { useState, useContext, createContext } from 'react';
 import { ZObject } from './zstate';
 import { signed_zvalue } from './gametypes';
 import { GlobalData } from './gametypes';
-import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids, check_commentary } from '../custom/gamedat';
+import { check_commentary } from './combuild';
+import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';

@@ -16,6 +16,21 @@ export function set_runner(runnerref: GnustoRunner)
     runner = runnerref;
 }
 
+/* Check if a commentary entry exists. If so, return back the arguments
+   in "OBJ:SWORD" format. If not, don't.
+*/
+export function check_commentary(id: string, idtype: string = '') : string|undefined
+{
+    let res = id;
+    if (idtype.length)
+        res = idtype+':'+id;
+    
+    if (gamedat_commentary[res])
+        return res;
+    else
+        return undefined;
+}
+
 /* Display a commentary topic.
 */
 export function show_commentary(topic: string)
