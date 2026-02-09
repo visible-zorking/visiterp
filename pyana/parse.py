@@ -20,6 +20,9 @@ popt = optparse.OptionParser()
 popt.add_option('-z', '--zil',
                 action='store', dest='zilfile',
                 help='.zil file to parse (should be the main source file)')
+popt.add_option('--zcode',
+                action='store', dest='gamefile',
+                help='z-code file to parse')
 popt.add_option('--nostrip',
                 action='store_true', dest='nostrip',
                 help='leave comments and ifdefed code in zil code')
@@ -74,6 +77,13 @@ if opts.zilfile:
     print('routines:', len(zcode.routines))
     print('objects:', len(zcode.objects))
     print('actions:', len(zcode.actions))
+
+if opts.gamefile:
+    print('reading %s...' % (opts.gamefile,))
+    fl = open(opts.gamefile, 'rb')
+    gamefile = fl.read()
+    fl.close()
+    print('length:', len(gamefile))
 
 if opts.txdfile:
     print('reading TXD dump...')
