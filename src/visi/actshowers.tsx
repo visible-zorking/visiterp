@@ -1,8 +1,7 @@
 import React from 'react';
 
 import { signed_zvalue, unpack_address } from './gametypes';
-import { StringData } from './gametypes';
-import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, DictWordData } from '../custom/gamedat';
+import { gamedat_property_nums, gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs, gamedat_object_ids, gamedat_actions, gamedat_preposition_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs } from '../custom/gamedat';
 
 import { ObjPageLink } from './widgets';
 

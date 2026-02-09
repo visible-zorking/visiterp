@@ -120,3 +120,47 @@ export type RoutineData = {
     argtypes?: string[];
     sourceloc: string;
 };
+
+export type DictWordData = {
+    num: number;
+    text: string;
+    flags: string;
+    prepnum?: number;
+    adjnum?: number;
+    verbnum?: number;
+    dirnum?: number;
+};
+
+export type PrepositionData = {
+    num: number;
+    text: string;
+    syn?: string[];
+};
+
+export type GrammarVerbData = {
+    num: number;
+    addr: number;
+    words: string[];
+    lines: GrammarLineData[];
+};
+
+export type GrammarLineData = {
+    num: number;
+    addr: number;
+    action: number;
+    clauses: GrammarClauseData[];
+};
+
+export type GrammarClauseData = {
+    count?: number;
+    prep?: number;
+    attr?: string;
+    loc?: string;
+};
+
+export type ActionData = {
+    num: number;
+    name: string;
+    acrtn?: number;
+    preacrtn?: number;
+}
