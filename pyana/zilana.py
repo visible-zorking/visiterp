@@ -35,6 +35,7 @@ class ZGlobal:
         self.name = name
         self.gtok = gtok
         self.valtok = None
+        self.table = None
 
     def __repr__(self):
         return '<ZGlobal %s>' % (self.name,)
@@ -47,6 +48,19 @@ class ZConstant:
 
     def __repr__(self):
         return '<ZConstant %s %d>' % (self.name, self.value,)
+
+class ZNestedTable:
+    def __init__(self, typ, tok):
+        self.typ = typ
+        self.tok = tok
+        self.children = None
+
+    def __repr__(self):
+        val = ''
+        if self.children:
+            ls = [ repr(tab) for tab in self.children ]
+            val = ' %s (%s)' % (len(ls), ', '.join(ls),)
+        return '<ZNestedTable %s%s>' % (self.typ, val,)
     
 class ZRoutine:
     def __init__(self, name, callargcount, args, rtok, argstok):
@@ -242,6 +256,7 @@ class Zcode:
                     if globtok.typ is TokType.GROUP and globtok.children:
                         if globtok.children[0].val in ('TABLE', 'LTABLE'):
                             self.findstringsintok(globtok)
+                            zglob.table = self.findnestedtablesintok(globtok)
             if tok.matchform('CONSTANT', 2) or tok.matchform('SETG', 2):
                 # SETG is for compile-time constants like ZORK-NUMBER and
                 # DEBUG. We'll put them in the regular constant table.
@@ -396,6 +411,19 @@ class Zcode:
                 self.istrings.append(ZString(stok.val, stok.pos, stok.endpos, rname))
             if stok.typ is TokType.GROUP and stok.val == '<>':
                 self.findstringsinroutine(stok, rtn)
+
+    def findnestedtablesintok(self, valtok):
+        assert valtok.children[0].val in ('TABLE', 'LTABLE')
+        table = ZNestedTable(valtok.children[0].val, valtok)
+        ls = []
+        for stok in valtok.children[ 1 : ]:
+            if stok.typ is TokType.GROUP and stok.children and stok.children[0].val in ('TABLE', 'LTABLE'):
+                ls.append(self.findnestedtablesintok(stok))
+            else:
+                ls.append(None)
+        if any(ls):
+            table.children = ls
+        return table
             
     def mapconnections(self, extraconn=[]):
         exitmap = dict()
