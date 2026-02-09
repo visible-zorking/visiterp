@@ -619,6 +619,7 @@ def write_tables(filename, zcode, gamefile):
         ls.append({
             'name': globname+suffix,
             'type': tab.typ,
+            'len': tab.length,
             'addr': addr,
             'sourceloc': sourceloc(tok=tab.tok)
         })

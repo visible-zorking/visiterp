@@ -50,9 +50,10 @@ class ZConstant:
         return '<ZConstant %s %d>' % (self.name, self.value,)
 
 class ZNestedTable:
-    def __init__(self, typ, tok):
+    def __init__(self, typ, tok, length):
         self.typ = typ
         self.tok = tok
+        self.length = length
         self.children = None
 
     def __repr__(self):
@@ -414,7 +415,7 @@ class Zcode:
 
     def findnestedtablesintok(self, valtok):
         assert valtok.children[0].val in ('TABLE', 'LTABLE')
-        table = ZNestedTable(valtok.children[0].val, valtok)
+        table = ZNestedTable(valtok.children[0].val, valtok, len(valtok.children)-1)
         ls = []
         for stok in valtok.children[ 1 : ]:
             if stok.typ is TokType.GROUP and stok.children and stok.children[0].val in ('TABLE', 'LTABLE'):
