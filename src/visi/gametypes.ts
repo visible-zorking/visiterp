@@ -165,6 +165,7 @@ export type ActionData = {
     preacrtn?: number;
 }
 
+
 type CommentarySpan = string | string[];
 type CommentaryLine = number | string;
 
@@ -173,4 +174,29 @@ export interface CommentaryMap {
 };
 export interface CommentaryLineMap {
     [key: string]: CommentaryLine[];
+};
+
+
+export interface DistanceMap {
+    [key: number]: number;
+};
+export interface AllDistanceMap {
+    [key: number]: DistanceMap;
+};
+
+export type MapRoom = {
+    name: string;
+    x: number;
+    y: number;
+    width: number;
+    height: number;
+    center: { x:number, y:number };
+    bottom: { x:number, y:number };
+};
+
+type SourceSpan = string | [ string, string ];
+type SourceLine = SourceSpan[];
+
+export interface SourceLinesMap {
+    [key: string]: SourceLine[];
 };
