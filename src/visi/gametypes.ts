@@ -168,6 +168,7 @@ export type ActionData = {
 export type TableData = {
     addr: number;
     name: string;
+    arrindex?: string;
     len: number;
     ltable?: boolean;
     sourceloc: string;

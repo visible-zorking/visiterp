@@ -617,13 +617,15 @@ def write_tables(filename, zcode, gamefile):
     ls = []
     def iterate(globname, tab, addr, suffix=''):
         dat = {
-            'name': globname+suffix,
+            'name': globname,
             'len': tab.length,
             'addr': addr,
             'sourceloc': sourceloc(tok=tab.tok)
         }
         if tab.typ == 'LTABLE':
             dat['ltable'] = True
+        if suffix:
+            dat['arrindex'] = suffix
         ls.append(dat)
         if tab.children:
             if tab.typ == 'LTABLE':
@@ -631,7 +633,10 @@ def write_tables(filename, zcode, gamefile):
             ix = 1
             for stab in tab.children:
                 if stab:
-                    newsuffix = '%s:%s' % (suffix, ix,)
+                    if not suffix:
+                        newsuffix = str(ix)
+                    else:
+                        newsuffix = suffix + ',' + str(ix)
                     iterate(globname, stab, getword(addr), newsuffix)
                 ix += 1
                 addr += 2

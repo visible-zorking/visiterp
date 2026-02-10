@@ -72,7 +72,12 @@ export function ArgShowTable({ value }: { value:number })
     let tab = gamedat_table_addrs.get(value);
     if (tab) {
         return (
-            <span><code>,{ tab.name }</code></span>
+            <span>
+                <code>,
+                    { tab.name }
+                    { tab.arrindex ? <i>[{ tab.arrindex }]</i> : null }
+                </code>
+            </span>
         );
     }
 
