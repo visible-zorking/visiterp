@@ -159,14 +159,14 @@ export function VisiZorkApp()
 
             if (idtype) {
                 let sourceloc;
-                if (detail.idtype == 'SRC')
+                if (idtype == 'SRC')
                     sourceloc = sourceloc_for_srctoken(id);
                 else
                     sourceloc = find_sourceloc_for_id(idtype, id);
                 if (!sourceloc) 
                     console.log('BUG: sourceloc not found', detail);
                 else 
-                    setLoc(sourceloc, (detail.idtype == 'GLOB'));
+                    setLoc(sourceloc, (idtype == 'GLOB'));
             }
             
             if (detail.commentary) {
