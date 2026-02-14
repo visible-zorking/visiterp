@@ -1,0 +1,10 @@
+# Game commentary source.
+
+# Formatting:
+# [*LINK]: Jump to a new note; also display source if possible. (Default behavior.)
+# [~LINK]: Display source for LINK, but keep this note open.
+# [text|*LINK], [text|~LINK]: Specify link text.
+# [text|https://...] External link.
+
+ABOUT: Welcome to the commentary track!
+
