@@ -14,7 +14,6 @@
 # Functions (high memory): "CodeArea" from reform
 # Strings (high memory): "StringArea" from reform
 
-# Source files in arbitrary order. (Conventionally alphabetical, but I
-# put "crufty" last.)
+# Source files in arbitrary (alphabetical) order.
 # The second number is the order that code is generated in the game file.
-# (Which is *not* the same order that the files are included!)
+# (Which is, usually, the same order that the files are included.)
