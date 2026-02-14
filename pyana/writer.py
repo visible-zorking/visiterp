@@ -262,6 +262,8 @@ def write_strings(filename, zcode, txdat, objdat):
     for obj in objdat.objects:
         if not obj.desc:
             continue
+        if obj.num not in objnum_to_name:
+            continue
         oname = objnum_to_name[obj.num]
         srctok = objname_to_descloc.get(oname)
         ls.append([ obj.propaddr+1, obj.desc, sourceloc(tok=srctok), obj.num ])
