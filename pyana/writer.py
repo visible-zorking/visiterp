@@ -492,6 +492,7 @@ def write_globals(filename, zcode):
     load_gameinfo()
     found = set()
     ls = []
+    missing = []
     for glo in zcode.globals:
         if glo.name in found:
             # Annoyingly, WON-FLAG and LUCKY appear twice (in Z1).
@@ -499,7 +500,7 @@ def write_globals(filename, zcode):
             continue
         found.add(glo.name)
         if glo.name not in globname_to_num:
-            print('game-info missing global ' + glo.name)
+            missing.append(glo)
             continue
         dat = {
             'name': glo.name,
@@ -509,6 +510,9 @@ def write_globals(filename, zcode):
         if glo.name in globname_to_vartype:
             dat['vartype'] = globname_to_vartype[glo.name]
         ls.append(dat)
+
+    if missing:
+        print('missing globals:', len(missing), ' '.join([ glo.name for glo in missing]))
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_globals = ');
