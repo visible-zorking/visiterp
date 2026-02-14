@@ -1,0 +1,32 @@
+{
+  "name": "VisiZork",
+  "version": "1.0",
+  "description": "An interactive fiction visualizer",
+  "author": "Andrew Plotkin <erkyrath@eblong.com>",
+  "license": "MIT",
+  "scripts": {
+    "build": "npm run minify && npm run buildts",
+    "buildts": "npx tsc && npx rollup -c",
+    "minify": "./minify gamedat.js && ./minify lib.js && ./minify glkio.js && ./minify ifvms.js && ./minify gnusto.js && ./minify parchment.js",
+    "recreate-gamedata": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --obj --dict --grammar --txd --gamedat",
+    "rearrange-tables": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --zcode gamedat/game-rX-sXXXXXX.z3 --gamedat",
+    "recolor-source": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --src",
+    "regenerate-commentary": "python3 visiterp/pyana/comgen.py gamedat/commentary",
+    "reparse-map": "python3 visiterp/pyana/mapparse.py gamedat/game-map.svg"
+  },
+  "type": "module",
+  "dependencies": {
+    "react": "^18.3",
+    "react-dom": "^18.3"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@rollup/plugin-replace": "^6.0.1",
+    "@rollup/plugin-terser": "^0.4.4",
+    "@types/node": "^22.10.1",
+    "@types/react-dom": "^18.3.1",
+    "rollup": "^4.28.0",
+    "typescript": "^5.7"
+  }
+}
