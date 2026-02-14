@@ -270,7 +270,10 @@ def write_strings(filename, zcode, txdat, objdat):
 
     for tup, tls in istrtext_to_pos.items():
         if tls:
-            print('ERROR: unused istrings: %s, "%s"' % tup)
+            fname, val = tup
+            if len(val) > 40:
+                val = val[ : 40 ] + '...'
+            print('ERROR: unused istrings: %s, "%s"' % (fname, val,))
 
     fl = open(filename, 'w')
     fl.write('window.gamedat_strings = ');
