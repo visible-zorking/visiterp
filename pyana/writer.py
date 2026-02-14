@@ -651,6 +651,9 @@ def write_tables(filename, zcode, gamefile):
         if not glob.table:
             continue
         tab = glob.table
+        if glob.name not in globname_to_num:
+            print('missing global:', glob.name)
+            continue
         index = globname_to_num[glob.name]
         iterate(glob.name, tab, getword(globaladdr+2*index))
     
