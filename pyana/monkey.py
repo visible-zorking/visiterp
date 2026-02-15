@@ -34,3 +34,8 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
 def monkeyextrastrings():
     return extracompiledstrings
 
+def monkeyadjuststringtext(text, gameid):
+    text = text.replace('.  ', '. ')
+    if gameid == 'zork1-r88-s840726':
+        text = text.replace('    ****', '   ****')
+    return text

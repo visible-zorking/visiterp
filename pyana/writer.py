@@ -1,6 +1,8 @@
 import json
 import re
 
+from monkey import monkeyadjuststringtext
+
 info_loaded = False
 
 sourcefile_map = {}
@@ -223,14 +225,14 @@ def write_strings(filename, zcode, txdat, objdat):
 
     strtext_to_pos = {}
     for st in zcode.strings:
-        if st.text not in strtext_to_pos:
-            strtext_to_pos[st.text] = []
-        strtext_to_pos[st.text].append(st)
+        text = monkeyadjuststringtext(st.text, zcode.gameid)
+        if text not in strtext_to_pos:
+            strtext_to_pos[text] = []
+        strtext_to_pos[text].append(st)
 
     istrtext_to_pos = {}
     for st in zcode.istrings:
-        text = st.text.replace('.  ', '. ')
-        text = text.replace('    ****', '   ****')
+        text = monkeyadjuststringtext(st.text, zcode.gameid)
         tup = (st.rtn, text)
         if tup not in istrtext_to_pos:
             istrtext_to_pos[tup] = []
