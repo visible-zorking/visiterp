@@ -115,10 +115,10 @@ function GrammarLineTail({ verbnum }: { verbnum: number })
     for (let ix=1; ix<verb.words.length; ix++) {
         let val = verb.words[ix];
         if (ix > 1) {
-            ls.push(<span>, </span>);
+            ls.push(<span key={ ix*2+1 }>, </span>);
         }
         ls.push(
-            <span key={ ix } className="PrintDictWord">{ val }</span>
+            <span key={ ix*2 } className="PrintDictWord">{ val }</span>
         );
     }
 
