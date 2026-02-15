@@ -244,8 +244,9 @@ function GrammarLine({ gline, startgroup }: { gline:GrammarLineData, startgroup?
         rctx.setLoc(func.sourceloc, false);
     }
 
+    let counter = 0;
     let clausels = gline.clauses.map(clause => (
-        <GrammarClause clause={ clause } />
+        <GrammarClause key={ counter++ } clause={ clause } />
     ));
     
     let funcel: JSX.Element|null = null;
