@@ -36,6 +36,5 @@ def monkeyextrastrings():
 
 def monkeyadjuststringtext(text, gameid):
     text = text.replace('.  ', '. ')
-    if gameid == 'zork1-r88-s840726':
-        text = text.replace('    ****', '   ****')
+    text = text.replace('    ****', '   ****')
     return text
