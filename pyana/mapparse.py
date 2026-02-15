@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import os, os.path
 import json
 from xml.dom.minidom import parse, Node
 
@@ -61,6 +62,13 @@ class Room:
             'height': self.height,
         }
 
+if not os.path.exists(sys.argv[1]):
+    print('no map; writing empty mapinfo')
+    outfl = open('src/game/mapinfo.js', 'w')
+    outfl.write('window.gamedat_mapinfo = {};\n')
+    outfl.close()
+    sys.exit(1)
+    
 doc = parse(sys.argv[1])
 
 def remove_children(nod, func):
