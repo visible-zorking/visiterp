@@ -36,5 +36,11 @@ def monkeyextrastrings():
 
 def monkeyadjuststringtext(text, gameid):
     text = text.replace('.  ', '. ')
+    # Something about punctuation and spaces
     text = text.replace('    ****', '   ****')
+    if gameid == 'zork3-r17-s840727':
+        # Double-space is not always fixed
+        text = text.replace('crumbling. To the southwest', 'crumbling.  To the southwest')
+        text = text.replace('read them. The book', 'read them.  The book')
+        text = text.replace('stay. The lake', 'stay.  The lake')
     return text
