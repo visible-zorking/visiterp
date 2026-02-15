@@ -1,0 +1,1 @@
+window.gamedat_savefiles = [];
