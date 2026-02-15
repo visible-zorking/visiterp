@@ -29,6 +29,9 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
                 # "Have your eyes checked."
                 extracompiledstrings.append(ltable.children[4])
             return True
+    if gameid == 'zork3-r17-s840727':
+        if tok.typ is TokType.STR and tok.val == 'You don\'t have that.':
+            return True
     return False
 
 def monkeyextrastrings():
