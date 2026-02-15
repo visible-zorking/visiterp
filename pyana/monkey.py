@@ -43,4 +43,8 @@ def monkeyadjuststringtext(text, gameid):
         text = text.replace('crumbling. To the southwest', 'crumbling.  To the southwest')
         text = text.replace('read them. The book', 'read them.  The book')
         text = text.replace('stay. The lake', 'stay.  The lake')
+        text = text.replace('voices fading. After a', 'voices fading.  After a')
+        text = text.replace('location. Interestingly', 'location.  Interestingly')
+        text = text.replace('up for you. Then,', 'up for you.  Then,')
+        text = text.replace('hills to the east. A path', 'hills to the east.  A path')
     return text
