@@ -151,11 +151,12 @@ function prep_element_full(val: number): JSX.Element
             );
         }
         else {
-            let ls = [ <span>{ prep.text }</span> ];
+            let counter = 0;
+            let ls = [ <span key={ counter++ }>{ prep.text }</span> ];
             for (let val of prep.syn) {
-                ls.push(<span>/</span>);
-                ls.push(<wbr/>);
-                ls.push(<span>{ val }</span>);
+                ls.push(<span key={ counter++ }>/</span>);
+                ls.push(<wbr key={ counter++ } />);
+                ls.push(<span key={ counter++ }>{ val }</span>);
             }
             prepel = (
                 <>
