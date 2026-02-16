@@ -204,6 +204,7 @@ class Zcode:
         self.actions = []
         self.actionmap = {}
         self.attrnameset = set()
+        self.propnameset = set()
         self.directions = []
         self.directionset = set()
         self.sourceorder = []
@@ -240,6 +241,7 @@ class Zcode:
     def findall(self):
         # Parse all the source
         for tok in self.tokls:
+            tok.itertree(self.findstuffintok)
             if tok.matchform('GLOBAL', 1):
                 idtok = tok.children[1]
                 zglob = None
@@ -360,6 +362,12 @@ class Zcode:
                         action.vtoks.append(tok)
                         
 
+    def findstuffintok(self, tok):
+        if tok.typ is TokType.ID:
+            if tok.val.startswith('P?'):
+                val = tok.val[ 2 : ]
+                self.propnameset.add(val)
+                        
     def findstringsintok(self, tok):
         for stok in tok.children:
             if stok.typ is TokType.STR:
