@@ -1,5 +1,3 @@
-from zillex import Token, TokType
-
 def monkeyadjustlex(lexer, ls):
     if lexer.monkeypatch == 'zork2-r48-s840904':
         if lexer.filename == 'zork2.zil':
@@ -51,3 +49,7 @@ def monkeyadjuststringtext(text, gameid):
         text = text.replace('up for you. Then,', 'up for you.  Then,')
         text = text.replace('hills to the east. A path', 'hills to the east.  A path')
     return text
+
+# late imports
+from zillex import Token, TokType
+
