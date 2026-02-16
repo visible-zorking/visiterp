@@ -1,23 +1,23 @@
 # The Visible Zorker: an interactive fiction visualizer
 
 - Designed by Andrew Plotkin <erkyrath@eblong.com>
-- Web site: https://eblong.com/infocom/visi-zork1/
+- Web site: https://eblong.com/infocom/visi/
 
 This is the framework for a web app that plays Zork, or another ZIL game, and displays the game state as you play. Call it an exercise in exploratory coding.
 
 To try the Visible Zorker, [play Zork 1][visizork1] or [Zork 2][visizork2]. For more about the intent and origins of the project, see my [blog post on the subject][post].
 
 [post]: https://blog.zarfhome.com/2025/01/the-visible-zorker
-[visizork1]: https://eblong.com/infocom/visi-zork1/
-[visizork2]: https://eblong.com/infocom/visi-zork2/
+[visizork1]: https://eblong.com/infocom/visi/zork1/
+[visizork2]: https://eblong.com/infocom/visi/zork2/
 
 Since the Visible Zorker can play more than one Zork, I have divided it into parts. This repository contains the common framework: the instrumented Z-code interpreter and display layer. Separate repositories contain the information about the game itself:
 
 - [Zork 1 data][vzork1]
 - [Zork 2 data][vzork2]
 
-[vzork1]: https://github.com/erkyrath/visizork
-[vzork2]: https://github.com/erkyrath/visizork2
+[vzork1]: https://github.com/visible-zorking/visi-zork1
+[vzork2]: https://github.com/visible-zorking/visi-zork2
 
 Thus, the code in this repository is incomplete. It won't work on its own. It's only meaningful as part of the [game][vzork1] repo.
 
@@ -29,9 +29,9 @@ Python scripts which parse the [`gamedat`][z1gamedat] and [`gamesrc`][z1gamesrc]
 
 Roughly, we need to parse all the ZIL source *and* the disassembled data, match up numeric addresses with source code names, and write it out in a format that the Javascript app can handle. We use a motley boatload of strategies to accomplish this. The [`game-info`][z1gameinfo] gives us a lot of the needed mappings. Others are based on source code order, memory address order, or whatever else works.
 
-[z1gamedat]: https://github.com/erkyrath/visizork/blob/master/gamedat
-[z1gamesrc]: https://github.com/erkyrath/visizork/blob/master/gamesrc
-[z1gameinfo]: https://github.com/erkyrath/visizork/blob/master/gamedat/game-info
+[z1gamedat]: https://github.com/visible-zorking/visi-zork1/blob/master/gamedat
+[z1gamesrc]: https://github.com/visible-zorking/visi-zork1/blob/master/gamesrc
+[z1gameinfo]: https://github.com/visible-zorking/visi-zork1/blob/master/gamedat/game-info
 
 ### The [`src`](./src) directory
 
