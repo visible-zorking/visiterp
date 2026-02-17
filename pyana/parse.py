@@ -12,7 +12,8 @@ from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
 from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
-from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, display_globals, compute_room_distances
+from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, compute_room_distances
+from writer import display_globals, display_objects
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()

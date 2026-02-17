@@ -619,6 +619,26 @@ def write_objects(filename, zcode, objdat):
     fl.write(';\n')
     fl.close()
 
+def display_objects(zcode, objdat):
+    load_gameinfo()
+    print('* Objects, as many as we can match uniquely:')
+    namemap = {}
+    for obj in zcode.objects:
+        desc = obj.desc or ''
+        if desc not in namemap:
+            namemap[desc] = []
+        namemap[desc].append(obj)
+    for obj in objdat.objects:
+        if obj.desc not in namemap:
+            print('# Object %d: no matching desc' % (obj.num,))
+            continue
+        ls = namemap[obj.desc]
+        if len(ls) > 1:
+            val = ' '.join([ val.name for val in ls ])
+            print('# Object %d: "%s" %s' % (obj.num, obj.desc, val,))
+            continue
+        print('Object %d %s' % (obj.num, ls[0].name,))
+
 def write_tables(filename, zcode, gamefile):
     print('...writing table addresses:', filename)
     load_gameinfo()
