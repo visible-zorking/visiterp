@@ -608,6 +608,8 @@ def write_objects(filename, zcode, objdat):
         scenls = dat.get('scenery')
         if scenls:
             for val in scenls:
+                if val not in map:
+                    continue
                 idat = map[val]
                 if 'iscenery' not in idat:
                     idat['iscenery'] = []
