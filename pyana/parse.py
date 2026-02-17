@@ -50,6 +50,9 @@ popt.add_option('-g', '--grammar',
 popt.add_option('--showglob',
                 action='store_true', dest='showglob',
                 help='list globals in (mostly) compiled order')
+popt.add_option('--showobj',
+                action='store_true', dest='showobj',
+                help='list objects whose names can be matched')
 popt.add_option('--src',
                 action='store_true', dest='sourcelist',
                 help='write source.js with syntax coloring')
@@ -138,7 +141,16 @@ if opts.gamedat:
         compute_room_distances('src/game/distances.js', zcode)
 
 if opts.showglob:
-    display_globals(zcode)
+    if not opts.zilfile:
+        print('--showglob requires -z')
+    else:
+        display_globals(zcode)
+
+if opts.showobj:
+    if not opts.zilfile or not opts.objdump:
+        print('--showobj requires -z, --obj')
+    else:
+        display_objects(zcode, objdat)
 
 if opts.sourcelist:
     if not opts.zilfile:
