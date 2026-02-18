@@ -140,8 +140,9 @@ function ShowObject({ tup, parentnum } : {tup:ZObject, parentnum:number})
         break;
     }
 
+    let counter = 0;
     let childls = children.map((o) =>
-        <ShowObject key={ o.onum } tup={ o } parentnum={ onum } /> );
+        <ShowObject key={ counter++ } tup={ o } parentnum={ onum } /> );
     let childlabel = contains_label(obj);
 
     function evhan_click_select(ev: React.MouseEvent<HTMLLIElement, MouseEvent>) {
