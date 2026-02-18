@@ -90,8 +90,9 @@ export function VarShowGrammarLine({ value }: { value:number })
         let verbwd = '???';
         if (verb?.words)
             verbwd = verb.words[0];
+        let counter = 0;
         let ls = [
-            <span className="PrintDictWord">&#x2018;{ verbwd }</span>
+            <span key={ counter++ } className="PrintDictWord">&#x2018;{ verbwd }</span>
         ];
         if (gline.clauses) {
             for (let clause of gline.clauses) {
@@ -99,21 +100,21 @@ export function VarShowGrammarLine({ value }: { value:number })
                     let prep = gamedat_preposition_nums.get(clause.prep);
                     if (prep) {
                         ls.push(
-                            <>
+                            <span key={ counter++ }>
                                 {' '}<span className="PrintDictWord">{ prep.text }</span>
-                            </>
+                            </span>
                         );
                     }
                 }
                 ls.push(
-                    <>
+                    <span key={ counter++ }>
                         {' '}<i>obj</i>
-                    </>
+                    </span>
                 );
             }
         }
         ls.push(
-            <span className="PrintDictWord">&#x2019;</span>
+            <span key={ counter++ } className="PrintDictWord">&#x2019;</span>
         );
 
         return (
