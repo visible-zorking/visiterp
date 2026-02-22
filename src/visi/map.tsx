@@ -139,7 +139,7 @@ export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraTo
                         if (!el)
                             continue;
                         if (obj.class !== undefined)
-                            el.className = obj.class;
+                            el.classList.value = obj.class;
                         if (obj.transform !== undefined)
                             el.setAttribute('transform', obj.transform);
                     }
