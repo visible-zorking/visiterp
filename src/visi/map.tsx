@@ -5,10 +5,14 @@ import { ObjectData } from './gametypes';
 import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from '../custom/gamedat';
 
 import { ReactCtx } from './context';
+import { ZStatePlus } from './zstate';
 
 type OptPosition = { x:number, y:number } | null;
 
-export function GameMap({ mobiles }: { mobiles:number[] })
+export type ExtraToggle = { id:string, class?:string, transform?:string };
+type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
+
+export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraToggleFunc })
 {
     let scrollref = useRefDiv();
     let mapref = useRefObject();
@@ -125,6 +129,19 @@ export function GameMap({ mobiles }: { mobiles:number[] })
                     }
                     else {
                         el.classList.add('Offstage');
+                    }
+                }
+
+                if (extras) {
+                    let extrals = extras(zstate);
+                    for (let obj of extrals) {
+                        let el = mapdoc.getElementById(obj.id);
+                        if (!el)
+                            continue;
+                        if (obj.class !== undefined)
+                            el.className = obj.class;
+                        if (obj.transform !== undefined)
+                            el.setAttribute('transform', obj.transform);
                     }
                 }
             }
