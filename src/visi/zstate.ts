@@ -16,6 +16,7 @@ export type GnustoRunner = {
 
 /* Highly abbreviated typedef for GnustoEngine. */
 export type GnustoEngine = {
+    getByte: (address:number) => number;
     getWord: (address:number) => number;
     getUnsignedWord: (address:number) => number;
     setWord: (value:number, address:number) => void;
