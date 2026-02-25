@@ -7,7 +7,7 @@ import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from '../cust
 import { ReactCtx } from './context';
 import { ZStatePlus } from './zstate';
 
-type OptPosition = { x:number, y:number } | null;
+export type OptPosition = { x:number, y:number } | null;
 
 export type ExtraToggle = { id:string, class?:string, transform?:string };
 type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
