@@ -52,6 +52,8 @@ def copydirfiles(srcdir, destdir):
 
 copydirfiles('./js', os.path.join(gamedir, 'js'))
 copydirfiles('./pic', os.path.join(gamedir, 'pic'))
+if os.path.exists('./css'):
+    copydirfiles('./css', os.path.join(gamedir, 'css'))
 
 if os.path.exists('./pic/map.svg'):
     with open('./pic/map.svg') as fl:
