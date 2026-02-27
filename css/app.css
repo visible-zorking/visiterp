@@ -428,7 +428,7 @@ a#distlink:hover {
     background: white;
 }
 .DarkTheme .ScrollXYContent {
-    filter: invert(90%) hue-rotate(180deg);
+    background: black;
 }
 
 .ScrollXYContent object {
