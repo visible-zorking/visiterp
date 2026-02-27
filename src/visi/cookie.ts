@@ -69,6 +69,19 @@ let cur_os_theme: 'light'|'dark'|null = null;
 let cur_theme: 'light'|'dark'|'system'|null = null;
 let cur_arrange: string = '12';
 
+export function is_dark_theme(): boolean
+{
+    if (cur_theme === 'dark') {
+        return true;
+    }
+    else if (cur_theme === 'light') {
+        return false;
+    }
+    else {
+        return (cur_os_theme === 'dark');
+    }
+}
+
 export function set_body_pref_arrange(arrange: string)
 {
     if (cur_arrange !== arrange) {
@@ -95,16 +108,9 @@ export function set_body_ospref_theme(theme: 'light'|'dark')
 
 function set_body_class()
 {
+    let isdark = is_dark_theme()
+
     let cla = 'Arrange'+cur_arrange;
-    if (cur_theme === 'dark') {
-        cla += ' DarkTheme';
-    }
-    else if (cur_theme === 'light') {
-        // leave it
-    }
-    else {
-        if (cur_os_theme === 'dark')
-            cla += ' DarkTheme';
-    }
+    cla += (isdark ? ' DarkTheme' : ' LightTheme');
     document.body.className = cla;
 }

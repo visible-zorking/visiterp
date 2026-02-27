@@ -6,6 +6,7 @@ import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from '../cust
 
 import { ReactCtx } from './context';
 import { ZStatePlus } from './zstate';
+import { is_dark_theme } from './cookie';
 
 export type OptPosition = { x:number, y:number } | null;
 
@@ -57,7 +58,11 @@ export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraTo
 
     /* This callback is used for *both* the map-load event and the useEffect
        that depends on zstate. This is because the SVG loads slightly later
-       than the first useEffect invocation. */
+       than the first useEffect invocation.
+
+       It's also invoked when the theme changes, because we have to adjust
+       the SVG theme class.
+    */
     function select_location() {
         if (mapref.current) {
             let herenum = zstate.globals[0];  // LOCATION
@@ -75,6 +80,10 @@ export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraTo
             
             let mapdoc = mapref.current.contentDocument;
             if (mapdoc && mapdoc.rootElement) {
+                let cla = (is_dark_theme() ? 'DarkTheme' : 'LightTheme');
+                mapdoc.rootElement.classList.value = cla;
+                console.log('### set', mapdoc.rootElement);
+
                 let curstr = mapdoc.rootElement.getAttribute('data-curselect') ?? '';
                 if (herestr != curstr) {
                     let el = mapdoc.getElementById('r-'+curstr.toLowerCase());
@@ -148,7 +157,7 @@ export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraTo
         }
     }
 
-    useEffect(select_location, [ zstate ]);
+    useEffect(select_location, [ zstate, rctx.theme ]);
                                                        
     function evhan_mouseup(ev: PointerEv) {
         dragstart = null;
