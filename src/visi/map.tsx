@@ -82,7 +82,6 @@ export function GameMap({ mobiles, extras }: { mobiles:number[], extras?:ExtraTo
             if (mapdoc && mapdoc.rootElement) {
                 let cla = (is_dark_theme() ? 'DarkTheme' : 'LightTheme');
                 mapdoc.rootElement.classList.value = cla;
-                console.log('### set', mapdoc.rootElement);
 
                 let curstr = mapdoc.rootElement.getAttribute('data-curselect') ?? '';
                 if (herestr != curstr) {
