@@ -189,16 +189,19 @@ var GlkIOClass = function(env, runner) {
                 
                 if (ord.code == 'quit') {
                     vmquit = true;
-                    var windat = {
-                        content: [
-                            { style:'emphasized', text:'The Z-machine has shut down. Reload this page to restart.' },
-                        ],
-                    };
-                    buffercontent.push({});
-                    buffercontent.push(windat);
-                    buffercontent.push({});
                 }
             }
+        }
+
+        if (vmquit) {
+            var windat = {
+                content: [
+                    { style:'emphasized', text:'The Z-machine has shut down. Reload this page to restart.' },
+                ],
+            };
+            buffercontent.push({});
+            buffercontent.push(windat);
+            buffercontent.push({});
         }
 
         /* Rebuild the status line if the game updated *or* the window
