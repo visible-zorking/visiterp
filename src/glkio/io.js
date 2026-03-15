@@ -420,11 +420,11 @@ var GlkIOClass = function(env, runner) {
         return res;
     }
 
-    function create_save_file(name, data)
+    function create_save_file(name, data, gameid)
     {
         var dia = glkote.getlibrary('Dialog');
 
-        var ref = Dialog.file_construct_ref(name, 'save', gamedat_ids.GAMEID);
+        var ref = Dialog.file_construct_ref(name, 'save', gameid);
         if (Dialog.file_ref_exists(ref)) {
             return;
         }

@@ -28,10 +28,10 @@ var GnustoRunner = Object.subClass({
         engine.loadStory( data );
     },
 
-    createSaveFiles: function ( files )
+    createSaveFiles: function ( files, gameid )
     {
         for (var dat of files) {
-            this.io.create_save_file(dat.name, dat.data);
+            this.io.create_save_file(dat.name, dat.data, gameid);
         }
     },
 
