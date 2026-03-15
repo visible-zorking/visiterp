@@ -4,8 +4,8 @@
 
    We do this as soon as the .js files load. There's no DOM work here.
    But note that gamedat.js must be loaded after all the other JSON-data
-   .js files!
- */
+   .js files! And also after gameids.js.
+*/
 
 window.gamedat_global_nums = new Map();
 window.gamedat_global_names = new Map();
