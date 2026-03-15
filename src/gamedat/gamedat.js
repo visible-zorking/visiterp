@@ -36,6 +36,8 @@ window.gamedat_roominfo_names = new Map();
 window.gamedat_ids = {};
 
 (function() {
+    /* Add Z-machine values like MAX_OBJECTS and DICT_START.
+       These are hand-coded in gameids.js. */
     gamedat_ids_general(window.gamedat_ids);
 
     for (let obj of window.gamedat_properties) {
@@ -108,6 +110,9 @@ window.gamedat_ids = {};
         gamedat_table_addrs.set(obj.addr, obj);
     }
 
+    /* More hand-coded values. These are extracted from the gamedat
+       tables, so we have to get them after the tables above are
+       set up. */
     gamedat_ids_specific(window.gamedat_ids);
 
     gamedat_ids.MAP_DOCSIZE = window.gamedat_mapinfo.docsize;
