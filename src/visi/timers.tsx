@@ -3,7 +3,7 @@ import { useState, useContext, createContext } from 'react';
 
 import { signed_zvalue, unpack_address } from './gametypes';
 import { check_commentary } from './combuild';
-import { gamedat_global_names, gamedat_routine_addrs } from '../custom/gamedat';
+import { gamedat_global_names, gamedat_routine_addrs } from './gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';

@@ -5,7 +5,7 @@ import { ZObject } from './zstate';
 import { signed_zvalue } from './gametypes';
 import { GlobalData } from './gametypes';
 import { check_commentary } from './combuild';
-import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids } from '../custom/gamedat';
+import { gamedat_global_nums, gamedat_globals_sort_index, gamedat_globals_sort_alpha, gamedat_object_ids } from './gamedat';
 
 import { ReactCtx } from './context';
 import { ObjPageLink, Commentary } from './widgets';

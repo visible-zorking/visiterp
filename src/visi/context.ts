@@ -1,7 +1,7 @@
 import { createContext } from 'react';
 
 import { ZStatePlus, zstateplus_empty, new_stack_call } from './zstate';
-import { sourceloc_start } from '../custom/gamedat';
+import { sourceloc_start } from '../custom/info';
 
 export type ObjPageFocus = null | {
     type: 'OBJ'|'ATTR'|'PROP';

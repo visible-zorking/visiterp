@@ -3,7 +3,7 @@
 import { GnustoRunner } from './zstate';
 import { ZilSourceLoc } from './main';
 import { show_commentary_hook } from '../custom/modgame';
-import { gamedat_commentary } from '../custom/gamedat';
+import { gamedat_commentary } from './gamedat';
 
 let runner: GnustoRunner|undefined;
 

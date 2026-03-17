@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect } from 'react';
 
 import { set_cookie, set_body_pref_theme, set_body_pref_arrange } from './cookie';
-import { getasset } from '../custom/gamedat';
+import { getasset } from './gamedat';
 
 import { ReactCtx } from './context';
 

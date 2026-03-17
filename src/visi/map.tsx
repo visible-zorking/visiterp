@@ -2,7 +2,7 @@ import React from 'react';
 import { useRef, useContext, useEffect } from 'react';
 
 import { ObjectData } from './gametypes';
-import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from '../custom/gamedat';
+import { gamedat_ids, gamedat_object_ids, gamedat_roominfo_names } from './gamedat';
 
 import { ReactCtx } from './context';
 import { ZStatePlus } from './zstate';

@@ -2,13 +2,15 @@ import React from 'react';
 import { useState, useContext, useRef, useEffect } from 'react';
 
 import { parse_sourceloc } from './gametypes';
-import { gamedat_sourcefile_revkeymap, gamedat_sourcefiles } from '../custom/gamedat';
-import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names } from '../custom/gamedat';
-import { sourceloc_start, gamedat_commentarymap } from '../custom/gamedat';
-import { getasset } from '../custom/gamedat';
+import { gamedat_sourcefile_revkeymap, gamedat_sourcefiles } from './gamedat';
+import { gamedat_global_names, gamedat_constant_names, gamedat_object_names, gamedat_string_map, gamedat_routine_names, gamedat_attribute_names, gamedat_property_names } from './gamedat';
+import { gamedat_commentarymap } from './gamedat';
+import { getasset } from './gamedat';
 
 import { ReactCtx } from './context';
 import { SourceLocState } from './context';
+
+import { sourceloc_start } from '../custom/info';
 
 export function SourceView()
 {

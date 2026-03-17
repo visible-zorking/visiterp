@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { unpack_address } from './gametypes';
-import { gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_actions, gamedat_property_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_preposition_nums } from '../custom/gamedat';
+import { gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_actions, gamedat_property_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_preposition_nums } from './gamedat';
 
 import { ObjPageLink } from './widgets';
 

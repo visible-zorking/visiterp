@@ -3,8 +3,8 @@ import { useState, useContext, createContext } from 'react';
 
 import { ObjectData } from './gametypes';
 import { check_commentary } from './combuild';
-import { gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids } from '../custom/gamedat';
-import { gamedat_ids } from '../custom/gamedat';
+import { gamedat_object_ids, gamedat_object_room_ids, gamedat_object_global_ids } from './gamedat';
+import { gamedat_ids } from './gamedat';
 import { ZObject } from './zstate';
 
 import { ReactCtx } from './context';

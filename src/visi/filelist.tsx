@@ -3,10 +3,12 @@ import { useState, useContext, createContext } from 'react';
 
 import { sourceloc_for_key } from './gametypes';
 import { check_commentary } from './combuild';
-import { sourcefile_presentation_list, gamedat_sourcefiles, gamedat_sourcefile_keymap } from '../custom/gamedat';
+import { gamedat_sourcefiles, gamedat_sourcefile_keymap } from './gamedat';
 
 import { ReactCtx } from './context';
 import { Commentary } from './widgets';
+
+import { sourcefile_presentation_list } from '../custom/info';
 
 export type FileListContextContent = {
     selected: string;

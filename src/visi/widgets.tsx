@@ -1,7 +1,7 @@
 import React from 'react';
 import { useContext } from 'react';
 
-import { getasset } from '../custom/gamedat';
+import { getasset } from './gamedat';
 
 /* React widgets which are used across the UI. */
 

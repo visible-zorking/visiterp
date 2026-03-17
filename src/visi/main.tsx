@@ -2,7 +2,7 @@ import React from 'react';
 import { useState, useContext, useEffect, useRef } from 'react';
 import { createPortal } from 'react-dom';
 
-import { gamedat_ids, gamedat_global_names, gamedat_object_ids, gamedat_commentary, sourceloc_start, find_sourceloc_for_id, sourceloc_for_srctoken } from '../custom/gamedat';
+import { gamedat_ids, gamedat_global_names, gamedat_object_ids, gamedat_commentary, find_sourceloc_for_id, sourceloc_for_srctoken } from './gamedat';
 
 import { ZStatePlus, get_updated_report } from './zstate';
 import { GnustoRunner, GnustoEngine, ReportSpecifics } from './zstate';
@@ -15,6 +15,7 @@ import { ObjPageFocus, SourceLocState, new_sourcelocstate } from './context';
 import { AppMenu } from './menu';
 import { SourceView } from './sourceview';
 
+import { sourceloc_start } from '../custom/info';
 import { TabbedPane } from '../custom/tabs';
 
 /* Hack alert: we're not running in Node.js here! But the rollup

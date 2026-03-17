@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useContext, createContext } from 'react';
 
-import { gamedat_attribute_nums, gamedat_property_nums, gamedat_object_ids } from '../custom/gamedat';
+import { gamedat_attribute_nums, gamedat_property_nums, gamedat_object_ids } from './gamedat';
 import { check_commentary } from './combuild';
 import { ZProp, zobj_properties } from './zstate';
 import { ReactCtx } from './context';

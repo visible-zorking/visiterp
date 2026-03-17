@@ -4,7 +4,7 @@ import { useState, useContext, createContext } from 'react';
 import { ZObject, ZStackCall, ZStackItem, ZStackPrint } from './zstate';
 import { signed_zvalue } from './gametypes';
 import { StringData, DictWordData } from './gametypes';
-import { gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs } from '../custom/gamedat';
+import { gamedat_string_map, gamedat_routine_addrs, gamedat_dictword_addrs } from './gamedat';
 import { stack_call_arg_display } from '../custom/cwidgets';
 
 import { ReactCtx, StackCallCtx } from './context';
