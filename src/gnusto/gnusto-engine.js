@@ -2106,28 +2106,31 @@ GnustoEngine.prototype = {
         var object_properties_address = this.getUnsignedWord(this.m_property_list_addr_start+(this.m_object_size*current_room_object_number));
         var outtext = this._zscii_from(object_properties_address+1);
         outtext = ' ' + outtext;
+        var outtext2 = '';
         if (outtext.length > width) {
             outtext = outtext.substring(0,width-3);
-            var outtext2 = '...';
+            outtext2 = '...';
             var spacebuffer = '';
         } else {
-            if ((this.m_version > 3) && ((this.getByte(1)&0x02)==2)) { // if it is a time game
+            if ((this.m_version == 3) && ((this.getByte(1)&0x02)==2)) { // if it is a time game
                 var hours = this.getUnsignedWord(this.m_vars_start+2);
                 var minutes = this.getUnsignedWord(this.m_vars_start+4);
                 if (minutes < 10) {
-                    var outtext2 = hours + ':0' + minutes;
+                    outtext2 = hours + ':0' + minutes;
                 } else {
-                    var outtext2 = hours + ':' + minutes;
+                    outtext2 = hours + ':' + minutes;
                 }
             } else { // if it is a score game
-                var outtext2 = 'Score: ' + this.getWord(this.m_vars_start+2) + '  Moves: ' + this.getWord(this.m_vars_start+4) + ' ';
+                outtext2 = 'Score: ' + this.getWord(this.m_vars_start+2) + '  Moves: ' + this.getWord(this.m_vars_start+4) + ' ';
+                if ((outtext.length + outtext2.length + 1) > width) {
+                    outtext2 = ' S:' + this.getUnsignedWord(this.m_vars_start+2) + ' M:' + this.getUnsignedWord(this.m_vars_start+4);
+                }
+                if ((outtext.length + outtext2.length + 1) > width) {
+                    outtext2 = ' ' + this.getUnsignedWord(this.m_vars_start+2) + '/' + this.getUnsignedWord(this.m_vars_start+4) + ' ';
+                }
             }
             if ((outtext.length + outtext2.length + 1) > width) {
-                // outtext2 = ' S:' + this.getUnsignedWord(this.m_vars_start+2) + ' M:' + this.getUnsignedWord(this.m_vars_start+4);
-                outtext2 = ' ' + this.getUnsignedWord(this.m_vars_start+2) + '/' + this.getUnsignedWord(this.m_vars_start+4) + ' ';
-                if ((outtext.length + outtext2.length + 1) > width) {
-                    outtext2 = '';
-                }
+                outtext2 = '';
             }
             var spacebuffer = '';
             while ((outtext.length + outtext2.length + spacebuffer.length) < width) {
