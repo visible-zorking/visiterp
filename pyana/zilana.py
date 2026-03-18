@@ -278,10 +278,10 @@ class Zcode:
                             constval = 0
                         else:
                             raise Exception('Constant strings not supported: %s "%s"' % (idtok.val, valtok.val))
-                    elif valtok.typ is TokType.GROUP and not valtok.children:
-                        constval = 0
                     else:
-                        raise Exception('Constant has no value: %s' % (idtok.val,))
+                        constval = self.parseconstant(valtok)
+                        if constval is None:
+                            raise Exception('Constant has no value: %s' % (idtok.val,))
                     zconst = ZConstant(idtok.val, constval, tok)
                     self.constants.append(zconst)
                     tok.defentity = zconst
@@ -391,6 +391,25 @@ class Zcode:
                 else:
                     self.findstringsinroutine(stok, rtn)
 
+    def parseconstant(self, tok):
+        if tok.typ is TokType.NUM:
+            return tok.num
+        if tok.typ is TokType.GROUP:
+            if not tok.children:
+                return 0
+            optok = tok.children[0]
+            if optok.typ is TokType.ID and optok.val in ('+', '*'):
+                if len(tok.children) == 3:
+                    val1 = self.parseconstant(tok.children[1])
+                    val2 = self.parseconstant(tok.children[2])
+                    if val1 is not None and val2 is not None:
+                        if optok.val == '+':
+                            val = val1 + val2
+                        elif optok.val == '*':
+                            val = val1 * val2
+                        return val
+        return None
+        
     def parseroutineargs(self, funcname, tok):
         if tok.typ is not TokType.GROUP:
             raise Exception('%s: args group is not a group: %s' % (funcname, tok,))
