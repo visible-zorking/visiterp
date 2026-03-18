@@ -287,7 +287,7 @@ class Lexer:
     def resolveincludes(self, ls):
         res = []
         for tok in ls:
-            if tok.matchform('IFILE', 1):
+            if tok.matchform('IFILE', 1) or (tok.matchform('INSERT-CRUFTY', 1) and monkeyinsertcrufty(self.monkeypatch)):
                 val = tok.children[1].val
                 val = val.lower()+'.zil'
                 incpath = os.path.join(self.dirname, val)
@@ -350,5 +350,5 @@ def dumptokens(ls, withpos=False, skipdead=False, depth=0, prefix='', atpos=None
 
 
 # Late import
-from monkey import monkeyadjustlex
+from monkey import monkeyinsertcrufty, monkeyadjustlex
 
