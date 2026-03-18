@@ -65,7 +65,7 @@ class Room:
 if not os.path.exists(sys.argv[1]):
     print('no map; writing empty mapinfo')
     outfl = open('src/game/mapinfo.js', 'w')
-    outfl.write('window.gamedat_mapinfo = {};\n')
+    outfl.write('window.gamedat_mapinfo = { rooms:[] };\n')
     outfl.close()
     sys.exit(1)
     
