@@ -2115,11 +2115,14 @@ GnustoEngine.prototype = {
             if ((this.m_version == 3) && ((this.getByte(1)&0x02)==2)) { // if it is a time game
                 var hours = this.getUnsignedWord(this.m_vars_start+2);
                 var minutes = this.getUnsignedWord(this.m_vars_start+4);
-                if (minutes < 10) {
-                    outtext2 = hours + ':0' + minutes;
-                } else {
-                    outtext2 = hours + ':' + minutes;
+                var ampm = (hours >= 12) ? 'pm' : 'am';
+                if (hours >= 13) {
+                    hours -= 12;
                 }
+                if (minutes < 10) {
+                    minutes = '0' + minutes;
+                }
+                outtext2 = hours + ':' + minutes + ' ' + ampm;
             } else { // if it is a score game
                 outtext2 = 'Score: ' + this.getWord(this.m_vars_start+2) + '  Moves: ' + this.getWord(this.m_vars_start+4) + ' ';
                 if ((outtext.length + outtext2.length + 1) > width) {
