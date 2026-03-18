@@ -5,7 +5,7 @@ import { ZObject } from '../visi/zstate';
 import { ObjectData, GlobalData } from '../visi/gametypes';
 import { StackCallCtx } from '../visi/context';
 import { ArgShowObject, ArgShowProperty } from '../visi/actshowers';
-import { gamedat_ids, gamedat_distances, gamedat_object_treesort } from './gamedat';
+import { gamedat_ids, gamedat_distances, gamedat_object_treesort } from '../visi/gamedat';
 
 export function contains_label(obj: ObjectData) : string
 {

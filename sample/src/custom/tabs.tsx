@@ -2,6 +2,7 @@ import React from 'react';
 import { useContext } from 'react';
 
 import { ReactCtx } from '../visi/context';
+import { gamedat_ids } from '../visi/gamedat';
 
 import { CallActivity } from '../visi/activity';
 import { TimerTable } from '../visi/timers';
@@ -13,7 +14,6 @@ import { ObjectPage } from '../visi/objpage';
 import { GlobalState } from '../visi/globstate';
 import { SourceFileList } from '../visi/filelist';
 import { AboutPage } from './about';
-import { gamedat_ids } from './gamedat';
 
 const tab_list = [
     [ 'activity', 'Activity' ],
