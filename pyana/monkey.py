@@ -52,6 +52,10 @@ def monkeyadjuststringtext(text, gameid):
         text = text.replace('location. Interestingly', 'location.  Interestingly')
         text = text.replace('up for you. Then,', 'up for you.  Then,')
         text = text.replace('hills to the east. A path', 'hills to the east.  A path')
+    if gameid == 'deadline-r27-s831005':
+        # Extra trimming
+        if text.startswith('Frobizz Pharm'):
+            text = text[ : -1 ]
     return text
 
 # late imports
