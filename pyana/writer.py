@@ -397,7 +397,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.dobjprep:
                     odat['prep'] = gline.dobjprep
                 if gline.dobjattr:
-                    odat['attr'] = attrnames.get(gline.dobjattr, '???')
+                    odat['attr'] = attrnames.get(gline.dobjattr, f'???{gline.dobjattr}')
                 if gline.dobjloc:
                     odat['loc'] = interpret_locbits(gline.dobjloc)
                 if gline.objcount >= 2:
@@ -408,7 +408,7 @@ def write_grammar(filename, grammardat, dictdat, zcode, txdat):
                 if gline.iobjprep:
                     odat['prep'] = gline.iobjprep
                 if gline.iobjattr:
-                    odat['attr'] = attrnames.get(gline.iobjattr, '???')
+                    odat['attr'] = attrnames.get(gline.iobjattr, f'???{gline.iobjattr}')
                 if gline.iobjloc:
                     odat['loc'] = interpret_locbits(gline.iobjloc)
                 if gline.objcount >= 2:
