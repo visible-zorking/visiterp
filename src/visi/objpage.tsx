@@ -252,6 +252,9 @@ export function ObjPropertyList({ pnum, values, origvalues, propislink }: { pnum
     case 'OBJS':
         propvalues = <ObjectsProp values={ values } />;
         break;
+    case 'OBJ':
+        propvalues = <ObjectAsIntProp values={ values } />;
+        break;
     case 'DIR':
         propvalues = <DirProp values={ values } />;
         break;
@@ -499,6 +502,18 @@ function ObjectsProp({ values } : { values:number[] })
     });
 
     return <span>{ ells }</span>;
+}
+
+function ObjectAsIntProp({ values } : { values:number[] })
+{
+    if (values.length == 1) {
+        return <ObjectProp onum={ values[0] } />;
+    }
+    if (values.length == 2) {
+        let onum = values[0] * 0x100 + values[1];
+        return <ObjectProp onum={ onum } />;
+    }
+    return BytesProp({ values });
 }
 
 function ObjectProp({ onum } : { onum:number })
