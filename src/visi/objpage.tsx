@@ -234,7 +234,7 @@ export function ObjPropertyList({ pnum, values, origvalues, propislink }: { pnum
     
     let prop = gamedat_property_nums.get(pnum);
     if (!prop) {
-        return <li>??? { pnum }</li>;
+        return <li>??? { pnum }: <BytesProp values={ values } /></li>;
     }
 
     let propvalues;
