@@ -56,6 +56,8 @@ def monkeyadjuststringtext(text, gameid):
         # Extra trimming
         if text.startswith('Frobizz Pharm'):
             text = text[ : -1 ]
+        if text.startswith(':\n\nDear Inspector,'):
+            text = text[ : -1 ]
     return text
 
 # late imports
