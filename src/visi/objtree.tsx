@@ -109,6 +109,9 @@ function ShowObject({ tup, parentnum } : {tup:ZObject, parentnum:number})
 
         if (obj.scenery) {
             for (let sval of obj.scenery) {
+                // Deadline has a case of a room containing itself as scenery.
+                if (sval == obj.onum)
+                    continue;
                 let ctup = map.get(sval);
                 if (!ctup)
                     break;
