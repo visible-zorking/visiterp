@@ -225,14 +225,14 @@ def write_strings(filename, zcode, txdat, objdat):
 
     strtext_to_pos = {}
     for st in zcode.strings:
-        text = monkeyadjuststringtext(st.text, zcode.gameid)
+        text = monkeyadjuststringtext(st.text, zcode.gameid, rtn=None)
         if text not in strtext_to_pos:
             strtext_to_pos[text] = []
         strtext_to_pos[text].append(st)
 
     istrtext_to_pos = {}
     for st in zcode.istrings:
-        text = monkeyadjuststringtext(st.text, zcode.gameid)
+        text = monkeyadjuststringtext(st.text, zcode.gameid, rtn=st.rtn)
         tup = (st.rtn, text)
         if tup not in istrtext_to_pos:
             istrtext_to_pos[tup] = []

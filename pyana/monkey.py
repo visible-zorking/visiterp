@@ -39,7 +39,7 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
 def monkeyextrastrings():
     return extracompiledstrings
 
-def monkeyadjuststringtext(text, gameid):
+def monkeyadjuststringtext(text, gameid, rtn=None):
     text = text.replace('.  ', '. ')
     # Something about punctuation and spaces
     text = text.replace('    ****', '   ****')
@@ -58,6 +58,9 @@ def monkeyadjuststringtext(text, gameid):
             text = text[ : -1 ]
         if text.startswith(':\n\nDear Inspector,'):
             text = text[ : -1 ]
+        # These characters are switched in the source and I don't know why.
+        if text == '".' and rtn == 'ROURKE-F':
+            text = '."'
     return text
 
 # late imports
