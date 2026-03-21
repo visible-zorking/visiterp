@@ -9,6 +9,7 @@ import { gamedat_string_map, gamedat_dictword_addrs, gamedat_dictword_adjs, game
 
 import { ReactCtx } from './context';
 import { ObjPageLink } from './widgets';
+import { property_value_display } from '../custom/cwidgets';
 
 export function ObjectPage({ onum } : { onum:number })
 {
@@ -237,39 +238,45 @@ export function ObjPropertyList({ pnum, values, origvalues, propislink }: { pnum
         return <li>??? { pnum }: <BytesProp values={ values } /></li>;
     }
 
-    let propvalues;
+    let propvalues: JSX.Element|null = null;
     
-    switch (prop.vartype || '') {
-    case 'INT':
-        propvalues = <IntProp values={ values } />;
-        break;
-    case 'STR':
-        propvalues = <StrProp values={ values } />;
-        break;
-    case 'RTN':
-        propvalues = <RoutineProp values={ values } />;
-        break;
-    case 'OBJS':
-        propvalues = <ObjectsProp values={ values } />;
-        break;
-    case 'OBJ':
-        propvalues = <ObjectAsIntProp values={ values } />;
-        break;
-    case 'DIR':
-        propvalues = <DirProp values={ values } />;
-        break;
-    case 'ADJS':
-        propvalues = <AdjsProp values={ values } />;
-        break;
-    case 'WORDS':
-        propvalues = <DictWordsProp values={ values } />;
-        break;
-    case 'WORDRTNS':
-        propvalues = <WordsRoutinesProp values={ values } />;
-        break;
-    default:
-        propvalues = <BytesProp values={ values } />;
-        break;
+    if (prop.vartype) {
+        propvalues = property_value_display(prop.vartype, values);
+    }
+
+    if (propvalues == null) {
+        switch (prop.vartype || '') {
+        case 'INT':
+            propvalues = <IntProp values={ values } />;
+            break;
+        case 'STR':
+            propvalues = <StrProp values={ values } />;
+            break;
+        case 'RTN':
+            propvalues = <RoutineProp values={ values } />;
+            break;
+        case 'OBJS':
+            propvalues = <ObjectsProp values={ values } />;
+            break;
+        case 'OBJ':
+            propvalues = <ObjectAsIntProp values={ values } />;
+            break;
+        case 'DIR':
+            propvalues = <DirProp values={ values } />;
+            break;
+        case 'ADJS':
+            propvalues = <AdjsProp values={ values } />;
+            break;
+        case 'WORDS':
+            propvalues = <DictWordsProp values={ values } />;
+            break;
+        case 'WORDRTNS':
+            propvalues = <WordsRoutinesProp values={ values } />;
+            break;
+        default:
+            propvalues = <BytesProp values={ values } />;
+            break;
+        }
     }
 
     let changeflag;
