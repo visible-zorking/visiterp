@@ -714,6 +714,22 @@ a.CommentButtonSmall img {
     padding-left: 8px;
 }
 
+.PatreonList {
+    list-style: none;
+    padding-left: 0px;
+}
+.PatreonList li {
+    text-indent: 20px hanging;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+.PatreonList .Small {
+    font-size: 90%;
+}
+.PatreonList .Smaller {
+    font-size: 80%;
+}
+
 .SourceFile {
     display: block flow-root;
     white-space: pre-wrap;
