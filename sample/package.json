@@ -1,32 +1,36 @@
 {
-  "name": "VisiZork",
+  "name": "VisiZork-GAME",
   "version": "1.0",
   "description": "An interactive fiction visualizer",
   "author": "Andrew Plotkin <erkyrath@eblong.com>",
   "license": "MIT",
   "scripts": {
-    "build": "npm run minify && npm run buildts",
-    "buildts": "npx tsc && npx rollup -c",
+    "buildall": "pnpm run buildjs && pnpm run builddata",
+    "buildjs": "pnpm run minify && pnpm run buildts",
+    "buildts": "pnpm exec tsc && pnpm exec rollup -c",
     "minify": "./minify gamedat.js && ./minify lib.js && ./minify glkio.js && ./minify ifvms.js && ./minify gnusto.js && ./minify parchment.js",
-    "recreate-gamedata": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --obj --dict --grammar --txd --gamedat",
-    "rearrange-tables": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --zcode gamedat/game-rX-sXXXXXX.z3 --gamedat",
-    "recolor-source": "python3 visiterp/pyana/parse.py --game game-rX-sXXXXXX -z gamesrc/game.zil --src",
+    "builddata": "npm run recreate-gamedata && npm run rearrange-tables && npm run recolor-source && pnpm run regenerate-commentary && pnpm run reparse-map",
+    "recreate-gamedata": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --obj --dict --grammar --txd --gamedat",
+    "rearrange-tables": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --zcode gamedat/GAME-rX-sXXXXXX.z3 --gamedat",
+    "recolor-source": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --src",
     "regenerate-commentary": "python3 visiterp/pyana/comgen.py gamedat/commentary",
-    "reparse-map": "python3 visiterp/pyana/mapparse.py gamedat/game-map.svg"
+    "reparse-map": "python3 visiterp/pyana/mapparse.py gamedat/base-map.svg"
   },
   "type": "module",
   "dependencies": {
-    "react": "^18.3",
-    "react-dom": "^18.3"
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.1",
-    "@rollup/plugin-node-resolve": "^15.3.0",
-    "@rollup/plugin-replace": "^6.0.1",
-    "@rollup/plugin-terser": "^0.4.4",
-    "@types/node": "^22.10.1",
-    "@types/react-dom": "^18.3.1",
-    "rollup": "^4.28.0",
-    "typescript": "^5.7"
+    "@rollup/plugin-commonjs": "28.0.0",
+    "@rollup/plugin-node-resolve": "15.3.1",
+    "@rollup/plugin-replace": "6.0.3",
+    "@rollup/plugin-terser": "0.4.4",
+    "@types/node": "22.19.15",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "rollup": "4.59.0",
+    "terser": "5.46.1",
+    "typescript": "5.9.3"
   }
 }
