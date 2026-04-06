@@ -65,6 +65,10 @@ Open-source fonts used in the app.
 - [Lato](https://fonts.google.com/specimen/Lato)
 - [Libre Baskerville](https://fonts.google.com/specimen/Libre+Baskerville)
 
+### The [`sample`](./sample) directory
+
+The template for a complete game package. (Which will, naturally, include `visiterp` as a submodule. Worlds without end.)
+
 ## Sources and acknowledgements
 
 The Visible Zorker is built on a seriously customized version of the [Parchment][] Z-machine interpreter by Marnanel Thurman, Atul Varma, and Dannii Willis.
