@@ -533,7 +533,7 @@ def display_globals(zcode):
     if not sourcefile_binorder_map:
         print('ERROR: --showglob requires order info for SourceFile')
         return
-    print('* Globals (%d), in what we hope is their correct order:' % len(zcode.globals),)
+    print('* Globals (%d), in what source-code order:' % len(zcode.globals),)
     ls = zcode.globals.copy()
     def func(glob):
         if glob.name == 'LOW-DIRECTION':
@@ -610,6 +610,7 @@ def display_globals_ana(zcode, txdat):
                     outmap[val] = []
                 outmap[val].append(globname)
 
+    print('* Globals (%d), in pattern-matched order:' % len(zcode.globals),)
     for val in range(256):
         ls = outmap.get(val)
         if not ls:
