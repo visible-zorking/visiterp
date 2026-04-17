@@ -558,7 +558,36 @@ def display_globals(zcode):
         print('Global %d %s' % (index, glob.name,))
     print('...check BIGFIX vs LOW-DIRECTION, and the following ones too')
     print('...any global defined twice will muck up the ordering')
+
+def display_globals_ana(zcode, txdat):
+    load_gameinfo()
+    if len(zcode.routines) != len(txdat.routines):
+        raise Exception('routine length mismatch (%d vs %d)' % (len(zcode.routines), len(txdat.routines),))
+
+    map = {}
+
+    pat_glob = re.compile('G[0-9a-f][0-9a-f]')
+    for rtn in txdat.routines:
+        for (addr, opcode, opargs) in rtn.opcodes:
+            for arg in opargs:
+                if pat_glob.match(arg):
+                    argnum = int(arg[ 1 : ], 16)
+                    if argnum not in map:
+                        map[argnum] = set()
+                    map[argnum].add(rtn.addr)
+
+    imap = {}
+    for gnum, addrset in map.items():
+        ls = list(addrset)
+        ls.sort()
+        key = ','.join([ '%x' % (val,) for val in ls ])
+        if key not in imap:
+            imap[key] = []
+        imap[key].append(gnum)
     
+    sortedroutines = sort_zcode_routines(zcode.routines, zcode.sourceorder)
+
+
 def write_constants(filename, zcode):
     print('...writing constants data:', filename)
     ls = []
