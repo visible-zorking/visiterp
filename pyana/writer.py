@@ -2,6 +2,7 @@ import json
 import re
 
 from monkey import monkeyadjuststringtext
+from zillex import TokType
 
 info_loaded = False
 
@@ -584,9 +585,40 @@ def display_globals_ana(zcode, txdat):
         if key not in imap:
             imap[key] = []
         imap[key].append(gnum)
-    
-    sortedroutines = sort_zcode_routines(zcode.routines, zcode.sourceorder)
 
+    sortedroutines = sort_zcode_routines(zcode.routines, zcode.sourceorder)
+    nametoaddr = {}
+    for zfunc, tfunc in zip(sortedroutines, txdat.routines):
+        nametoaddr[zfunc.name] = tfunc.addr
+
+    outmap = {}
+    
+    for glob in zcode.globals:
+        globname = glob.name
+        rtns = []
+        for rtn in zcode.routines:
+            got = rtn.rtok.itertree(lambda tok: tok.typ is TokType.ID and tok.val == globname)
+            if got:
+                rtns.append(rtn.name)
+        addrs = [ nametoaddr[val] for val in rtns ]
+        addrs.sort()
+        key = ','.join([ '%x' % (val,) for val in addrs ])
+        globnums = imap.get(key)
+        if globnums:
+            for val in globnums:
+                if val not in outmap:
+                    outmap[val] = []
+                outmap[val].append(globname)
+
+    for val in range(256):
+        ls = outmap.get(val)
+        if not ls:
+            print('### Global %d ###' % (val,))
+        elif len(ls) == 1:
+            print('Global %d %s' % (val, ls[0],))
+        else:
+            lsval = ', '.join(ls)
+            print('### Global %d ### %s' % (val, lsval,))
 
 def write_constants(filename, zcode):
     print('...writing constants data:', filename)

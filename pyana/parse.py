@@ -13,7 +13,7 @@ from zilana import findsetg
 from zilana import stripifdefs
 from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
 from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, compute_room_distances
-from writer import display_globals, display_objects
+from writer import display_globals, display_globals_ana, display_objects
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()
@@ -143,9 +143,12 @@ if opts.gamedat:
 
 if opts.showglob:
     if not opts.zilfile:
-        print('--showglob requires -z')
+        print('--showglob requires -z (and --txd for fancy mode)')
     else:
-        display_globals(zcode)
+        if not opts.txdfile:
+            display_globals(zcode)
+        else:
+            display_globals_ana(zcode, txdat)
 
 if opts.showobj:
     if not opts.zilfile or not opts.objdump:
