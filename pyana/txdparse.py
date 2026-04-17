@@ -42,6 +42,37 @@ class Routine:
     def __repr__(self):
         return '<Routine %X (%d args, %d opcodes)>' % (self.addr, self.argcount, len(self.opcodes),)
 
+pat_lex = re.compile('[() ,"]')
+
+def lex_opcode_args(val):
+    res = []
+    pos = 0
+    while True:
+        if pos >= len(val):
+            return res
+        match = pat_lex.search(val, pos=pos)
+        if not match:
+            res.append(val[ pos : ])
+            return res
+        if match.start() > pos:
+            res.append(val[ pos : match.start() ])
+        pos = match.end()
+        ch = match.group(0)
+        if ch == ' ':
+            continue
+        if ch in ',()':
+            res.append(ch)
+            continue
+        if ch == '"':
+            while val[pos] != '"':
+                if val[pos] == '\\':
+                    pos += 1
+                pos += 1
+            pos += 1
+            res.append(val[ match.start() : pos ])
+            continue
+        raise Exception('BUG: lex_opcode_args')
+    
 class TXDData:
     def __init__(self):
         self.routines = []
@@ -90,7 +121,9 @@ class TXDData:
                     match = pat_opcode.match(ln)
                     if match and rtn:
                         addr = int(match.group(1), 16)
-                        rtn.opcodes.append(addr)
+                        opcode = match.group(2)
+                        opargs = lex_opcode_args(match.group(3))
+                        rtn.opcodes.append((addr, opcode, opargs,))
                         if match.group(2) in ('PRINT', 'PRINT_RET'):
                             text = String.unescape(match.group(3), stripquotes=True)
                             st = String(addr, None, text, rtn=rtn)
