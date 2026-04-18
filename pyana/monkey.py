@@ -63,6 +63,9 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
         # These characters are switched in the source and I don't know why.
         if text == '".' and rtn == 'ROURKE-F':
             text = '."'
+    if gameid == 'starcross-r15-s820901':
+        if text == 'Lose, lose!':
+            text = '!'
     return text
 
 # late imports
