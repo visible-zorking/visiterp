@@ -15,6 +15,17 @@ def monkeyadjustlex(lexer, ls):
                 Token(TokType.ID, 'T', pos),
             ])
             ls.append(newtok)
+    if lexer.monkeypatch == 'starcross-r15-s820901':
+        if lexer.filename == 'dungeon.zil':
+            # Add a synthetic object at line 52 of dungeon.zil.
+            pos = lexer.getpos()
+            pos = ('dungeon.zil', 52, 0)
+            endpos = ('dungeon.zil', 53, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'LADDER', pos),
+            ])
+            ls.append(newtok)
     return ls
     
 extracompiledstrings = []
