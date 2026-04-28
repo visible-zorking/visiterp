@@ -12,7 +12,7 @@ export type OptPosition = { x:number, y:number } | null;
 
 export type ExtraToggle = { id:string, class?:string, transform?:string };
 type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
-type ScrollCenterFunc = (zstate:ZStatePlus) => OptPosition;
+type ScrollCenterFunc = (zstate:ZStatePlus, locname:string) => OptPosition;
 
 export function GameMap({ mobiles, extras, scrollcenter }: { mobiles:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
 {
@@ -75,7 +75,7 @@ export function GameMap({ mobiles, extras, scrollcenter }: { mobiles:number[], e
 
             let herecen: OptPosition = null;
             if (scrollcenter) {
-                herecen = scrollcenter(zstate);
+                herecen = scrollcenter(zstate, herestr);
             }
             if (!herecen) {
                 let roomobj = gamedat_roominfo_names.get(herestr);
