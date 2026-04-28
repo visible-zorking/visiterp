@@ -79,6 +79,10 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
             text = '!'
     return text
 
+def monkeyadjustmapxml(doc):
+    return doc
+
+
 # late imports
 from zillex import Token, TokType
 

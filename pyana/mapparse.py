@@ -5,6 +5,8 @@ import os, os.path
 import json
 from xml.dom.minidom import parse, Node
 
+from monkey import monkeyadjustmapxml
+
 fontcss = '''
 @font-face {
     font-family: "Lato";
@@ -180,6 +182,7 @@ for nod in roomlayer.childNodes:
 roomlist.sort(key=lambda room:room.name)
         
 outfl = open('pic/map.svg', 'w')
+doc = monkeyadjustmapxml(doc)
 doc.writexml(outfl)
 outfl.close()
 
