@@ -1,3 +1,5 @@
+from xml.dom.minidom import Node
+
 def monkeyinsertcrufty(gameid):
     if gameid == 'deadline-r27-s831005':
         return True
@@ -79,7 +81,22 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
             text = '!'
     return text
 
-def monkeyadjustmapxml(doc):
+def monkeyadjustmapxml(doc, gameid):
+    if gameid == 'starcross-r15-s820901':
+        svgnod = doc.childNodes[1]
+        groupls = []
+        for nod in svgnod.childNodes:
+            if nod.nodeName == 'g':
+                groupls.append(nod)
+        gnod = doc.createElement('g')
+        gnod.appendChild(doc.createTextNode('\n  '))
+        gnod.setAttribute('id', 'turntable')
+        svgnod.appendChild(doc.createTextNode('\n'))
+        svgnod.appendChild(gnod)
+        svgnod.appendChild(doc.createTextNode('\n'))
+        for nod in groupls:
+            gnod.appendChild(nod)
+            gnod.appendChild(doc.createTextNode('\n  '))
     return doc
 
 

@@ -72,6 +72,7 @@ if not os.path.exists(sys.argv[1]):
     sys.exit(1)
     
 doc = parse(sys.argv[1])
+gameid = sys.argv[2] if len(sys.argv) >= 3 else ''
 
 def remove_children(nod, func):
     ls = nod.childNodes
@@ -182,7 +183,7 @@ for nod in roomlayer.childNodes:
 roomlist.sort(key=lambda room:room.name)
         
 outfl = open('pic/map.svg', 'w')
-doc = monkeyadjustmapxml(doc)
+doc = monkeyadjustmapxml(doc, gameid)
 doc.writexml(outfl)
 outfl.close()
 
