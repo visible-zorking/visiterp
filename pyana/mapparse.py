@@ -2,6 +2,8 @@
 
 import sys
 import os, os.path
+import re
+import math
 import json
 from xml.dom.minidom import parse, Node
 
@@ -43,6 +45,8 @@ fontcss = '''
 }
 '''
 
+pat_rotate = re.compile('rotate[(]([0-9.-]+)[)]')
+
 class Room:
     def __init__(self, nod):
         val = nod.getAttribute('id')
@@ -53,6 +57,22 @@ class Room:
         self.ypos = float(nod.getAttribute('y'))
         self.width = float(nod.getAttribute('width'))
         self.height = float(nod.getAttribute('height'))
+        tra = nod.getAttribute('transform')
+        if tra:
+            match = pat_rotate.match(tra)
+            if not match:
+                raise Exception('transform is not rotate: %s' % (tra,))
+            theta = float(match.group(1)) * math.pi / 180
+            cx = self.xpos + self.width/2
+            cy = self.ypos + self.height/2
+            newcx = cx*math.cos(-theta) + cy*math.sin(-theta)
+            newcy = cy*math.cos(-theta) - cx*math.sin(-theta)
+            newwidth = self.width*math.cos(-theta) + self.height*math.sin(-theta)
+            newheight = self.height*math.cos(-theta) - self.width*math.sin(-theta)
+            self.width = newwidth
+            self.height = newheight
+            self.xpos = newcx - newwidth/2
+            self.ypos = newcy - newheight/2
     def __repr__(self):
         return '<Room "%s">' % (self.name,)
     def tojson(self):
