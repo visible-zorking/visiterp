@@ -15,6 +15,9 @@ popt = optparse.OptionParser()
 popt.add_option('--game',
                 action='store', dest='gameid', default='generic',
                 help='identifier of the game being parsed (indicates special cases)')
+popt.add_option('-o', '--out',
+                action='store', dest='outfile', default='pic/map.svg',
+                help='file to be written')
 
 (opts, args) = popt.parse_args()
 filename = args[0]
@@ -211,7 +214,7 @@ for nod in roomlayer.childNodes:
         roomlist.append(room)
 roomlist.sort(key=lambda room:room.name)
         
-outfl = open('pic/map.svg', 'w')
+outfl = open(opts.outfile, 'w')
 doc = monkeyadjustmapxml(doc, opts.gameid)
 doc.writexml(outfl)
 outfl.close()
