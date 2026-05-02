@@ -14,7 +14,7 @@ export type ExtraToggle = { id:string, class?:string, transform?:string };
 type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
 type ScrollCenterFunc = (zstate:ZStatePlus, locname:string) => OptPosition;
 
-export function GameMap({ mobiles, extras, scrollcenter }: { mobiles:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
+export function GameMap({ mobiles, extras, scrollcenter }: { mobiles?:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
 {
     let scrollref = useRefDiv();
     let mapref = useRefObject();
@@ -108,44 +108,46 @@ export function GameMap({ mobiles, extras, scrollcenter }: { mobiles:number[], e
                     mapdoc.rootElement.setAttribute('data-curselect', herestr);
                 }
 
-                let mobcounts: {[key: string]: number} = {};
-                for (let mobid of mobiles) {
-                    // We rely on the fact that the zstate reports
-                    // objects in order (1-based).
-                    let zobj = zstate.objects[mobid-1];
-                    if (!zobj)
-                        continue;
-                    let obj = gamedat_object_ids.get(mobid);
-                    if (!obj)
-                        continue;
-                    let el = mapdoc.getElementById('mob-'+obj.name.toLowerCase());
-                    if (!el)
-                        continue;
-                    
-                    let mobcen: OptPosition = null;
-                    let mobloc: ObjectData|undefined;
-                    if (zobj.parent) {
-                        mobloc = gamedat_object_ids.get(zobj.parent);
-                        if (mobloc) {
-                            let throomobj = gamedat_roominfo_names.get(mobloc.name);
-                            if (throomobj) {
-                                mobcen = throomobj.bottom;
+                if (mobiles) {
+                    let mobcounts: {[key: string]: number} = {};
+                    for (let mobid of mobiles) {
+                        // We rely on the fact that the zstate reports
+                        // objects in order (1-based).
+                        let zobj = zstate.objects[mobid-1];
+                        if (!zobj)
+                            continue;
+                        let obj = gamedat_object_ids.get(mobid);
+                        if (!obj)
+                            continue;
+                        let el = mapdoc.getElementById('mob-'+obj.name.toLowerCase());
+                        if (!el)
+                            continue;
+                        
+                        let mobcen: OptPosition = null;
+                        let mobloc: ObjectData|undefined;
+                        if (zobj.parent) {
+                            mobloc = gamedat_object_ids.get(zobj.parent);
+                            if (mobloc) {
+                                let throomobj = gamedat_roominfo_names.get(mobloc.name);
+                                if (throomobj) {
+                                    mobcen = throomobj.bottom;
+                                }
                             }
                         }
-                    }
-                    if (mobcen && mobloc) {
-                        let mobcount = mobcounts[mobloc.name] ?? 0;
-                        let posx = mobcen.x + 2*mobcount;
-                        let posy = mobcen.y + 4*mobcount;
-                        el.classList.remove('Offstage');
-                        el.setAttribute('transform', 'translate('+posx+','+posy+')');
-                        mobcounts[mobloc.name] = mobcount+1;
-                    }
-                    else {
-                        el.classList.add('Offstage');
+                        if (mobcen && mobloc) {
+                            let mobcount = mobcounts[mobloc.name] ?? 0;
+                            let posx = mobcen.x + 2*mobcount;
+                            let posy = mobcen.y + 4*mobcount;
+                            el.classList.remove('Offstage');
+                            el.setAttribute('transform', 'translate('+posx+','+posy+')');
+                            mobcounts[mobloc.name] = mobcount+1;
+                        }
+                        else {
+                            el.classList.add('Offstage');
+                        }
                     }
                 }
-
+                
                 if (extras) {
                     let extrals = extras(zstate);
                     for (let obj of extrals) {
