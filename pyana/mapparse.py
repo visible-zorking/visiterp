@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import optparse
 import os, os.path
 import re
 import math
@@ -8,6 +9,15 @@ import json
 from xml.dom.minidom import parse, Node
 
 from monkey import monkeyadjustmapxml
+
+popt = optparse.OptionParser()
+
+popt.add_option('--game',
+                action='store', dest='gameid', default='generic',
+                help='identifier of the game being parsed (indicates special cases)')
+
+(opts, args) = popt.parse_args()
+filename = args[0]
 
 fontcss = '''
 @font-face {
@@ -91,8 +101,7 @@ if not os.path.exists(sys.argv[1]):
     outfl.close()
     sys.exit(1)
     
-doc = parse(sys.argv[1])
-gameid = sys.argv[2] if len(sys.argv) >= 3 else ''
+doc = parse(filename)
 
 def remove_children(nod, func):
     ls = nod.childNodes
@@ -203,7 +212,7 @@ for nod in roomlayer.childNodes:
 roomlist.sort(key=lambda room:room.name)
         
 outfl = open('pic/map.svg', 'w')
-doc = monkeyadjustmapxml(doc, gameid)
+doc = monkeyadjustmapxml(doc, opts.gameid)
 doc.writexml(outfl)
 outfl.close()
 
