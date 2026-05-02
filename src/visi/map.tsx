@@ -14,7 +14,7 @@ export type ExtraToggle = { id:string, class?:string, transform?:string };
 type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
 type ScrollCenterFunc = (zstate:ZStatePlus, locname:string) => OptPosition;
 
-export function GameMap({ mobiles, extras, scrollcenter }: { mobiles?:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
+export function GameMap({ filename, mobiles, extras, scrollcenter }: { filename?:string, mobiles?:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
 {
     let scrollref = useRefDiv();
     let mapref = useRefObject();
@@ -176,7 +176,7 @@ export function GameMap({ mobiles, extras, scrollcenter }: { mobiles?:number[], 
 
     return (
         <div className="ScrollXYContent" ref={ scrollref } onPointerDown={ evhan_mousedown } onPointerMove={ evhan_mousemove } onPointerUp={ evhan_mouseup } >
-            <object className="GameMap" ref={ mapref } onLoad = { select_location } width={ docsize.w } height={ docsize.h } type="image/svg+xml" data="pic/map.svg" />
+            <object className="GameMap" ref={ mapref } onLoad = { select_location } width={ docsize.w } height={ docsize.h } type="image/svg+xml" data={ filename || "pic/map.svg" } />
         </div>
     );
 }
