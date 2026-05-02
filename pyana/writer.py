@@ -338,19 +338,19 @@ def interpret_locbits(val):
     # See constants in gparser.zil.
     ls = []
     if val & 128:
-        ls.append('p')
+        ls.append('p')   # 128=SH    "HELD"
     if val & 64:
-        ls.append('c')
+        ls.append('c')   #  64=SC    "CARRIED"
     if val & 32:
-        ls.append('i')
+        ls.append('i')   #  32=SIR   "IN-ROOM"
     if val & 16:
-        ls.append('o')
+        ls.append('o')   #  16=SOG   "ON-GROUND"
     if val & 8:
-        ls.append('t')
+        ls.append('t')   #   8=STAKE "TAKE"
     if val & 4:
-        ls.append('m')
+        ls.append('m')   #   4=SMANY "MANY"
     if val & 2:
-        ls.append('h')
+        ls.append('h')   #   2=SHAVE "HAVE"
     if val & 1:
         ls.append('?')
     return ''.join(ls)
