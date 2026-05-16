@@ -126,17 +126,23 @@ export function zobj_properties(proptable: Uint8Array, onum: number): ZProp[]
 
     let val = proptable[pos];
     pos += (1 + 2*val);
+    let lastpnum = 65535;
     while (true) {
         val = proptable[pos];
         if (!val)
             break;
         let len = (val >> 5) + 1;
         let pnum = (val & 0x1F);
-        let prop = {
-            pnum: pnum,
-            values: [ ...proptable.slice(pos+1, pos+1+len) ]
-        };
-        res.push(prop);
+        // Non-decreasing property numbers are illegal, but it happened
+        // in Suspended.
+        if (pnum < lastpnum) {
+            let prop = {
+                pnum: pnum,
+                values: [ ...proptable.slice(pos+1, pos+1+len) ]
+            };
+            res.push(prop);
+            lastpnum = pnum;
+        }
         pos += (1+len);
     }
 
