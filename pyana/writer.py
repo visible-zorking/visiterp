@@ -724,7 +724,7 @@ def write_tables(filename, zcode, gamefile):
             dat['arrindex'] = suffix
         ls.append(dat)
         if tab.children:
-            if tab.typ == 'LTABLE':
+            if tab.typ in ('LTABLE', 'PLTABLE'):
                 addr += 2
             ix = 1
             for stab in tab.children:
