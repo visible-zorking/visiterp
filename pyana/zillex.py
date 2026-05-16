@@ -111,7 +111,7 @@ class Token:
     def matchform(self, key, minlen):
         if self.typ is TokType.GROUP and self.val == '<>' and self.children:
             itok = self.children[0]
-            if itok.typ is TokType.ID and itok.val == key and len(self.children) >= 1+minlen:
+            if itok.typ is TokType.ID and itok.idmatch(key) and len(self.children) >= 1+minlen:
                 return True
 
     def matchgroup(self, key, minlen):
