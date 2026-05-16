@@ -260,7 +260,7 @@ class Zcode:
                     if globtok.typ is TokType.STR:
                         self.strings.append(ZString(globtok.val, globtok.pos, globtok.endpos))
                     if globtok.typ is TokType.GROUP and globtok.children:
-                        if globtok.children[0].val in ('TABLE', 'LTABLE'):
+                        if globtok.children[0].val in ('TABLE', 'LTABLE', 'PTABLE', 'PLTABLE'):
                             self.findstringsintok(globtok)
                             zglob.table = self.findnestedtablesintok(globtok)
             if tok.matchform('CONSTANT', 2) or tok.matchform('SETG', 2):
@@ -447,11 +447,11 @@ class Zcode:
                 self.findstringsinroutine(stok, rtn)
 
     def findnestedtablesintok(self, valtok):
-        assert valtok.children[0].val in ('TABLE', 'LTABLE')
+        assert valtok.children[0].val in ('TABLE', 'LTABLE', 'PTABLE', 'PLTABLE')
         table = ZNestedTable(valtok.children[0].val, valtok, len(valtok.children)-1)
         ls = []
         for stok in valtok.children[ 1 : ]:
-            if stok.typ is TokType.GROUP and stok.children and stok.children[0].val in ('TABLE', 'LTABLE'):
+            if stok.typ is TokType.GROUP and stok.children and stok.children[0].val in ('TABLE', 'LTABLE', 'PTABLE', 'PLTABLE'):
                 ls.append(self.findnestedtablesintok(stok))
             else:
                 ls.append(None)

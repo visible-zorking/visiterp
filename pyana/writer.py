@@ -717,7 +717,8 @@ def write_tables(filename, zcode, gamefile):
             'addr': addr,
             'sourceloc': sourceloc(tok=tab.tok)
         }
-        if tab.typ == 'LTABLE':
+        # The "P" indicates the array is in high memory, which we don't care about.
+        if tab.typ in ('LTABLE', 'PLTABLE'):
             dat['ltable'] = True
         if suffix:
             dat['arrindex'] = suffix
