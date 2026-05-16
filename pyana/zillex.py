@@ -251,7 +251,7 @@ class Lexer:
             if tok is None:
                 closetok = None
                 break
-            if opentok is None and tok.typ is TokType.DELIM and tok.val == '>' and self.monkeypatch == 'suspended-mac-r8-s840521' and tok.pos == ('people.zil', 149, 34):
+            if opentok is None and tok.typ is TokType.DELIM and tok.val == '>' and self.monkeypatch.startswith('suspended-mac-r8-s840521') and tok.pos == ('people.zil', 149, 34):
                 # Extremely special case (which I will move to monkey if
                 # it happens again): unbalanced close-bracket in Suspended.
                 # Skip it.
