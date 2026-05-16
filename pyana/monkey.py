@@ -5,6 +5,8 @@ def monkeyinsertcrufty(gameid):
         return True
     if gameid == 'starcross-r15-s820901':
         return True
+    if gameid == 'suspended-mac-r8-s840521':
+        return True
 
 def monkeyadjustlex(lexer, ls):
     if lexer.monkeypatch == 'zork2-r48-s840904':

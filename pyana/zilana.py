@@ -110,6 +110,9 @@ def findsetg(ls):
                     constval = 0
                 elif valtok.typ is TokType.GROUP and not valtok.children:
                     constval = 0
+                elif valtok.matchform('IVECTOR', 1) or valtok.matchform('IUVECTOR', 1):
+                    # Top-level array in Suspended which is not relevant.
+                    continue
                 else:
                     raise Exception('SETG has no value: %s' % (idtok.val,))
                 map[idtok.val] = constval
@@ -278,6 +281,9 @@ class Zcode:
                             constval = 0
                         else:
                             raise Exception('Constant strings not supported: %s "%s"' % (idtok.val, valtok.val))
+                    elif valtok.matchform('IVECTOR', 1) or valtok.matchform('IUVECTOR', 1):
+                        # Top-level array in Suspended which is not relevant.
+                        continue
                     else:
                         constval = self.parseconstant(valtok)
                         if constval is None:
