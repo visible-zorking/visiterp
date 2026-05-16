@@ -342,7 +342,7 @@ class Zcode:
                                     self.strings.append(ZString(strtok.val, strtok.pos, strtok.endpos))
                         if proptok.matchgroup(self.directionset, 1):
                             self.findstringsintok(proptok)
-                        if proptok.children and proptok.children[1].matchform(('LTABLE', 'PLTABLE'), 1):
+                        if proptok.children and len(proptok.children) >= 2 and proptok.children[1].matchform(('LTABLE', 'PLTABLE'), 1):
                             self.findstringsintok(proptok.children[1])
                         if proptok.matchgroup('FLAGS', 1):
                             attrnames = [ atok.val for atok in proptok.children[1:] if atok.typ is TokType.ID ]
