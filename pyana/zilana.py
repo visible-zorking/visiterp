@@ -342,6 +342,9 @@ class Zcode:
                                     self.strings.append(ZString(strtok.val, strtok.pos, strtok.endpos))
                         if proptok.matchgroup(self.directionset, 1):
                             self.findstringsintok(proptok)
+                        if proptok.matchgroup(('OBJDESCS', 'ROOMDESCS', 'CLC-TXT'), 1):
+                            # Suspended only
+                            self.findstringsintok(proptok)
                         if proptok.matchgroup('FLAGS', 1):
                             attrnames = [ atok.val for atok in proptok.children[1:] if atok.typ is TokType.ID ]
                             self.attrnameset.update(attrnames)
