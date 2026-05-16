@@ -54,6 +54,12 @@ popt.add_option('--showglob',
 popt.add_option('--showobj',
                 action='store_true', dest='showobj',
                 help='list objects whose names can be matched')
+popt.add_option('--showprop',
+                action='store_true', dest='showprop',
+                help='list property names')
+popt.add_option('--showattr',
+                action='store_true', dest='showattr',
+                help='list attribute names')
 popt.add_option('--src',
                 action='store_true', dest='sourcelist',
                 help='write source.js with syntax coloring')
@@ -156,6 +162,22 @@ if opts.showobj:
     else:
         display_objects(zcode, objdat)
 
+if opts.showattr:
+    if not opts.zilfile:
+        print('--showattr requires -z')
+    ls = list(zcode.attrnameset)
+    ls.sort()
+    for val in ls:
+        print('# Attribute X', val)
+        
+if opts.showprop:
+    if not opts.zilfile:
+        print('--showprop requires -z')
+    ls = list(zcode.propnameset)
+    ls.sort()
+    for val in ls:
+        print('# Property X', val)
+        
 if opts.sourcelist:
     if not opts.zilfile:
         print('need -z gamesrc/zork1.zil')
