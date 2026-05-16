@@ -51,6 +51,10 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
     if gameid == 'zork3-r17-s840727':
         if tok.typ is TokType.STR and tok.val == 'You don\'t have that.':
             return True
+    if gameid == 'suspended-mac-r8-s840521':
+        if tok.typ is TokType.GROUP and tok.pos == ('robots.zil', 878, 2):
+            # first CLC-TXT property
+            return True
     return False
 
 def monkeyextrastrings():
