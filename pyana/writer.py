@@ -746,6 +746,7 @@ def write_tables(filename, zcode, gamefile):
         index = globname_to_num[glob.name]
         iterate(glob.name, glob.table, gamefile.getglobal(index), accum=globtables)
 
+    allproptables = []
     for obj in zcode.objects:
         if not obj.proptables:
             continue
@@ -764,11 +765,15 @@ def write_tables(filename, zcode, gamefile):
             if len(values) != 2:
                 raise Exception('property %s.%s (obj %d prop %d) is not a word' % (obj.name, pname, onum, pnum,))
             addr = values[0] * 256 + values[1]
-            print('###', obj.name, pnum, pname, addr)
+            key = '%s.%s' % (obj.name, pname,)
+            iterate(key, table, addr, accum=allproptables)
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');
     json.dump(globtables, fl, separators=(',', ':'))
+    fl.write(';\n')
+    fl.write('window.gamedat_objproptables = ');
+    json.dump(allproptables, fl, separators=(',', ':'))
     fl.write(';\n')
     fl.close()
     
