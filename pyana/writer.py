@@ -706,8 +706,9 @@ def display_objects(zcode, objdat):
 def write_tables(filename, zcode, gamefile):
     print('...writing table addresses:', filename)
     load_gameinfo()
-    ls = []
-    def iterate(globname, tab, addr, suffix=''):
+    def iterate(globname, tab, addr, accum=None, suffix=''):
+        if accum is None:
+            accum = []
         dat = {
             'name': globname,
             'len': tab.length,
@@ -719,7 +720,7 @@ def write_tables(filename, zcode, gamefile):
             dat['ltable'] = True
         if suffix:
             dat['arrindex'] = suffix
-        ls.append(dat)
+        accum.append(dat)
         if tab.children:
             if tab.typ in ('LTABLE', 'PLTABLE'):
                 addr += 2
@@ -730,10 +731,12 @@ def write_tables(filename, zcode, gamefile):
                         newsuffix = str(ix)
                     else:
                         newsuffix = suffix + ',' + str(ix)
-                    iterate(globname, stab, gamefile.getword(addr), newsuffix)
+                    iterate(globname, stab, gamefile.getword(addr), accum, newsuffix)
                 ix += 1
                 addr += 2
-    
+        return accum
+
+    globtables = []
     for glob in zcode.globals:
         if not glob.table:
             continue
@@ -741,7 +744,7 @@ def write_tables(filename, zcode, gamefile):
             print('missing global:', glob.name)
             continue
         index = globname_to_num[glob.name]
-        iterate(glob.name, glob.table, gamefile.getglobal(index))
+        iterate(glob.name, glob.table, gamefile.getglobal(index), accum=globtables)
 
     for obj in zcode.objects:
         if not obj.proptables:
@@ -765,7 +768,7 @@ def write_tables(filename, zcode, gamefile):
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');
-    json.dump(ls, fl, separators=(',', ':'))
+    json.dump(globtables, fl, separators=(',', ':'))
     fl.write(';\n')
     fl.close()
     
