@@ -54,6 +54,14 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
     if gameid == 'suspended-mac-r8-s840521':
         if tok.typ is TokType.GROUP and tok.pos == ('robots.zil', 878, 2):
             # first CLC-TXT property
+            if not forscolor:
+                pltable = tok.children[1]
+                # "They are carbon-based, organic mechanisms."
+                extracompiledstrings.append(pltable.children[1])
+                # "They are here to replace you. You must stop them at all costs."
+                extracompiledstrings.append(pltable.children[2])
+                # "I refer you to Gregory Franklin..."
+                extracompiledstrings.append(pltable.children[3])
             return True
     return False
 
