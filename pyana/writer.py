@@ -706,7 +706,6 @@ def display_objects(zcode, objdat):
 def write_tables(filename, zcode, gamefile):
     print('...writing table addresses:', filename)
     load_gameinfo()
-    globaladdr = gamefile.getword(0x0C)
     ls = []
     def iterate(globname, tab, addr, suffix=''):
         dat = {
@@ -743,7 +742,7 @@ def write_tables(filename, zcode, gamefile):
             print('missing global:', glob.name)
             continue
         index = globname_to_num[glob.name]
-        iterate(glob.name, tab, gamefile.getword(globaladdr+2*index))
+        iterate(glob.name, tab, gamefile.getglobal(index))
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');
