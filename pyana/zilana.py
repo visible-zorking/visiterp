@@ -9,6 +9,7 @@ class ZObject:
         self.desc = desc
         self.desctok = desctok
         self.objtok = objtok
+        self.proptables = None
 
     def __repr__(self):
         desc = (self.desc or '')
@@ -331,6 +332,7 @@ class Zcode:
                 desctok = None
                 idtok = tok.children[1]
                 if idtok.typ is TokType.ID:
+                    proptables = {}
                     for proptok in tok.children[2:]:
                         if proptok.matchgroup(('DESC', 'LDESC', 'FDESC', 'TEXT'), 1):
                             if proptok.children[1].typ is TokType.STR:
@@ -344,11 +346,14 @@ class Zcode:
                             self.findstringsintok(proptok)
                         if proptok.children and len(proptok.children) >= 2 and proptok.children[1].matchform(('LTABLE', 'PLTABLE'), 1):
                             self.findstringsintok(proptok.children[1])
-                            # proptable = self.findnestedtablesintok(proptok.children[1])
+                            proptable = self.findnestedtablesintok(proptok.children[1])
+                            proptables[proptok.children[0].val] = proptable
                         if proptok.matchgroup('FLAGS', 1):
                             attrnames = [ atok.val for atok in proptok.children[1:] if atok.typ is TokType.ID ]
                             self.attrnameset.update(attrnames)
                     newobj = ZObject(idtok.val, flag, desc, desctok, tok)
+                    if proptables:
+                        newobj.proptables = proptables
                     self.objects.append(newobj)
                     tok.defentity = newobj
                     if isroom:
