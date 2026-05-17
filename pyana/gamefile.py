@@ -18,6 +18,7 @@ class Gamefile:
         return self.getword(self.globaltable+2*index)
     
     def getproptable(self, onum):
+        # This is for V3
         objaddr = self.objtable + 31*2 + 9*(onum-1)
         propaddr = self.getword(objaddr + 7)
         

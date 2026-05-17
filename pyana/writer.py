@@ -743,6 +743,19 @@ def write_tables(filename, zcode, gamefile):
             continue
         index = globname_to_num[glob.name]
         iterate(glob.name, tab, gamefile.getglobal(index))
+
+    for obj in zcode.objects:
+        if not obj.proptables:
+            continue
+        if obj.name not in objname_to_num:
+            continue
+        onum = objname_to_num[obj.name]
+        proptable = gamefile.getproptable(onum)
+        pnames = list(obj.proptables.keys())
+        pnames.sort()
+        for pname in pnames:
+            table = obj.proptables[pname]
+            print('###', obj.name, pname, table)
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');

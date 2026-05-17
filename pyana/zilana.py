@@ -62,7 +62,7 @@ class ZNestedTable:
         if self.children:
             ls = [ repr(tab) for tab in self.children ]
             val = ' %s (%s)' % (len(ls), ', '.join(ls),)
-        return '<ZNestedTable %s%s>' % (self.typ, val,)
+        return '<ZNestedTable %s[%s]%s>' % (self.typ, self.length, val,)
     
 class ZRoutine:
     def __init__(self, name, callargcount, args, rtok, argstok):
