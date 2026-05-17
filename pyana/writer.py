@@ -706,7 +706,7 @@ def display_objects(zcode, objdat):
 def write_tables(filename, zcode, gamefile):
     print('...writing table addresses:', filename)
     load_gameinfo()
-    def iterate(globname, tab, addr, accum=None, suffix=''):
+    def iterate(globname, tab, addr, accum=None, suffix='', withvalues=False):
         if accum is None:
             accum = []
         dat = {
@@ -720,6 +720,16 @@ def write_tables(filename, zcode, gamefile):
             dat['ltable'] = True
         if suffix:
             dat['arrindex'] = suffix
+        if withvalues:
+            valls = []
+            vaddr = addr
+            if tab.typ in ('LTABLE', 'PLTABLE'):
+                vaddr += 2
+            for _ in range(tab.length):
+                valls.append(gamefile.getword(vaddr))
+                vaddr += 2
+            dat['values'] = valls
+            
         accum.append(dat)
         if tab.children:
             if tab.typ in ('LTABLE', 'PLTABLE'):
@@ -766,7 +776,7 @@ def write_tables(filename, zcode, gamefile):
                 raise Exception('property %s.%s (obj %d prop %d) is not a word' % (obj.name, pname, onum, pnum,))
             addr = values[0] * 256 + values[1]
             key = '%s.%s' % (obj.name, pname,)
-            iterate(key, table, addr, accum=allproptables)
+            iterate(key, table, addr, accum=allproptables, withvalues=True)
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');
