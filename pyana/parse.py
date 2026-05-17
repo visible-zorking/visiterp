@@ -11,6 +11,7 @@ from zilana import Zcode
 from zilana import stripcomments
 from zilana import findsetg
 from zilana import stripifdefs
+from gamefile import Gamefile
 from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
 from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, compute_room_distances
 from writer import display_globals, display_globals_ana, display_objects
@@ -90,10 +91,8 @@ if opts.zilfile:
 
 if opts.gamefile:
     print('reading %s...' % (opts.gamefile,))
-    fl = open(opts.gamefile, 'rb')
-    gamefile = fl.read()
-    fl.close()
-    print('length:', len(gamefile))
+    gamefile = Gamefile(opts.gamefile)
+    print('length:', len(gamefile.mem))
 
 if opts.txdfile:
     print('reading TXD dump...')
