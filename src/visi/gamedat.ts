@@ -82,6 +82,7 @@ export const gamedat_grammaractionlines = winany.gamedat_grammaractionlines as n
 export const gamedat_routine_addrs = winany.gamedat_routine_addrs as Map<number, RoutineData>;
 export const gamedat_routine_names = winany.gamedat_routine_names as Map<string, RoutineData>;
 export const gamedat_table_addrs = winany.gamedat_table_addrs as Map<number, TableData>;
+export const gamedat_objproptable_names = winany.gamedat_objproptable_names as Map<string, TableData>;
 export const gamedat_actions = winany.gamedat_actions as ActionData[];
 export const gamedat_sourcefiles = winany.gamedat_sourcefiles as SourceLinesMap;
 export const gamedat_distances = winany.gamedat_distances as AllDistanceMap;

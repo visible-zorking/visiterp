@@ -27,6 +27,7 @@ window.gamedat_grammar_line_addrs = new Map();
 window.gamedat_routine_addrs = new Map();
 window.gamedat_routine_names = new Map();
 window.gamedat_table_addrs = new Map();
+window.gamedat_objproptable_names = new Map();
 window.gamedat_property_nums = new Map();
 window.gamedat_property_names = new Map();
 window.gamedat_attribute_nums = new Map();
@@ -108,6 +109,10 @@ window.gamedat_ids = {};
 
     for (let obj of window.gamedat_tables) {
         gamedat_table_addrs.set(obj.addr, obj);
+    }
+
+    for (let obj of window.gamedat_objproptables) {
+        gamedat_objproptable_names.set(obj.name, obj);
     }
 
     /* More hand-coded values. These are extracted from the gamedat
