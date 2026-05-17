@@ -737,12 +737,11 @@ def write_tables(filename, zcode, gamefile):
     for glob in zcode.globals:
         if not glob.table:
             continue
-        tab = glob.table
         if glob.name not in globname_to_num:
             print('missing global:', glob.name)
             continue
         index = globname_to_num[glob.name]
-        iterate(glob.name, tab, gamefile.getglobal(index))
+        iterate(glob.name, glob.table, gamefile.getglobal(index))
 
     for obj in zcode.objects:
         if not obj.proptables:
@@ -754,8 +753,15 @@ def write_tables(filename, zcode, gamefile):
         pnames = list(obj.proptables.keys())
         pnames.sort()
         for pname in pnames:
+            pnum = propname_to_num[pname]
             table = obj.proptables[pname]
-            print('###', obj.name, pname, table)
+            if pnum not in proptable:
+                continue
+            values = proptable[pnum]
+            if len(values) != 2:
+                raise Exception('property %s.%s (obj %d prop %d) is not a word' % (obj.name, pname, onum, pnum,))
+            addr = values[0] * 256 + values[1]
+            print('###', obj.name, pnum, pname, addr)
     
     fl = open(filename, 'w')
     fl.write('window.gamedat_tables = ');

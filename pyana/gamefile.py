@@ -26,7 +26,7 @@ class Gamefile:
         addr = propaddr + (1 + 2*textlen)
         lastpnum = 65535
 
-        res = []
+        res = {}
 
         while True:
             val = self.getbyte(addr)
@@ -36,10 +36,9 @@ class Gamefile:
             pnum = (val & 0x1F)
             if pnum < lastpnum:
                 values = self.mem[ addr+1 : addr+1+plen ]
-                res.append( (pnum, values) )
+                res[pnum] = values
                 lastpnum = pnum
             addr += (1 + plen)
 
-        res.reverse()
         return res
     
