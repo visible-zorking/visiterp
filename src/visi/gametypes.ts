@@ -172,6 +172,7 @@ export type TableData = {
     len: number;
     ltable?: boolean;
     sourceloc: string;
+    values?: number[];
 }
 
 type CommentarySpan = string | string[];
