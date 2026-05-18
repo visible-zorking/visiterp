@@ -46,7 +46,7 @@ export function ObjectTree()
             roots.push(tup);
     }
 
-    let sorter = sorter_for_key(followKey);
+    let sorter = sorter_for_key(followKey, zstate);
     sorter(roots, map);
     
     let rootls = roots.map((o) =>
