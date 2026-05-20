@@ -84,7 +84,7 @@ class TXDData:
         pat_opcode = re.compile('^[ ]*([0-9a-f]+):[ ]+([A-Z0-9_]+)[ ]*(.*)$')
         pat_startrtns = re.compile('^\\[Start of code')
         pat_endrtns = re.compile('^\\[End of code')
-        pat_text = re.compile('^([0-9a-f]+): S([0-9]+)[ ]+\"(.*)\"$')
+        pat_text = re.compile('^[ ]?([0-9a-f]+): S([0-9]+)[ ]+\"(.*)\"$')
         pat_starttext = re.compile('^\\[Start of text')
         pat_endtext = re.compile('^\\[End of text')
         pat_actiontype = re.compile('^[ ]*(Action|Pre-action) routine for:')
