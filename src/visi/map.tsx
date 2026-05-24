@@ -9,10 +9,10 @@ import { ZStatePlus } from './zstate';
 import { is_dark_theme } from './cookie';
 
 export type OptPosition = { x:number, y:number } | null;
-
+export type ScrollCenterInfo = { room?:string, pos?:OptPosition } | null;
 export type ExtraToggle = { id:string, class?:string, transform?:string };
 type ExtraToggleFunc = (zstate:ZStatePlus) => ExtraToggle[];
-type ScrollCenterFunc = (zstate:ZStatePlus, locname:string) => OptPosition;
+type ScrollCenterFunc = (zstate:ZStatePlus, locname:string) => ScrollCenterInfo;
 
 export function GameMap({ filename, mobiles, extras, scrollcenter }: { filename?:string, mobiles?:number[], extras?:ExtraToggleFunc, scrollcenter?:ScrollCenterFunc })
 {
@@ -75,7 +75,13 @@ export function GameMap({ filename, mobiles, extras, scrollcenter }: { filename?
 
             let herecen: OptPosition = null;
             if (scrollcenter) {
-                herecen = scrollcenter(zstate, herestr);
+                let res = scrollcenter(zstate, herestr);
+                if (res && res.room) {
+                    herestr = res.room;
+                }
+                if (res && res.pos) {
+                    herecen = res.pos;
+                }
             }
             if (!herecen) {
                 let roomobj = gamedat_roominfo_names.get(herestr);
