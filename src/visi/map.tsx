@@ -170,13 +170,13 @@ export function GameMap({ filename, mobiles, extras, scrollcenter }: { filename?
         }
     }
 
-    useEffect(select_location, [ zstate, rctx.theme ]);
     useEffect(() => {
+        select_location();
         window.addEventListener('map-update', select_location);
         return () => {
             window.removeEventListener('map-update', select_location);
         };
-    }, []);
+    }, [ zstate, rctx.theme ]);
                                                        
     function evhan_mouseup(ev: PointerEv) {
         dragstart = null;
