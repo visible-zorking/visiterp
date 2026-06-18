@@ -251,7 +251,7 @@ class Lexer:
             if tok is None:
                 closetok = None
                 break
-            if opentok is None and monkeyskiptoken(self, tok):
+            while opentok is None and monkeyskiptoken(self, tok):
                 # We use this to skip unbalanced delimiters in a couple
                 # of games.
                 tok = self.readtoken()
