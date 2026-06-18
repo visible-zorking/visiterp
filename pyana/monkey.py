@@ -8,6 +8,13 @@ def monkeyinsertcrufty(gameid):
     if gameid == 'suspended-mac-r8-s840521':
         return True
 
+def monkeyskiptoken(lexer, tok):
+    if tok.typ is TokType.DELIM and tok.val == '>' and tok.pos == ('people.zil', 149, 34) and lexer.monkeypatch.startswith('suspended-mac-r8-s840521'):
+        return True
+    if tok.typ is TokType.DELIM and tok.val == ')' and tok.pos == ('places.zil', 947, 1) and lexer.monkeypatch.startswith('witness-r22-s840924'):
+        return True
+    return False
+
 def monkeyadjustlex(lexer, ls):
     if lexer.monkeypatch == 'zork2-r48-s840904':
         if lexer.filename == 'zork2.zil':
@@ -31,7 +38,7 @@ def monkeyadjustlex(lexer, ls):
             ])
             ls.append(newtok)
     return ls
-    
+
 extracompiledstrings = []
 
 def monkeyadjustifdef(tok, gameid, forscolor=False):
