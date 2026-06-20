@@ -110,6 +110,10 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
     if gameid == 'starcross-r15-s820901':
         if text == 'Lose, lose!':
             text = '!'
+    if gameid == 'witness-r23-s840925':
+        # Extra trimming
+        if text.startswith(':\n\nDear Detective:'):
+            text = text[ : -1 ]
     return text
 
 def monkeyadjustmapxml(doc, gameid):
