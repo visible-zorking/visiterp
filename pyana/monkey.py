@@ -72,6 +72,13 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
                 # "I refer you to Gregory Franklin..."
                 extracompiledstrings.append(pltable.children[3])
             return True
+    if gameid == 'witness-r23-s840925':
+        if tok.typ is TokType.GROUP and tok.pos == ('things.zil', 426, 1):
+            # inlined routine SEEKING-DRINK?
+            return True
+        if tok.typ is TokType.GROUP and tok.pos == ('main.zil', 45, 1):
+            # inlined routine MAIN-LOOP
+            return True
     return False
 
 def monkeyextrastrings():
