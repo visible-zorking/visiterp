@@ -259,12 +259,14 @@ def write_strings(filename, zcode, txdat, objdat):
     for str in txdat.istrings:
         fname = funcaddr_to_name[str.rtn.addr]
         tup = istrtext_to_pos.get((fname, str.text))
-        if tup is not None:
-            if len(tup) == 0:
-                print('ERROR: ran out of istrings in rtn %s: %s' % (fname, str,))
-                continue
-            srctok = tup.pop(0)
-            ls.append([ str.addr, str.text, sourceloc(tok=srctok), str.rtn.addr ])
+        if tup is None:
+            print('ERROR: istring not found in rtn %s: %s' % (fname, str,))
+            continue
+        if len(tup) == 0:
+            print('ERROR: ran out of istrings in rtn %s: %s' % (fname, str,))
+            continue
+        srctok = tup.pop(0)
+        ls.append([ str.addr, str.text, sourceloc(tok=srctok), str.rtn.addr ])
     for obj in objdat.objects:
         if not obj.desc:
             continue
