@@ -39,6 +39,18 @@ def monkeyadjustlex(lexer, ls):
                 Token(TokType.ID, 'LADDER', pos),
             ])
             ls.append(newtok)
+    if lexer.monkeypatch == 'witness-r23-s840925':
+        if lexer.filename == 'verbs.zil':
+            # Un-comment-out PRE-DROP and PRE-THROUGH.
+            
+            tok = ls[123]
+            assert tok.val==';' and len(tok.children)==1 and tok.children[0].children[1].val=='PRE-DROP'
+            ls[123] = tok.children[0]
+            
+            tok = ls[127]
+            assert tok.val==';' and len(tok.children)==1 and tok.children[0].children[1].val=='PRE-THROUGH'
+            ls[127] = tok.children[0]
+            
     return ls
 
 extracompiledstrings = []
