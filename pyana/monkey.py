@@ -61,6 +61,17 @@ def monkeyadjustlex(lexer, ls):
                 ]),
             ])
             condtok.children.insert(2, newtok)
+    if lexer.monkeypatch == 'witness-r23-s840925':
+        if lexer.filename == 'people.zil':
+            # Add a synthetic object at line 80 of people.zil.
+            pos = lexer.getpos()
+            pos = ('people.zil', 80, 0)
+            endpos = ('people.zil', 81, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'DRIVEWAY-GATE', pos),
+            ])
+            ls.append(newtok)
     return ls
 
 extracompiledstrings = []
