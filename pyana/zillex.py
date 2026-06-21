@@ -13,6 +13,13 @@ class Token:
     PREFIXCHARS = '\',.;!%'
     DELIMCHARS = '<>()'
     
+    @staticmethod
+    def WithPrefix(prefix, typ, val, pos):
+        assert prefix in Token.PREFIXCHARS
+        return Token(TokType.GROUP, prefix, pos, children=[
+            Token(typ, val, pos)
+        ])
+    
     def __init__(self, typ, val, pos, children=None, endpos=None):
         self.typ = typ
         self.val = val
