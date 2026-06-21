@@ -68,6 +68,10 @@ export function ArgShowAttribute({ value }: { value:number })
 
 export function ArgShowString({ value }: { value:number })
 {
+    if (value == 0) {
+        return (<i>no-str</i>);
+    }
+    
     let obj = gamedat_string_map.get(unpack_address(value));
     if (obj) {
         let text = obj.text;
