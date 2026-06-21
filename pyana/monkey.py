@@ -39,7 +39,22 @@ def monkeyadjustlex(lexer, ls):
                 Token(TokType.ID, 'LADDER', pos),
             ])
             ls.append(newtok)
-            
+        if lexer.filename == 'verbs.zil':
+            # Add a fake <TELL> at line 1095 in the V-SHAKE routine,
+            # between the "This seems to have no effect" and
+            # "sounds like there is something inside" clauses.
+            tok = ls[147]
+            assert tok.children[1].val == 'V-SHAKE'
+            condtok = tok.children[3]
+            pos = ('verbs.zil', 1095, 0)
+            endpos = ('verbs.zil', 1095, 1)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'TELL', pos),
+                Token(TokType.STR, "You don't have it!", pos),
+            ])
+            print('###', tok.dump())
+            condtok.children.insert(2, newtok)
+            print('###', tok.dump())
     return ls
 
 extracompiledstrings = []
