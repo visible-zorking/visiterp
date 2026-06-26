@@ -112,6 +112,9 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
         if tok.typ is TokType.GROUP and tok.pos == ('main.zil', 45, 1):
             # inlined routine MAIN-LOOP
             return True
+        if tok.typ is TokType.GROUP and tok.pos == ('people.zil', 437, 8):
+            # PHONG-F stanza not compiled in
+            return True
     return False
 
 def monkeyextrastrings():
