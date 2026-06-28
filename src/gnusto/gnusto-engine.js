@@ -2116,7 +2116,10 @@ GnustoEngine.prototype = {
                 var hours = this.getUnsignedWord(this.m_vars_start+2);
                 var minutes = this.getUnsignedWord(this.m_vars_start+4);
                 var ampm = (hours >= 12) ? 'pm' : 'am';
-                if (hours >= 13) {
+                if (hours == 0) {
+                    hours = 12;
+                }
+                else if (hours >= 13) {
                     hours -= 12;
                 }
                 if (minutes < 10) {
