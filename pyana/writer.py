@@ -729,6 +729,11 @@ def display_source_dict(zcode):
                     if subtok.typ is TokType.ID:
                         wordtoks.append(subtok)
                 continue
+            if tok.matchform('DIRECTIONS', 1):
+                for subtok in tok.children[1:]:
+                    if subtok.typ is TokType.ID:
+                        wordtoks.append(subtok)
+                continue
             if tok.matchform('SYNONYM', 1):
                 for subtok in tok.children[1:]:
                     if subtok.typ is TokType.ID:

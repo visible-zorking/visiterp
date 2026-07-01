@@ -141,6 +141,11 @@ def colorize(tokls, res, defentity):
                 if subtok.typ is TokType.ID:
                     res.append( (subtok, Color.DICT) )
             continue
+        if tok.matchform('DIRECTIONS', 1):
+            for subtok in tok.children[1:]:
+                if subtok.typ is TokType.ID:
+                    res.append( (subtok, Color.DICT) )
+            continue
         if tok.matchform('SYNONYM', 1):
             for subtok in tok.children[1:]:
                 if subtok.typ is TokType.ID:
