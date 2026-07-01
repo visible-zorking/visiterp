@@ -14,7 +14,7 @@ from zilana import stripifdefs
 from gamefile import Gamefile
 from txdparse import TXDData, ObjDumpData, DictDumpData, GrammarDumpData
 from writer import write_filenames, write_properties, write_attributes, write_actions, write_constants, write_globals, write_objects, write_routines, write_strings, write_dictwords, write_grammar, write_tables, compute_room_distances
-from writer import display_globals, display_globals_ana, display_objects
+from writer import display_globals, display_globals_ana, display_objects, display_source_dict
 from gensource import write_source, write_source_colored
 
 popt = optparse.OptionParser()
@@ -61,6 +61,9 @@ popt.add_option('--showprop',
 popt.add_option('--showattr',
                 action='store_true', dest='showattr',
                 help='list attribute names')
+popt.add_option('--showdict',
+                action='store_true', dest='showdict',
+                help='list game dictionary (from source)')
 popt.add_option('--src',
                 action='store_true', dest='sourcelist',
                 help='write source.js with syntax coloring')
@@ -176,6 +179,12 @@ if opts.showprop:
     ls.sort()
     for val in ls:
         print('# Property X', val)
+        
+if opts.showdict:
+    if not opts.zilfile:
+        print('--showdict requires --z')
+    else:
+        display_source_dict(zcode)
         
 if opts.sourcelist:
     if not opts.zilfile:

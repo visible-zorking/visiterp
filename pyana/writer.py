@@ -708,6 +708,50 @@ def display_objects(zcode, objdat):
             continue
         print('Object %d %s' % (obj.num, ls[0].name,))
 
+def display_source_dict(zcode):
+    print('* Dictionary words, as found in source:')
+    wordtoks = []
+    def dictfind(tokls):
+        for tok in tokls:
+            if tok.typ is TokType.GROUP and tok.val == '()' and tok.children:
+                if tok.children[0].idmatch(('SYNONYM', 'ADJECTIVE')):
+                    for subtok in tok.children[1:]:
+                        if subtok.typ is TokType.ID:
+                            wordtoks.append(subtok)
+                    continue
+                if tok.children[0].idmatch('PSEUDO'):
+                    for subtok in tok.children[1:]:
+                        if subtok.typ is TokType.STR:
+                            wordtoks.append(subtok)
+                    continue
+            if tok.matchform('BUZZ', 1):
+                for subtok in tok.children[1:]:
+                    if subtok.typ is TokType.ID:
+                        wordtoks.append(subtok)
+                continue
+            if tok.matchform('SYNONYM', 1):
+                for subtok in tok.children[1:]:
+                    if subtok.typ is TokType.ID:
+                        wordtoks.append(subtok)
+                continue
+            if tok.matchform('SYNTAX', 3):
+                eqpos = 1
+                for subtok in tok.children[1:]:
+                    if subtok.idmatch('='):
+                        break
+                    if subtok.typ is TokType.ID and subtok.val != 'OBJECT':
+                        wordtoks.append(subtok)
+                    eqpos += 1
+                dictfind(tok.children[ eqpos+1 : ])
+                continue
+            if tok.children:
+                dictfind(tok.children)
+    dictfind(zcode.tokls)
+    words = [ tok.val for tok in wordtoks ]
+    words = list(set(words))
+    words.sort()
+    print(' '.join(words))
+        
 def write_tables(filename, zcode, gamefile):
     print('...writing table addresses:', filename)
     load_gameinfo()
