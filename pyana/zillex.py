@@ -181,7 +181,7 @@ class Lexer:
             if ch in Token.DELIMCHARS:
                 self.nextchar()
                 return Token(TokType.DELIM, ch, pos, endpos=self.getpos())
-            if ch.isalpha() or ch == '=':
+            if ch.isalpha() or ch in ('=', '$'):
                 # The range of valid ZIL symbols is broad; they can have
                 # punctuation inside them, or even at the beginning. This
                 # does not attempt to parse every possible symbol, just
