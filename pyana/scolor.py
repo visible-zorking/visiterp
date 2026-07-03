@@ -99,6 +99,8 @@ def colorize(tokls, res, defentity):
                     res.append( (tok, Color.ID) )
             elif tok.val in implicitids:
                 res.append( (tok, Color.IMPLID) )
+            elif tok.val.startswith('W?'):
+                res.append( (tok, Color.DICT) )
             continue
         
         if tok.typ is TokType.GROUP and tok.val == ';':
