@@ -366,7 +366,15 @@ class UntabReader:
         self.xpos = 0
         self.spaces = 0
 
-    def read(self, count):
+    def read(self, count=None):
+        if count is None:
+            res = []
+            while True:
+                ch = self.read(1)
+                if not ch:
+                    break
+                res.append(ch)
+            return ''.join(res)
         if count == 0:
             raise Exception('must read at least 1')
         if count > 1:
@@ -382,7 +390,7 @@ class UntabReader:
             return ch
         if ch in ('\r', '\n'):
             self.xpos = 0
-            return ch
+            return '\n'
         if ch == '\t':
             self.spaces = 7 - (self.xpos % 8)
             self.xpos += 1
