@@ -366,6 +366,12 @@ class UntabReader:
         self.xpos = 0
         self.spaces = 0
 
+    def __enter__(self):
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        self.close()
+
     def read(self, count=None):
         if count is None:
             res = []
