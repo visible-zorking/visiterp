@@ -398,6 +398,19 @@ class UntabReader:
         self.xpos += 1
         return ch
 
+    def readlines(self):
+        res = []
+        while True:
+            ch = self.read(1)
+            if not ch:
+                break
+            res.append(ch)
+            if ch == '\n':
+                yield ''.join(res)
+                res = []
+        if res:
+            yield ''.join(res)
+
     def close(self):
         self.file.close()
         
