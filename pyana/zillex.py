@@ -360,6 +360,40 @@ def dumptokens(ls, withpos=False, skipdead=False, depth=0, prefix='', atpos=None
             dumptokens(tok.children, withpos=withpos, skipdead=skipdead, depth=depth+1)
 
 
+class UntabReader:
+    def __init__(self, file):
+        self.file = file
+        self.xpos = 0
+        self.spaces = 0
+
+    def read(self, count):
+        if count == 0:
+            raise Exception('must read at least 1')
+        if count > 1:
+            res = [ self.read(1) for ix in range(count) ]
+            return ''.join(res)
+
+        if self.spaces:
+            self.spaces -= 1
+            self.xpos += 1
+            return ' '
+        ch = self.file.read(1)
+        if not ch:
+            return ch
+        if ch in ('\r', '\n'):
+            self.xpos = 0
+            return ch
+        if ch == '\t':
+            self.spaces = 7 - (self.xpos % 8)
+            self.xpos += 1
+            return ' '
+        self.xpos += 1
+        return ch
+
+    def close(self):
+        self.file.close()
+        
+
 # Late import
 from monkey import monkeyinsertcrufty, monkeyadjustlex, monkeyskiptoken
 
