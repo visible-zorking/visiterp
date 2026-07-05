@@ -223,3 +223,13 @@ def color_file_lines(filename, colorls):
 
     return res
 
+def dumplines(lines):
+    for ln in lines:
+        for color, val in ln:
+            if color:
+                print('[%s]' % (color,), end='')
+            print(val, end='')
+            if color:
+                print('[/%s]' % (color,), end='')
+        print()
+        
