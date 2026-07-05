@@ -310,7 +310,7 @@ class Lexer:
         return res
 
     def readfile(self, includes=False):
-        self.infl = open(self.pathname)
+        self.infl = UntabReader(open(self.pathname))
         self.nextchar()
         (res, _) = self.readtokens()
         self.infl.close()

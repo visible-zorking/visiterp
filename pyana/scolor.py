@@ -1,7 +1,8 @@
 from enum import StrEnum
+import re
 
 from zillex import Lexer, TokType, dumptokens
-from zillex import posLE, posGT
+from zillex import posLE, posGT, UntabReader
 from zilana import teststaticcond, ZRoutine
 from monkey import monkeyadjustifdef
 from writer import get_attributes, get_properties
@@ -51,6 +52,7 @@ def colorize_file(filename):
     colorize(tokls, res, None)
     #dumpcolors(res)
     lines = color_file_lines(filename, res)
+    #dumplines(lines)
     return lines
 
 def absorb_entities(ls, dupcheck=True):
@@ -177,10 +179,12 @@ def dumpcolors(ls):
         print('%s: %s %s' % (color, tok.posstr(), tok, ))
 
 def color_file_lines(filename, colorls):
+    pat_spaces = re.compile('^[ ]+')
+    
     colorls = list(colorls)
     res = []
     
-    with open(filename) as infl:
+    with UntabReader(open(filename)) as infl:
         col = colorls and colorls.pop(0)
         
         linenum = 1
@@ -189,13 +193,25 @@ def color_file_lines(filename, colorls):
             
             curline = []
             charnum = 1
-            
-            while charnum < 1+len(ln):
+            endchar = 1+len(ln)
+
+            if False: ###
+                origindent = 0
+                match = pat_spaces.match(ln)
+                if match:
+                    origindent = len(match.group(0))
+                    charnum += origindent
+
+                newindent = origindent
+                if newindent:
+                    curline.append( (None, ' '*newindent) )
+                
+            while charnum < endchar:
                 lastcharnum = charnum
                 while col and posLE(col[0].endpos, (linenum, charnum)):
                     col = colorls and colorls.pop(0)
                 if not col:
-                    charnum = 1+len(ln)
+                    charnum = endchar
                     if lastcharnum < charnum:
                         curline.append( (None, ln[lastcharnum-1 : charnum-1]) )
                     continue
@@ -203,7 +219,7 @@ def color_file_lines(filename, colorls):
                 _, colline, colchar = col[0].pos
                 if posGT((colline, colchar), (linenum, charnum)):
                     if colline > linenum:
-                        charnum = 1+len(ln)
+                        charnum = endchar
                     else:
                         charnum = colchar
                     if lastcharnum < charnum:
@@ -212,7 +228,7 @@ def color_file_lines(filename, colorls):
                 
                 _, colendline, colendchar = col[0].endpos
                 if colendline > linenum:
-                    charnum = 1+len(ln)
+                    charnum = endchar
                 else:
                     charnum = colendchar
                 if lastcharnum < charnum:
