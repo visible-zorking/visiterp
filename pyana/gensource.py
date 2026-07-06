@@ -23,14 +23,14 @@ def write_source(filename):
     fl.write(';\n')
     fl.close()
     
-def write_source_colored(filename, zcode):
+def write_source_colored(filename, zcode, reindent=False):
     sourcefile_map = get_sourcefile_map()
     print('...writing colorized', len(sourcefile_map), 'source files:', filename)
     
     prep_syntax_coloring(zcode)
     map = {}
     for srcfile in sourcefile_map:
-        lines = colorize_file(os.path.join('gamesrc', srcfile))
+        lines = colorize_file(os.path.join('gamesrc', srcfile), reindent=reindent)
         shortlines = []
         for srcline in lines:
             ls = []

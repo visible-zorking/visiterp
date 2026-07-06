@@ -34,7 +34,7 @@ def prep_syntax_coloring(zcode):
 ### special-case property names in a ROOM/OBJECT declaration
 ### (and special-special case the DIR TO/PER/etc lines)
         
-def colorize_file(filename):
+def colorize_file(filename, reindent=False):
     # This is awkward. We just parsed the ZIL for the zcode object,
     # but we want to do it again for the syntax coloring. (The first
     # time we stripped out comments and conditional compilation, but
@@ -51,10 +51,12 @@ def colorize_file(filename):
     colres = []
     colorize(tokls, colres, None)
     #dumpcolors(colres)
-    
-    indentres = {}
-    reindent(tokls, indentres)
-    #dumpindent(indentres)
+
+    indentres = None
+    if reindent:
+        indentres = {}
+        doreindent(tokls, indentres)
+        #dumpindent(indentres)
     
     lines = color_file_lines(filename, colres, indentres)
     #dumplines(lines)
@@ -185,9 +187,8 @@ def dumpcolors(ls):
 
 INDENT = 2
         
-def reindent(tokls, res, depth=0):
+def doreindent(tokls, res, depth=0):
     for tok in tokls:
-        #print('###', depth, tok.posstr(), tok) ###
         begfile, begline, begchar = tok.pos
         endfile, endline, endchar = tok.endpos
         
@@ -201,7 +202,7 @@ def reindent(tokls, res, depth=0):
                     res[val] = None
             
         if tok.children:
-            reindent(tok.children, res, depth+1)
+            doreindent(tok.children, res, depth+1)
 
 def dumpindent(res):
     lines = list(res.keys())
@@ -226,8 +227,7 @@ def color_file_lines(filename, colorls, indentmap):
             charnum = 1
             endchar = 1+len(ln)
 
-            ### option
-            if True and indentmap is not None:
+            if indentmap is not None:
                 origindent = 0
                 match = pat_spaces.match(ln)
                 if match:

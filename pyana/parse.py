@@ -67,6 +67,9 @@ popt.add_option('--showdict',
 popt.add_option('--src',
                 action='store_true', dest='sourcelist',
                 help='write source.js with syntax coloring')
+popt.add_option('--reindent',
+                action='store_true', dest='reindent',
+                help='reindent source in source.js')
 
 (opts, args) = popt.parse_args()
 
@@ -190,4 +193,4 @@ if opts.sourcelist:
     if not opts.zilfile:
         print('need -z gamesrc/zork1.zil')
     else:
-        write_source_colored('src/game/source.js', zcode)
+        write_source_colored('src/game/source.js', zcode, reindent=opts.reindent)
