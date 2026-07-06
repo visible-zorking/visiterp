@@ -48,10 +48,15 @@ def colorize_file(filename):
     tokls = lex.readfile(includes=False)
     #dumptokens(tokls, withpos=True)
     
-    res = []
-    colorize(tokls, res, None)
-    #dumpcolors(res)
-    lines = color_file_lines(filename, res)
+    colres = []
+    colorize(tokls, colres, None)
+    #dumpcolors(colres)
+    
+    indentres = {}
+    reindent(tokls, indentres)
+    #dumpindent(indentres)
+    
+    lines = color_file_lines(filename, colres, indentres)
     #dumplines(lines)
     return lines
 
@@ -178,7 +183,33 @@ def dumpcolors(ls):
     for (tok, color) in ls:
         print('%s: %s %s' % (color, tok.posstr(), tok, ))
 
-def color_file_lines(filename, colorls):
+INDENT = 2
+        
+def reindent(tokls, res, depth=0):
+    for tok in tokls:
+        #print('###', depth, tok.posstr(), tok) ###
+        begfile, begline, begchar = tok.pos
+        endfile, endline, endchar = tok.endpos
+        
+        if begline not in res:
+            res[begline] = INDENT * depth
+
+        if tok.typ is TokType.STR:
+            endval = endline if endchar == 0 else endline+1
+            for val in range(begline, endval):
+                if val not in res:
+                    res[val] = None
+            
+        if tok.children:
+            reindent(tok.children, res, depth+1)
+
+def dumpindent(res):
+    lines = list(res.keys())
+    lines.sort()
+    for linenum in lines:
+        print(linenum, res[linenum])
+            
+def color_file_lines(filename, colorls, indentmap):
     pat_spaces = re.compile('^[ ]+')
     
     colorls = list(colorls)
@@ -195,14 +226,20 @@ def color_file_lines(filename, colorls):
             charnum = 1
             endchar = 1+len(ln)
 
-            if False: ###
+            ### option
+            if True and indentmap is not None:
                 origindent = 0
                 match = pat_spaces.match(ln)
                 if match:
                     origindent = len(match.group(0))
                     charnum += origindent
 
-                newindent = origindent
+                newindent = indentmap.get(linenum, None)
+                if newindent is None:
+                    newindent = origindent
+                if origindent == 0:
+                    newindent = 0
+                    
                 if newindent:
                     curline.append( (None, ' '*newindent) )
                 
