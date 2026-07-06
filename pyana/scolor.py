@@ -187,22 +187,27 @@ def dumpcolors(ls):
 
 INDENT = 2
         
-def doreindent(tokls, res, depth=0):
+def doreindent(tokls, res, depth=0, depths=None):
+    if depths is None:
+        depths = []
+    
     for tok in tokls:
         begfile, begline, begchar = tok.pos
         endfile, endline, endchar = tok.endpos
-        
+
         if begline not in res:
-            res[begline] = INDENT * depth
+            res[begline] = (begchar-1, depth * INDENT)
 
         if tok.typ is TokType.STR:
             endval = endline if endchar == 0 else endline+1
             for val in range(begline, endval):
                 if val not in res:
-                    res[val] = None
+                    res[val] = (None, None)
             
         if tok.children:
-            doreindent(tok.children, res, depth+1)
+            doreindent(tok.children, res, depth+1, depths)
+
+        del depths[ depth+1 : ]
 
 def dumpindent(res):
     lines = list(res.keys())
@@ -234,7 +239,9 @@ def color_file_lines(filename, colorls, indentmap):
                     origindent = len(match.group(0))
                     charnum += origindent
 
-                newindent = indentmap.get(linenum, None)
+                tmpindent, newindent = indentmap.get(linenum, (None, None))
+                if tmpindent is not None:
+                    assert tmpindent == origindent
                 if newindent is None:
                     newindent = origindent
                 if origindent == 0:
@@ -280,9 +287,9 @@ def dumplines(lines):
     for ln in lines:
         for color, val in ln:
             if color:
-                print('[%s]' % (color,), end='')
+                print('[%s]' % (color.lower(),), end='')
             print(val, end='')
             if color:
-                print('[/%s]' % (color,), end='')
+                print('[/%s]' % (color.lower(),), end='')
         print()
         
