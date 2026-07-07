@@ -187,11 +187,11 @@ def dumpcolors(ls):
 
 INDENT = 2
         
-def doreindent(tokls, res, depth=0, depths=None):
+def doreindent(tokls, res, parent=None, depth=0, depths=None):
     if depths is None:
         depths = [ (None, 0) ]
     
-    for tok in tokls:
+    for tokindex, tok in enumerate(tokls):
         begfile, begline, begchar = tok.pos
         endfile, endline, endchar = tok.endpos
 
@@ -200,6 +200,7 @@ def doreindent(tokls, res, depth=0, depths=None):
         else:
             if len(depths) > depth:
                 _, newindent = depths[depth]
+                ### but only if toktyp matches?
             else:
                 prevline, previndent = depths[depth-1]
                 if prevline is None or prevline == begline:
@@ -210,6 +211,9 @@ def doreindent(tokls, res, depth=0, depths=None):
         if len(depths) <= depth:
             assert len(depths) == depth
             depths.append( (begline, newindent) )
+        elif parent and parent.typ is TokType.GROUP and parent.val == '<>' and tokindex == 1:
+            tmpline, _ = depths[depth]
+            depths[depth] = (tmpline, begchar-1)
 
         curdepth = depths[depth]
 
@@ -223,7 +227,7 @@ def doreindent(tokls, res, depth=0, depths=None):
                     res[val] = (None, None)
             
         if tok.children:
-            doreindent(tok.children, res, depth+1, depths)
+            doreindent(tok.children, res, tok, depth+1, depths)
 
         del depths[ depth+1 : ]
 
