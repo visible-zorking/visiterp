@@ -189,14 +189,32 @@ INDENT = 2
         
 def doreindent(tokls, res, depth=0, depths=None):
     if depths is None:
-        depths = []
+        depths = [ (None, 0) ]
     
     for tok in tokls:
         begfile, begline, begchar = tok.pos
         endfile, endline, endchar = tok.endpos
 
+        if depth == 0:
+            newindent = 0
+        else:
+            if len(depths) > depth:
+                _, newindent = depths[depth]
+            else:
+                prevline, previndent = depths[depth-1]
+                if prevline is None or prevline == begline:
+                    newindent = begchar-1
+                else:
+                    newindent = previndent + INDENT
+        
+        if len(depths) <= depth:
+            assert len(depths) == depth
+            depths.append( (begline, newindent) )
+
+        curdepth = depths[depth]
+
         if begline not in res:
-            res[begline] = (begchar-1, depth * INDENT)
+            res[begline] = (begchar-1, newindent)
 
         if tok.typ is TokType.STR:
             endval = endline if endchar == 0 else endline+1
