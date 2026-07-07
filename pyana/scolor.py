@@ -189,7 +189,7 @@ INDENT = 2
         
 def doreindent(tokls, res, parent=None, depth=0, depths=None):
     if depths is None:
-        depths = [ (None, 0) ]
+        depths = [ (None, None, 0) ]
     
     for tokindex, tok in enumerate(tokls):
         begfile, begline, begchar = tok.pos
@@ -199,10 +199,10 @@ def doreindent(tokls, res, parent=None, depth=0, depths=None):
             newindent = 0
         else:
             if len(depths) > depth:
-                _, newindent = depths[depth]
+                _, _, newindent = depths[depth]
                 ### but only if toktyp matches?
             else:
-                prevline, previndent = depths[depth-1]
+                prevel, prevline, previndent = depths[depth-1]
                 if prevline is None or prevline == begline:
                     newindent = begchar-1
                 else:
@@ -210,12 +210,10 @@ def doreindent(tokls, res, parent=None, depth=0, depths=None):
         
         if len(depths) <= depth:
             assert len(depths) == depth
-            depths.append( (begline, newindent) )
-        elif parent and parent.typ is TokType.GROUP and parent.val == '<>' and tokindex == 1:
-            tmpline, _ = depths[depth]
-            depths[depth] = (tmpline, begchar-1)
-
-        curdepth = depths[depth]
+            depths.append( (tok, begline, newindent) )
+        #elif parent and parent.typ is TokType.GROUP and parent.val == '<>' and tokindex == 1:
+        #    tmpel, tmpline, _ = depths[depth]
+        #    depths[depth] = (tmpel, tmpline, begchar-1) ### adjust delta?
 
         if begline not in res:
             res[begline] = (begchar-1, newindent)
@@ -262,8 +260,8 @@ def color_file_lines(filename, colorls, indentmap):
                     charnum += origindent
 
                 tmpindent, newindent = indentmap.get(linenum, (None, None))
-                if tmpindent is not None:
-                    assert tmpindent == origindent
+                #if tmpindent is not None:
+                #    assert tmpindent == origindent
                 if newindent is None:
                     newindent = origindent
                 if origindent == 0:
