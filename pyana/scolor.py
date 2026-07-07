@@ -187,35 +187,28 @@ def dumpcolors(ls):
 
 INDENT = 2
         
-def doreindent(tokls, res, parent=None, depth=0, depths=None):
-    if depths is None:
-        depths = [ (None, None, 0) ]
-    
+def doreindent(tokls, res, parent=None, depth=0):
     for tokindex, tok in enumerate(tokls):
         begfile, begline, begchar = tok.pos
         endfile, endline, endchar = tok.endpos
 
-        if depth == 0:
-            newindent = 0
-        else:
-            if len(depths) > depth:
-                _, _, newindent = depths[depth]
-                ### but only if toktyp matches?
-            else:
-                prevel, prevline, previndent = depths[depth-1]
-                if prevline is None or prevline == begline:
-                    newindent = begchar-1
-                else:
-                    newindent = previndent + INDENT
-        
-        if len(depths) <= depth:
-            assert len(depths) == depth
-            depths.append( (tok, begline, newindent) )
-        #elif parent and parent.typ is TokType.GROUP and parent.val == '<>' and tokindex == 1:
-        #    tmpel, tmpline, _ = depths[depth]
-        #    depths[depth] = (tmpel, tmpline, begchar-1) ### adjust delta?
-
         if begline not in res:
+            if depth == 0:
+                newindent = 0
+            else:
+                sib = None
+                if tokindex >= 1:
+                    sib = tokls[0]
+                    sibline = sib.pos[1]
+                    sibchar = sib.pos[2]
+                if sib:
+                    siblineorig, siblineindent = res[sibline]
+                    newindent = (sibchar-1) + (siblineindent-siblineorig)
+                else:
+                    parentline = parent.pos[1]
+                    parentorig, parentindent = res[parentline]
+                    newindent = parentindent + INDENT
+                
             res[begline] = (begchar-1, newindent)
 
         if tok.typ is TokType.STR:
@@ -225,9 +218,7 @@ def doreindent(tokls, res, parent=None, depth=0, depths=None):
                     res[val] = (None, None)
             
         if tok.children:
-            doreindent(tok.children, res, tok, depth+1, depths)
-
-        del depths[ depth+1 : ]
+            doreindent(tok.children, res, tok, depth+1)
 
 def dumpindent(res):
     lines = list(res.keys())
