@@ -214,7 +214,10 @@ def doreindent(tokls, res, parent=None, depth=0):
                 if sib:
                     _, sibline, sibchar = sib.pos
                     siblineorig, siblineindent = res[sibline]
-                    newindent = (sibchar-1) + (siblineindent-siblineorig)
+                    if siblineorig is None:
+                        newindent = INDENT
+                    else:
+                        newindent = (sibchar-1) + (siblineindent-siblineorig)
                 else:
                     newindent = parentindent + INDENT
                 
