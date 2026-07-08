@@ -196,17 +196,26 @@ def doreindent(tokls, res, parent=None, depth=0):
             if depth == 0:
                 newindent = 0
             else:
+                parentline = parent.pos[1]
+                parentorig, parentindent = res[parentline]
+                
                 sib = None
                 if tokindex >= 1:
                     sib = tokls[0]
-                    sibline = sib.pos[1]
-                    sibchar = sib.pos[2]
+                    _, sibline, sibchar = sib.pos
+                if sib and parent.typ is TokType.GROUP and sib.typ is TokType.ID and sibline == parentline:
+                    if tokindex >= 2:
+                        sib2 = tokls[1]
+                        _, sib2line, sib2char = sib2.pos
+                        if sib2.typ is TokType.ID and sib2line == parentline:
+                            sib = None
+                        else:
+                            sib = sib2
                 if sib:
+                    _, sibline, sibchar = sib.pos
                     siblineorig, siblineindent = res[sibline]
                     newindent = (sibchar-1) + (siblineindent-siblineorig)
                 else:
-                    parentline = parent.pos[1]
-                    parentorig, parentindent = res[parentline]
                     newindent = parentindent + INDENT
                 
             res[begline] = (begchar-1, newindent)
