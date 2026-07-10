@@ -145,6 +145,10 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
     if gameid == 'starcross-r15-s820901':
         if text == 'Lose, lose!':
             text = '!'
+    if gameid == 'suspended-mac-r8-s840521':
+        # My untabification
+        if text.startswith('FC INTERRUPT: Oh oh.'):
+            text = text.replace('               NOVA', ' \t       NOVA')
     if gameid == 'witness-r23-s840925':
         # Extra trimming
         if text.startswith(':\n\nDear Detective:'):
