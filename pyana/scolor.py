@@ -186,7 +186,8 @@ def dumpcolors(ls):
         print('%s: %s %s' % (color, tok.posstr(), tok, ))
 
 INDENT = 2
-        
+MAXSTEP = 32
+
 def doreindent(tokls, res, parent=None, depth=0):
     for tokindex, tok in enumerate(tokls):
         begfile, begline, begchar = tok.pos
@@ -218,6 +219,8 @@ def doreindent(tokls, res, parent=None, depth=0):
                         newindent = INDENT
                     else:
                         newindent = (sibchar-1) + (siblineindent-siblineorig)
+                        if newindent > parentindent + MAXSTEP:
+                            newindent = parentindent + MAXSTEP
                 else:
                     newindent = parentindent + INDENT
                 
