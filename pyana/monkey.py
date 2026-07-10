@@ -9,7 +9,7 @@ def monkeyinsertcrufty(gameid):
         return True
 
 def monkeyskiptoken(lexer, tok):
-    if tok.typ is TokType.DELIM and tok.val == '>' and tok.pos == ('people.zil', 149, 34) and lexer.monkeypatch.startswith('suspended-mac-r8-s840521'):
+    if tok.typ is TokType.DELIM and tok.val == '>' and tok.pos == ('people.zil', 149, 41) and lexer.monkeypatch.startswith('suspended-mac-r8-s840521'):
         return True
     if tok.typ is TokType.DELIM and tok.val == ')' and tok.pos == ('places.zil', 947, 1) and lexer.monkeypatch.startswith('witness-r23-s840925'):
         return True
