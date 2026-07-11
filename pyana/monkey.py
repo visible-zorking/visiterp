@@ -124,6 +124,14 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
     text = text.replace('.  ', '. ')
     # Something about punctuation and spaces
     text = text.replace('    ****', '   ****')
+    if gameid == 'zork1-r88-s840726':
+        # My untabification
+        if text.startswith('"     Flood'):
+            text = text.replace('"     Flood', '"\tFlood')
+        if text.startswith('         !!!!  '):
+            text = text.replace('         !!!!  ', '\t  !!!! \t')
+        if '          All-' in text:
+            text = text.replace('          All-', '\t  All-')
     if gameid == 'zork3-r17-s840727':
         # Double-space is not always fixed
         text = text.replace('crumbling. To the southwest', 'crumbling.  To the southwest')
