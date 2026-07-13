@@ -12,7 +12,7 @@
     "builddata": "npm run recreate-gamedata && npm run rearrange-tables && npm run recolor-source && pnpm run regenerate-commentary && pnpm run reparse-map",
     "recreate-gamedata": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --obj --dict --grammar --txd --gamedat",
     "rearrange-tables": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --zcode gamedat/GAME-rX-sXXXXXX.z3 --gamedat",
-    "recolor-source": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --src",
+    "recolor-source": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --src --reindent",
     "regenerate-commentary": "python3 visiterp/pyana/comgen.py gamedat/commentary",
     "reparse-map": "python3 visiterp/pyana/mapparse.py gamedat/base-map.svg"
   },
