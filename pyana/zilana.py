@@ -254,7 +254,7 @@ class Zcode:
                     self.globals.append(zglob)
                     tok.defentity = zglob
                 else:
-                    raise Exception('Global has no name')
+                    raise Exception('Global has no name: %s' % (tok.posstr(),))
                 if len(tok.children) >= 3:
                     globtok = tok.children[2]
                     zglob.valtok = globtok
