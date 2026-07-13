@@ -1,5 +1,6 @@
 import os, os.path
 from enum import StrEnum
+import re
 
 class TokType(StrEnum):
     STR = 'STR'
@@ -127,6 +128,8 @@ class Token:
             if itok.typ is TokType.ID and itok.idmatch(key) and len(self.children) >= 1+minlen:
                 return True
 
+pat_integer = re.compile('^[-]?[0-9]+$')
+
 class Lexer:
     def __init__(self, pathname, monkeypatch=None):
         self.monkeypatch = monkeypatch
@@ -181,7 +184,7 @@ class Lexer:
             if ch in Token.DELIMCHARS:
                 self.nextchar()
                 return Token(TokType.DELIM, ch, pos, endpos=self.getpos())
-            if ch.isalpha() or ch in ('=', '$'):
+            if ch.isalpha() or ch.isdigit() or ch in ('-', '=', '$'):
                 # The range of valid ZIL symbols is broad; they can have
                 # punctuation inside them, or even at the beginning. This
                 # does not attempt to parse every possible symbol, just
@@ -193,26 +196,10 @@ class Lexer:
                         self.nextchar()
                     val += self.curchar
                     self.nextchar()
-                return Token(TokType.ID, val, pos, endpos=self.getpos())
-            if ch.isdigit():
-                val = ch
-                self.nextchar()
-                while self.curchar.isdigit():
-                    val += self.curchar
-                    self.nextchar()
-                val = int(val)
-                return Token(TokType.NUM, val, pos, endpos=self.getpos())
-            if ch == '-':
-                val = ''
-                self.nextchar()
-                if self.curchar.isdigit():
-                    while self.curchar.isdigit():
-                        val += self.curchar
-                        self.nextchar()
-                    val = -int(val)
+                if pat_integer.match(val):
+                    val = int(val)
                     return Token(TokType.NUM, val, pos, endpos=self.getpos())
-                else:
-                    return Token(TokType.ID, '-', pos, endpos=self.getpos())
+                return Token(TokType.ID, val, pos, endpos=self.getpos())
                 
             if ch == '"':
                 val = ''
