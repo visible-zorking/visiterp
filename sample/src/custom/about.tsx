@@ -131,7 +131,7 @@ export function AboutPage()
                 </p>
                 <p>
                     <Commentary topic={ 'ABOUT' } />
-                    Click on the green buttons to see commentary about
+                    Click on the green buttons to see commentary about{' '}
                     <i>TITLE</i>&#x2019;s implementation. Notes, trivia, whatever came
                     into my head as I was building the Visible Zorker!
                 </p>
