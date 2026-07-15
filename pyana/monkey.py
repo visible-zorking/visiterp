@@ -122,8 +122,9 @@ def monkeyextrastrings():
 
 def monkeyadjuststringtext(text, gameid, rtn=None):
     text = text.replace('.  ', '. ')
-    # Something about punctuation and spaces
-    text = text.replace('    ****', '   ****')
+    if gameid != 'planetfall-r37-s851003':
+        # Something about punctuation and spaces (mostly)
+        text = text.replace('    ****', '   ****')
     if gameid == 'zork1-r88-s840726':
         # My untabification
         if text.startswith('"     Flood'):
