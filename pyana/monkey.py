@@ -115,6 +115,10 @@ def monkeyadjustifdef(tok, gameid, forscolor=False):
         if tok.typ is TokType.GROUP and tok.pos == ('people.zil', 437, 15):
             # PHONG-F stanza not compiled in
             return True
+    if gameid == 'planetfall-r37-s851003':
+        if tok.typ is TokType.GROUP and tok.pos == ('comptwo.zil', 3049, 23):
+            # MICROBE-F last cond clause not compiled in
+            return True
     return False
 
 def monkeyextrastrings():
