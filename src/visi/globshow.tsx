@@ -54,6 +54,10 @@ export function VarShowProperty({ value }: { value:number })
 
 export function VarShowString({ value }: { value:number })
 {
+    if (value == 0) {
+        return <i>no string</i>;
+    }
+    
     let obj = gamedat_string_map.get(unpack_address(value));
     if (obj) {
         return (<span className="PrintString">&#x201C;{ obj.text }&#x201D;</span>);
