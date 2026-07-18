@@ -136,6 +136,7 @@ export function VisiZorkApp()
                     setLoc(hereobj.sourceloc, false);
                 }
             }
+            window.dispatchEvent(new Event('zstate-update'));
         };
         window.addEventListener('zmachine-update', evhan_zstate);
         return () => {
