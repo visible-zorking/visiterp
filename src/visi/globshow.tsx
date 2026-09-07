@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { unpack_address } from './gametypes';
+import { signed_zvalue, unpack_address } from './gametypes';
 import { gamedat_object_ids, gamedat_string_map, gamedat_dictword_addrs, gamedat_dictword_adjs, gamedat_actions, gamedat_property_nums, gamedat_grammar_verbnums, gamedat_grammar_line_addrs, gamedat_preposition_nums } from './gamedat';
 
 import { ObjPageLink } from './widgets';
@@ -163,7 +163,11 @@ export function VarShowGrammarLine({ value }: { value:number })
 export function VarShowSyntaxLocBits({ value }: { value:number })
 {
     let valstr = '-';
-    if (value) {
+    
+    if (value == 65535) {
+        valstr = '+';
+    }
+    else if (value) {
         let ls: string[] = [];
         if (value & 128)
             ls.push('p');   // 128=SH    "HELD"
@@ -184,5 +188,5 @@ export function VarShowSyntaxLocBits({ value }: { value:number })
         valstr = ls.join('');
     }
     
-    return (<span>{ value } <i>({ valstr })</i></span>);
+    return (<span>{ signed_zvalue(value) } <i>({ valstr })</i></span>);
 }
