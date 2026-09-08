@@ -67,7 +67,7 @@ class SourceFile:
 
     def buildsource(self, lines):
         for lineobj in lines:
-            ells = []
+            els = []
             for obj in lineobj:
                 if type(obj) is int:
                     el = LineEl(' ' * obj)
@@ -76,16 +76,20 @@ class SourceFile:
                 else:
                     (objstyle, obj) = obj
                     el = LineEl(obj, objstyle)
-                ells.append(el)
-            if not ells:
-                ells.append(LineEl(' '))
-            self.lines.append(ells)
+                els.append(el)
+            if not els:
+                els.append(LineEl(' '))
+            self.lines.append(SourceLine(els))
 
+class SourceLine:
+    def __init__(self, els):
+        self.els = els
+    
 class LineEl:
     def __init__(self, text, style=None):
         self.text = text
         self.style = style
-            
+
 class SourceLoc:
     def __init__(self, locstr, key, file):
         self.locstr = locstr
