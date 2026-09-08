@@ -1,0 +1,63 @@
+.Doc {
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+  background-color: #FCF8F8;
+}
+
+.Col {
+  max-width: calc(100% - 200px);
+}
+
+.Line {
+  white-space: pre-wrap;
+  font-family: monospace;
+}
+
+.HasNote {
+  clear: both;
+}
+
+.Note {
+  float: right;
+  width: 200px;
+  margin-right: -200px;
+  white-space: normal;
+  font-family: serif;
+  color: #080;
+  border: 1px solid #0F0;
+}
+
+.Src_Comment {
+    color: #292;
+}
+
+.Src_Ifndef {
+    color: #999;
+}
+
+.Src_Str {
+    color: #A44;
+    font-weight: bold;
+}
+
+.Src_Dict {
+    color: #A2A;
+}
+
+.Src_Iddef {
+    color: #44C;
+    font-weight: bold;
+}
+
+.Src_Id {
+    color: #44C;
+}
+
+.Src_Implid {
+    color: #44C;
+}
+
+.Src_Localid {
+    color: #850;
+}
