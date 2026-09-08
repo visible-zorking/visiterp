@@ -28,13 +28,15 @@ class Gen:
         self.sourcefiles.sort(key=lambda obj: obj.key)
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
 
+        self.routines = [ Routine(map) for map in routines ]
+
     def write(self):
         template = self.jenv.get_template('home.html')
         with open('static/index.html', 'w') as outfl:
             outfl.write(template.render(files=self.sourcefiles))
 
-        ls = list(routines)
-        ls.sort(key=lambda rtn: rtn['name'])
+        ls = list(self.routines)
+        ls.sort(key=lambda rtn: rtn.name)
         template = self.jenv.get_template('routines.html')
         with open('static/routines.html', 'w') as outfl:
             outfl.write(template.render(routines=ls))
@@ -49,6 +51,13 @@ class SourceFile:
     def __repr__(self):
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)
 
+class Routine:
+    def __init__(self, map):
+        self.name = map['name']
+        self.addr = map['addr']
+        self.sourceloc = map['sourceloc']
+
+        self.hexaddr = '$%04X' % (self.addr,)
 
 routines = loadjsonp('src/game/routines.js')
 
