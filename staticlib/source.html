@@ -1,0 +1,9 @@
+{% extends "page.html" %}
+
+{% block content %}
+  <div class="Col">
+  {% for ln in lines %}
+<div class="Line">{% for el in ln %}{{ el.text }}{% endfor %}</div>
+  {% endfor %}
+  </div>
+{% endblock %}

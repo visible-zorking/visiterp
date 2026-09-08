@@ -33,7 +33,10 @@ class Gen:
         self.sourcefiles.sort(key=lambda obj: obj.key)
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
 
-        self.routines = [ Routine(map, self) for map in routines ]
+        self.routines = [ Routine(map, self) for map in json_routines ]
+
+        for file in self.sourcefiles:
+            file.buildsource(json_source[file.filename])
 
     def write(self):
         template = self.jenv.get_template('home.html')
@@ -45,17 +48,44 @@ class Gen:
         template = self.jenv.get_template('routines.html')
         with open('static/routines.html', 'w') as outfl:
             outfl.write(template.render(routines=ls))
+
+        template = self.jenv.get_template('source.html')
+        for file in self.sourcefiles:
+            with open('static/zil-%s.html' % (file.basename,), 'w') as outfl:
+                outfl.write(template.render(lines=file.lines))
             
 class SourceFile:
     def __init__(self, key, filename):
         assert filename.endswith('.zil')
         self.key = key
         self.filename = filename
-        self.filebase = filename[ : -4 ]
-
+        self.basename = filename[ : -4 ]
+        self.lines = []
+        
     def __repr__(self):
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)
 
+    def buildsource(self, lines):
+        for lineobj in lines:
+            ells = []
+            for obj in lineobj:
+                if type(obj) is int:
+                    el = LineEl(' ' * obj)
+                elif type(obj) is str:
+                    el = LineEl(obj)
+                else:
+                    (objstyle, obj) = obj
+                    el = LineEl(obj, objstyle)
+                ells.append(el)
+            if not ells:
+                ells.append(LineEl(' '))
+            self.lines.append(ells)
+
+class LineEl:
+    def __init__(self, text, style=None):
+        self.text = text
+        self.style = style
+            
 class SourceLoc:
     def __init__(self, locstr, key, file):
         self.locstr = locstr
@@ -71,7 +101,8 @@ class Routine:
         self.hexaddr = '$%04X' % (self.addr,)
         self.loc = gen.genloc(self.sourceloc)
 
-routines = loadjsonp('src/game/routines.js')
+json_routines = loadjsonp('src/game/routines.js')
+json_source = loadjsonp('src/game/source.js')
 
 gen = Gen()
 gen.build()
