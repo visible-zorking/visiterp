@@ -1,0 +1,9 @@
+{% extends "page.html" %}
+
+{% block content %}
+  <ul>
+  {% for rtn in routines %}
+    <li><code class="Symbol">{{ rtn.name }}</code></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

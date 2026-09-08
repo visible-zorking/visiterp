@@ -30,14 +30,21 @@ class Gen:
 
     def write(self):
         template = self.jenv.get_template('home.html')
-
         with open('static/index.html', 'w') as outfl:
-            outfl.write(template.render())
-    
+            outfl.write(template.render(files=self.sourcefiles))
+
+        ls = list(routines)
+        ls.sort(key=lambda rtn: rtn['name'])
+        template = self.jenv.get_template('routines.html')
+        with open('static/routines.html', 'w') as outfl:
+            outfl.write(template.render(routines=ls))
+            
 class SourceFile:
     def __init__(self, key, filename):
+        assert filename.endswith('.zil')
         self.key = key
         self.filename = filename
+        self.filebase = filename[ : -4 ]
 
     def __repr__(self):
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)

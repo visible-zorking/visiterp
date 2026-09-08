@@ -1,5 +1,12 @@
 {% extends "page.html" %}
 
 {% block content %}
-<p>!!!</p>
+  <ul>
+  {% for file in files %}
+    <li><a href="zil-{{ file.filebase }}.html">{{ file.filename }}</a></li>
+  {% endfor %}
+  </ul>
+  <ul>
+    <li><a href="routines.html">routines</a></li>
+  </ul>
 {% endblock %}
