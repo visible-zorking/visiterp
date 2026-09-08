@@ -3,7 +3,7 @@
 {% block content %}
   <div class="Col">
   {% for ln in lines %}
-<div class="Line">{% for el in ln.els %}{{ el.text }}{% endfor %}</div>
+<div class="Line">{% for el in ln.els %}{% if el.style %}<span class="Src_{{ el.style }}">{{ el.text }}</span>{% else %}{{ el.text }}{% endif %}{% endfor %}</div>
   {% endfor %}
   </div>
 {% endblock %}
