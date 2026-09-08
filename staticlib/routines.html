@@ -3,7 +3,7 @@
 {% block content %}
   <ul>
   {% for rtn in routines %}
-    <li><code class="Symbol">{{ rtn.name }}</code> ({{ rtn.hexaddr }}) {{ rtn.sourceloc }}</li>
+    <li><code class="Symbol">{{ rtn.name }}</code> ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.file.filename }}</li>
   {% endfor %}
   </ul>
 {% endblock %}

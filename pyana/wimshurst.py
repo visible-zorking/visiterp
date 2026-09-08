@@ -21,6 +21,11 @@ class Gen:
     def __init__(self):
         self.jenv = jinja2.Environment(loader=jinja2.FileSystemLoader('visiterp/staticlib'), autoescape=jinja2.select_autoescape())
 
+    def genloc(self, locstr):
+        key = locstr[0]
+        file = self.sourcefile_map[key]
+        return SourceLoc(locstr, key, file)
+
     def build(self):
         sourcefile_map = get_sourcefile_map()
         
@@ -28,7 +33,7 @@ class Gen:
         self.sourcefiles.sort(key=lambda obj: obj.key)
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
 
-        self.routines = [ Routine(map) for map in routines ]
+        self.routines = [ Routine(map, self) for map in routines ]
 
     def write(self):
         template = self.jenv.get_template('home.html')
@@ -51,13 +56,20 @@ class SourceFile:
     def __repr__(self):
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)
 
+class SourceLoc:
+    def __init__(self, locstr, key, file):
+        self.locstr = locstr
+        self.key = key
+        self.file = file
+    
 class Routine:
-    def __init__(self, map):
+    def __init__(self, map, gen):
         self.name = map['name']
         self.addr = map['addr']
         self.sourceloc = map['sourceloc']
 
         self.hexaddr = '$%04X' % (self.addr,)
+        self.loc = gen.genloc(self.sourceloc)
 
 routines = loadjsonp('src/game/routines.js')
 
