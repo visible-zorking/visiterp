@@ -3,7 +3,15 @@
 {% block content %}
   <div class="Col">
   {% for ln in lines %}
-<div id="line_{{ ln.num }}" class="Line">{% for el in ln.els %}{% if el.style %}<span class="Src_{{ el.style }}">{{ el.text }}</span>{% else %}{{ el.text }}{% endif %}{% endfor %}</div>
+<div id="line_{{ ln.num }}" class="Line">{% for el in ln.els -%}
+{%- if el.linkloc -%}
+<a href="zil-{{ el.linkloc.file.basename}}.html#line_{{ el.linkloc.startline }}" class="Src_{{ el.style }}">{{ el.text }}</a>
+{%- elif el.style -%}
+<span class="Src_{{ el.style }}">{{ el.text }}</span>
+{%- else -%}
+{{ el.text }}
+{%- endif -%}
+{%- endfor %}</div>
   {% endfor %}
   </div>
 {% endblock %}
