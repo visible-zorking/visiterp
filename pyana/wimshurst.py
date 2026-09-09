@@ -54,23 +54,27 @@ class Gen:
         template = self.jenv.get_template('home.html')
         with open('static/index.html', 'w') as outfl:
             outfl.write(template.render(files=self.sourcefiles))
+            outfl.write('\n')
 
         ls = list(self.routines)
         ls.sort(key=lambda rtn: rtn.name)
         template = self.jenv.get_template('routines.html')
         with open('static/routines.html', 'w') as outfl:
             outfl.write(template.render(routines=ls))
+            outfl.write('\n')
 
         ls = list(self.globals)
         ls.sort(key=lambda glob: glob.name)
         template = self.jenv.get_template('globals.html')
         with open('static/globals.html', 'w') as outfl:
             outfl.write(template.render(globals=ls))
+            outfl.write('\n')
 
         template = self.jenv.get_template('source.html')
         for file in self.sourcefiles:
             with open('static/zil-%s.html' % (file.basename,), 'w') as outfl:
                 outfl.write(template.render(lines=file.lines))
+                outfl.write('\n')
             
 class SourceFile:
     def __init__(self, key, filename):
@@ -84,6 +88,7 @@ class SourceFile:
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)
 
     def buildsource(self, lines):
+        index = 1
         for lineobj in lines:
             els = []
             for obj in lineobj:
@@ -97,10 +102,12 @@ class SourceFile:
                 els.append(el)
             if not els:
                 els.append(LineEl(' '))
-            self.lines.append(SourceLine(els))
+            self.lines.append(SourceLine(index, els))
+            index += 1
 
 class SourceLine:
-    def __init__(self, els):
+    def __init__(self, num, els):
+        self.num = num
         self.els = els
     
 class LineEl:
