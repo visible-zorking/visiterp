@@ -1,9 +1,12 @@
 {% extends "page.html" %}
 
+{% from 'link.html' import aloc %}
+
 {% block content %}
   <ul>
   {% for rtn in routines %}
-    <li><a href="zil-{{ rtn.loc.file.basename}}.html#line_{{ rtn.loc.startline }}"><code class="Symbol">{{ rtn.name }}</code></a> ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.str }}</li>
+    <li><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code>
+    ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.str }}</li>
   {% endfor %}
   </ul>
 {% endblock %}

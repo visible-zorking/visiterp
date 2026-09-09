@@ -1,11 +1,13 @@
 {% extends "page.html" %}
 
+{% from 'link.html' import aloc %}
+
 {% block content %}
   <div class="Col">
   {% for ln in lines %}
 <div id="line_{{ ln.num }}" class="Line">{% for el in ln.els -%}
 {%- if el.linkloc -%}
-<a href="zil-{{ el.linkloc.file.basename}}.html#line_{{ el.linkloc.startline }}" class="Src_{{ el.style }}">{{ el.text }}</a>
+{{ aloc(el.linkloc, 'Src_'+el.style, el.text, homekey) }}
 {%- elif el.style -%}
 <span class="Src_{{ el.style }}">{{ el.text }}</span>
 {%- else -%}
