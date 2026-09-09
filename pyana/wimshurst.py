@@ -53,6 +53,7 @@ class Gen:
 
         self.routines = [ Routine(map, gen=self) for map in json_routines ]
         self.globals = [ Global(map, gen=self) for map in json_globals ]
+        self.constants = [ Constant(map, gen=self) for map in json_constants ]
 
         for file in self.sourcefiles:
             file.buildsource(json_source[file.filename], gen=self)
@@ -162,9 +163,20 @@ class Global:
 
         gen.addsymbol(self.name, self)
 
+class Constant:
+    def __init__(self, map, gen):
+        self.name = map['name']
+        self.sourceloc = map['sourceloc']
+
+        self.loc = gen.genloc(self.sourceloc)
+
+        gen.addsymbol(self.name, self)
+
 json_routines = loadjsonp('src/game/routines.js')
 json_source = loadjsonp('src/game/source.js')
 json_globals = loadjsonp('src/game/globals.js')
+json_constants = loadjsonp('src/game/constants.js')
+json_objects = loadjsonp('src/game/objects.js')
 
 gen = Gen()
 gen.build()
