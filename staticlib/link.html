@@ -1,0 +1,3 @@
+{% macro aloc(loc, cla, text, homekey=None) -%}
+<a class="{{ cla }}" href="zil-{{ loc.file.basename}}.html#line_{{ loc.startline }}">{{ text }}</a>
+{%- endmacro %}
