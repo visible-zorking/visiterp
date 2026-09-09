@@ -52,6 +52,7 @@ class Gen:
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
 
         self.routines = [ Routine(map, gen=self) for map in json_routines ]
+        self.objects = [ Object(map, gen=self) for map in json_objects ]
         self.globals = [ Global(map, gen=self) for map in json_globals ]
         self.constants = [ Constant(map, gen=self) for map in json_constants ]
 
@@ -149,6 +150,16 @@ class Routine:
         self.sourceloc = map['sourceloc']
 
         self.hexaddr = '$%04X' % (self.addr,)
+        self.loc = gen.genloc(self.sourceloc)
+
+        gen.addsymbol(self.name, self)
+
+class Object:
+    def __init__(self, map, gen):
+        self.name = map['name']
+        self.num = map['onum']
+        self.sourceloc = map['sourceloc']
+
         self.loc = gen.genloc(self.sourceloc)
 
         gen.addsymbol(self.name, self)
