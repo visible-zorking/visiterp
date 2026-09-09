@@ -20,6 +20,13 @@ def loadjsonp(filename):
 class Gen:
     def __init__(self):
         self.jenv = jinja2.Environment(loader=jinja2.FileSystemLoader('visiterp/staticlib'), autoescape=jinja2.select_autoescape())
+        self.symtable = {}
+
+    def addsymbol(self, name, obj):
+        if name in self.symtable:
+            print('Warning: duplicate symbol: %s' % (name,))
+            return
+        self.symtable[name] = obj
 
     def genloc(self, locstr):
         if not locstr:
@@ -138,6 +145,8 @@ class Routine:
         self.hexaddr = '$%04X' % (self.addr,)
         self.loc = gen.genloc(self.sourceloc)
 
+        gen.addsymbol(self.name, self)
+
 class Global:
     def __init__(self, map, gen):
         self.name = map['name']
@@ -145,6 +154,8 @@ class Global:
         self.sourceloc = map['sourceloc']
 
         self.loc = gen.genloc(self.sourceloc)
+
+        gen.addsymbol(self.name, self)
 
 json_routines = loadjsonp('src/game/routines.js')
 json_source = loadjsonp('src/game/source.js')
