@@ -1,3 +1,5 @@
 {% macro aloc(loc, cla, text, homekey=None) -%}
-<a {% if cla %}class="{{ cla }}"{% endif %} href="zil-{{ loc.file.basename}}.html#line_{{ loc.startline }}">{{ text }}</a>
+<a {% if cla %}class="{{ cla }}"{% endif %}
+ {% if loc.key == homekey %}href="#line_{{ loc.startline }}"{% else %}href="zil-{{ loc.file.basename}}.html#line_{{ loc.startline }}"{% endif -%}
+ >{{ text }}</a>
 {%- endmacro %}
