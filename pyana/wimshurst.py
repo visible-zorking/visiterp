@@ -55,7 +55,7 @@ class Gen:
         self.globals = [ Global(map, gen=self) for map in json_globals ]
 
         for file in self.sourcefiles:
-            file.buildsource(json_source[file.filename])
+            file.buildsource(json_source[file.filename], gen=self)
 
     def write(self):
         template = self.jenv.get_template('home.html')
@@ -94,7 +94,7 @@ class SourceFile:
     def __repr__(self):
         return '<SourceFile (%s) "%s">' % (self.key, self.filename,)
 
-    def buildsource(self, lines):
+    def buildsource(self, lines, gen):
         index = 1
         for lineobj in lines:
             els = []
@@ -105,7 +105,10 @@ class SourceFile:
                     el = LineEl(obj)
                 else:
                     (objstyle, obj) = obj
-                    el = LineEl(obj, objstyle)
+                    loc = None
+                    if objstyle == 'Id':
+                        loc = gen.symtable.get(obj)
+                    el = LineEl(obj, objstyle, loc)
                 els.append(el)
             if not els:
                 els.append(LineEl(' '))
@@ -118,9 +121,11 @@ class SourceLine:
         self.els = els
     
 class LineEl:
-    def __init__(self, text, style=None):
+    def __init__(self, text, style=None, linkref=None):
         self.text = text
         self.style = style
+        self.linkref = linkref
+        self.linkloc = linkref.loc if linkref else None
 
 class SourceLoc:
     def __init__(self, locstr, key, file, startline, endline):
