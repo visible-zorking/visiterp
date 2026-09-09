@@ -73,7 +73,7 @@ class Gen:
         template = self.jenv.get_template('source.html')
         for file in self.sourcefiles:
             with open('static/zil-%s.html' % (file.basename,), 'w') as outfl:
-                outfl.write(template.render(lines=file.lines))
+                outfl.write(template.render(homekey=file.key, lines=file.lines))
                 outfl.write('\n')
             
 class SourceFile:

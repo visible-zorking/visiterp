@@ -3,7 +3,7 @@
 {% block content %}
   <ul>
   {% for rtn in routines %}
-    <li><code class="Symbol">{{ rtn.name }}</code> ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.str }}</li>
+    <li><a href="zil-{{ rtn.loc.file.basename}}.html#line_{{ rtn.loc.startline }}"><code class="Symbol">{{ rtn.name }}</code></a> ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.str }}</li>
   {% endfor %}
   </ul>
 {% endblock %}
