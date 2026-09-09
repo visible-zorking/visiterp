@@ -22,9 +22,20 @@ class Gen:
         self.jenv = jinja2.Environment(loader=jinja2.FileSystemLoader('visiterp/staticlib'), autoescape=jinja2.select_autoescape())
 
     def genloc(self, locstr):
-        key = locstr[0]
+        if not locstr:
+            return None
+        ls = locstr.split(':')
+        assert len(ls) in (3, 5)
+        key = ls[0]
         file = self.sourcefile_map[key]
-        return SourceLoc(locstr, key, file)
+        startline = int(ls[1])
+        endline = startline
+        if len(ls) == 5:
+            if ls[3]:
+                endline = int(ls[3])
+            if ls[4] == '0' and endline > startline:
+                endline -= 1
+        return SourceLoc(locstr, key, file, startline, endline)
 
     def build(self):
         sourcefile_map = get_sourcefile_map()
@@ -98,10 +109,18 @@ class LineEl:
         self.style = style
 
 class SourceLoc:
-    def __init__(self, locstr, key, file):
+    def __init__(self, locstr, key, file, startline, endline):
         self.locstr = locstr
         self.key = key
         self.file = file
+        self.startline = startline
+        self.endline = endline
+        
+        if self.endline == self.startline:
+            self.str = '%s:%d' % (self.file.basename, self.startline,)
+        else:
+            self.str = '%s:%d-%d' % (self.file.basename, self.startline, self.endline,)
+        
     
 class Routine:
     def __init__(self, map, gen):
@@ -118,9 +137,7 @@ class Global:
         self.num = map['num']
         self.sourceloc = map['sourceloc']
 
-        self.loc = None
-        if self.sourceloc:
-            self.loc = gen.genloc(self.sourceloc)
+        self.loc = gen.genloc(self.sourceloc)
 
 json_routines = loadjsonp('src/game/routines.js')
 json_source = loadjsonp('src/game/source.js')

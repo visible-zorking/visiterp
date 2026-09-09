@@ -3,7 +3,7 @@
 {% block content %}
   <ul>
   {% for glob in globals %}
-    <li><code class="Symbol">{{ glob.name }}</code> ({{ glob.num }}) {% if glob.loc %} {{ glob.sourceloc }} {{ glob.loc.file.filename }} {% endif %}</li>
+    <li><code class="Symbol">{{ glob.name }}</code> ({{ glob.num }}) {% if glob.loc %} {{ glob.sourceloc }} {{ glob.loc.str }} {% endif %}</li>
   {% endfor %}
   </ul>
 {% endblock %}
