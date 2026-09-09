@@ -33,7 +33,8 @@ class Gen:
         self.sourcefiles.sort(key=lambda obj: obj.key)
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
 
-        self.routines = [ Routine(map, self) for map in json_routines ]
+        self.routines = [ Routine(map, gen=self) for map in json_routines ]
+        self.globals = [ Global(map, gen=self) for map in json_globals ]
 
         for file in self.sourcefiles:
             file.buildsource(json_source[file.filename])
@@ -48,6 +49,12 @@ class Gen:
         template = self.jenv.get_template('routines.html')
         with open('static/routines.html', 'w') as outfl:
             outfl.write(template.render(routines=ls))
+
+        ls = list(self.globals)
+        ls.sort(key=lambda glob: glob.name)
+        template = self.jenv.get_template('globals.html')
+        with open('static/globals.html', 'w') as outfl:
+            outfl.write(template.render(globals=ls))
 
         template = self.jenv.get_template('source.html')
         for file in self.sourcefiles:
@@ -105,8 +112,19 @@ class Routine:
         self.hexaddr = '$%04X' % (self.addr,)
         self.loc = gen.genloc(self.sourceloc)
 
+class Global:
+    def __init__(self, map, gen):
+        self.name = map['name']
+        self.num = map['num']
+        self.sourceloc = map['sourceloc']
+
+        self.loc = None
+        if self.sourceloc:
+            self.loc = gen.genloc(self.sourceloc)
+
 json_routines = loadjsonp('src/game/routines.js')
 json_source = loadjsonp('src/game/source.js')
+json_globals = loadjsonp('src/game/globals.js')
 
 gen = Gen()
 gen.build()
