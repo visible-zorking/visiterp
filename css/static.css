@@ -28,6 +28,11 @@
   border: 1px solid #0F0;
 }
 
+.Note .Contrib {
+    text-align: right;
+    font-size: 85%;
+}
+
 .Src_Comment {
     color: #292;
 }
