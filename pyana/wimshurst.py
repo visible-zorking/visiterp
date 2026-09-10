@@ -121,6 +121,7 @@ class SourceFile:
 
     def buildsource(self, lines, gen):
         index = 1
+        comls = list(json_commentarymap[self.key] or [])
         for lineobj in lines:
             els = []
             for obj in lineobj:
@@ -137,13 +138,19 @@ class SourceFile:
                 els.append(el)
             if not els:
                 els.append(LineEl(' '))
-            self.lines.append(SourceLine(index, els))
+            comment = None
+            if comls and comls[0] == index:
+                comls.pop(0)
+                comment = comls.pop(0)
+            sourceln = SourceLine(index, els, comment)
+            self.lines.append(sourceln)
             index += 1
 
 class SourceLine:
-    def __init__(self, num, els):
+    def __init__(self, num, els, comment):
         self.num = num
         self.els = els
+        self.comment = comment
     
 class LineEl:
     def __init__(self, text, style=None, linkref=None):
