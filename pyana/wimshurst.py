@@ -72,6 +72,13 @@ class Gen:
             outfl.write(template.render(routines=ls))
             outfl.write('\n')
 
+        ls = list(self.objects)
+        ls.sort(key=lambda obj: obj.name)
+        template = self.jenv.get_template('objects.html')
+        with open('static/objects.html', 'w') as outfl:
+            outfl.write(template.render(objects=ls))
+            outfl.write('\n')
+
         ls = list(self.globals)
         ls.sort(key=lambda glob: glob.name)
         template = self.jenv.get_template('globals.html')

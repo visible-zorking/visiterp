@@ -11,7 +11,7 @@
     {% else %}
     <code class="Symbol">{{ glob.name }}</code> ({{ glob.num }})
     {% endif %}
-    {% if glob.loc %} {{ glob.sourceloc }} {{ glob.loc.str }} {% endif %}
+    {% if glob.loc %} {{ glob.loc.str }} {% endif %}
     </li>
   {% endfor %}
   </ul>

@@ -6,7 +6,7 @@
   <ul>
   {% for rtn in routines %}
     <li><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code>
-    ({{ rtn.hexaddr }}) {{ rtn.sourceloc }} {{ rtn.loc.str }}</li>
+    ({{ rtn.hexaddr }}) {{ rtn.loc.str }}</li>
   {% endfor %}
   </ul>
 {% endblock %}
