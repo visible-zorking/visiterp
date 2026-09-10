@@ -2,6 +2,7 @@
 
 import sys
 import re
+import html
 import json
 import jinja2
 
@@ -178,8 +179,57 @@ class SourceLoc:
 class Comment:
     def __init__(self, key, ls):
         self.key = key
-        self.text = ''.join([ str(val) for val in ls ])
-    
+        self.ls = ls
+
+    def text(self):
+        res = []
+        for val in self.ls:
+            if type(val) is str:
+                res.append(val)
+                continue
+            key = val[0]
+            if key == 'br':
+                res.append('</p><p>')
+                continue
+            if key == 'code':
+                text = html.escape(val[1], False)
+                res.append('<code>%s</code>' % (text,))
+                continue
+            if key == 'emph':
+                text = html.escape(val[1], False)
+                res.append('<em>%s</em>' % (text,))
+                continue
+            if key == 'bold':
+                text = html.escape(val[1], False)
+                res.append('<b>%s</b>' % (text,))
+                continue
+            if key == 'credit':
+                text = html.escape(val[1], False)
+                res.append('</p><p class="Contrib">(contrib: %s)</p><p>' % (text,))
+                continue
+            if key == 'extlink':
+                href = html.escape(val[1], True)
+                ### game-relative
+                text = html.escape(val[2], False)
+                cla = 'External'
+                res.append('<a class="%s" target="_blank" href="%s">%s</a>' % (cla, href, text,))
+                continue
+            if key in ('src', 'com', 'comsrc'):
+                [ _, id, idtyp, label ] = val
+                if not label:
+                    label = id
+                text = html.escape(label, False)
+                isid = (label == label.upper())
+                cla = 'Internal'
+                if isid:
+                    cla += ' Com_Id'
+                href = '###'
+                res.append('<a class="%s" href="%s">%s</a>' % (cla, href, text,))
+                continue
+            raise Exception('unhandled comment span %s' % (val,))
+                
+        return ''.join(res)
+
 class Routine:
     def __init__(self, map, gen):
         self.name = map['name']
