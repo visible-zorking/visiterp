@@ -45,6 +45,12 @@ class Gen:
             return
         self.symtable[name] = obj
 
+    def locforsymbol(self, name):
+        obj = self.symtable.get(name)
+        if not obj:
+            return None
+        return obj.loc
+
     def genloc(self, locstr):
         if not locstr:
             return None
@@ -73,7 +79,7 @@ class Gen:
         self.globals = [ Global(map, gen=self) for map in json_globals ]
         self.constants = [ Constant(map, gen=self) for map in json_constants ]
 
-        self.commentary = { key: Comment(key, vals) for (key, vals) in json_commentary.items() }
+        self.commentary = { key: Comment(key, vals, gen=self) for (key, vals) in json_commentary.items() }
 
         for file in self.sourcefiles:
             file.buildsource(json_source[file.filename], gen=self)
@@ -177,15 +183,17 @@ class SourceLoc:
             self.str = '%s:%d-%d' % (self.file.basename, self.startline, self.endline,)
 
 class Comment:
-    def __init__(self, key, ls):
+    def __init__(self, key, ls, gen):
         self.key = key
         self.ls = ls
+        self.rawhtml = self.text(gen)
 
-    def text(self):
+    def text(self, gen):
         res = []
         for val in self.ls:
             if type(val) is str:
-                res.append(val)
+                text = html.escape(val, False)
+                res.append(text)
                 continue
             key = val[0]
             if key == 'br':
@@ -218,12 +226,16 @@ class Comment:
                 [ _, id, idtyp, label ] = val
                 if not label:
                     label = id
+                loc = gen.locforsymbol(id)
                 text = html.escape(label, False)
+                if not loc:
+                    res.append(text)
+                    continue
                 isid = (label == label.upper())
                 cla = 'Internal'
                 if isid:
                     cla += ' Com_Id'
-                href = '###'
+                href = 'zil-%s.html#line_%s' % (loc.file.basename, loc.startline,)
                 res.append('<a class="%s" href="%s">%s</a>' % (cla, href, text,))
                 continue
             raise Exception('unhandled comment span %s' % (val,))
