@@ -17,6 +17,22 @@ def loadjsonp(filename):
     dat = dat[ pos+1 : ]
     return json.loads(dat)
 
+def loadjsonsp(filename):
+    res = []
+    with open(filename) as infl:
+        dat = infl.read()
+    ls = dat.split('\n')
+    for dat in ls:
+        dat = dat.strip()
+        if not dat:
+            continue
+        if dat.endswith(';'):
+            dat = dat[ : -1 ]
+        pos = dat.find('=')
+        dat = dat[ pos+1 : ]
+        res.append(json.loads(dat))
+    return res
+
 class Gen:
     def __init__(self):
         self.jenv = jinja2.Environment(loader=jinja2.FileSystemLoader('visiterp/staticlib'), autoescape=jinja2.select_autoescape())
@@ -195,7 +211,7 @@ json_source = loadjsonp('src/game/source.js')
 json_globals = loadjsonp('src/game/globals.js')
 json_constants = loadjsonp('src/game/constants.js')
 json_objects = loadjsonp('src/game/objects.js')
-
+json_commentary, json_commentarymap = loadjsonsp('src/game/commentary.js')
 gen = Gen()
 gen.build()
 gen.write()
