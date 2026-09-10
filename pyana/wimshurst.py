@@ -1,12 +1,28 @@
 #!/usr/bin/env python3
 
 import sys
+import os, os.path
+import argparse
 import re
 import html
 import json
 import jinja2
 
 from writer import get_sourcefile_map
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument('--dist', default='dist')
+parser.add_argument('--game')
+
+args = parser.parse_args()
+
+distdir = args.dist
+game = args.game
+if not game:
+    game = os.path.basename(os.getcwd())
+
+staticdir = os.path.join(distdir, game, 'static')
 
 def loadjsonp(filename):
     with open(filename) as infl:
@@ -85,35 +101,43 @@ class Gen:
             file.buildsource(json_source[file.filename], gen=self)
 
     def write(self):
+        if not os.path.exists(staticdir):
+            os.mkdir(staticdir)
+        
         template = self.jenv.get_template('home.html')
-        with open('static/index.html', 'w') as outfl:
+        pathname = os.path.join(staticdir, 'index.html')
+        with open(pathname, 'w') as outfl:
             outfl.write(template.render(files=self.sourcefiles))
             outfl.write('\n')
 
         ls = list(self.routines)
         ls.sort(key=lambda rtn: rtn.name)
         template = self.jenv.get_template('routines.html')
-        with open('static/routines.html', 'w') as outfl:
+        pathname = os.path.join(staticdir, 'routines.html')
+        with open(pathname, 'w') as outfl:
             outfl.write(template.render(routines=ls))
             outfl.write('\n')
 
         ls = list(self.objects)
         ls.sort(key=lambda obj: obj.name)
         template = self.jenv.get_template('objects.html')
-        with open('static/objects.html', 'w') as outfl:
+        pathname = os.path.join(staticdir, 'objects.html')
+        with open(pathname, 'w') as outfl:
             outfl.write(template.render(objects=ls))
             outfl.write('\n')
 
         ls = list(self.globals)
         ls.sort(key=lambda glob: glob.name)
         template = self.jenv.get_template('globals.html')
-        with open('static/globals.html', 'w') as outfl:
+        pathname = os.path.join(staticdir, 'globals.html')
+        with open(pathname, 'w') as outfl:
             outfl.write(template.render(globals=ls))
             outfl.write('\n')
 
         template = self.jenv.get_template('source.html')
         for file in self.sourcefiles:
-            with open('static/zil-%s.html' % (file.basename,), 'w') as outfl:
+            pathname = os.path.join(staticdir, 'zil-%s.html' % (file.basename,))
+            with open(pathname, 'w') as outfl:
                 outfl.write(template.render(homekey=file.key, lines=file.lines))
                 outfl.write('\n')
             
