@@ -6,7 +6,7 @@
   <div class="Col">
   {% for ln in lines %}
 <div id="line_{{ ln.num }}" class="{% if ln.comment %}Line HasNote{% else %}Line{% endif %}">
-{%- if ln.comment -%}<div class="Note">{{ ln.comment }}</div>{%- endif -%}
+{%- if ln.comment -%}<div class="Note">{{ ln.comment.text }}</div>{%- endif -%}
 {%- for el in ln.els -%}
 {%- if el.linkloc -%}
 {{ aloc(el.linkloc, 'Src_'+el.style, el.text, homekey) }}

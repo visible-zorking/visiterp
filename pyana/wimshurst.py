@@ -72,6 +72,8 @@ class Gen:
         self.globals = [ Global(map, gen=self) for map in json_globals ]
         self.constants = [ Constant(map, gen=self) for map in json_constants ]
 
+        self.commentary = { key: Comment(key, vals) for (key, vals) in json_commentary.items() }
+
         for file in self.sourcefiles:
             file.buildsource(json_source[file.filename], gen=self)
 
@@ -141,7 +143,8 @@ class SourceFile:
             comment = None
             if comls and comls[0] == index:
                 comls.pop(0)
-                comment = comls.pop(0)
+                comkey = comls.pop(0)
+                comment = gen.commentary.get(comkey)
             sourceln = SourceLine(index, els, comment)
             self.lines.append(sourceln)
             index += 1
@@ -171,7 +174,11 @@ class SourceLoc:
             self.str = '%s:%d' % (self.file.basename, self.startline,)
         else:
             self.str = '%s:%d-%d' % (self.file.basename, self.startline, self.endline,)
-        
+
+class Comment:
+    def __init__(self, key, ls):
+        self.key = key
+        self.text = ''.join([ str(val) for val in ls ])
     
 class Routine:
     def __init__(self, map, gen):
