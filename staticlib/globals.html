@@ -1,6 +1,6 @@
 {% extends "page.html" %}
 
-{% from 'link.html' import aloc %}
+{% from 'link.html' import aloc, comloc %}
 
 {% block content %}
   <h2>Global variables</h2>
@@ -14,7 +14,7 @@
     {% else %}
     <td><code class="Symbol">{{ glob.name }}</code></td>
     {% endif %}
-    <td class="TableComment">{% if commentary['GLOB:'+glob.name] %}<img width=20 height=16 src="../../pic/comment.svg" />{% endif %}</td>
+    <td class="TableComment">{% if glob.loc and commentary['GLOB:'+glob.name] %}{{ comloc(glob.loc, '') }}{% endif %}</td>
     <td class="TableLoc">{% if glob.loc %} {{ glob.loc.str }} {% endif %}</td>
     </tr>
   {% endfor %}

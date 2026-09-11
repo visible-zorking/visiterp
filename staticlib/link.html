@@ -3,3 +3,9 @@
  {% if loc.key == homekey %}href="#line_{{ loc.startline }}"{% else %}href="zil-{{ loc.file.basename}}.html#line_{{ loc.startline }}"{% endif -%}
  >{{ text }}</a>
 {%- endmacro %}
+
+{% macro comloc(loc, cla, homekey=None) -%}
+<a {% if cla %}class="{{ cla }}"{% endif %}
+ {% if loc.key == homekey %}href="#line_{{ loc.startline }}"{% else %}href="zil-{{ loc.file.basename}}.html#line_{{ loc.startline }}"{% endif -%}
+ ><img width=20 height=16 src="../../pic/comment.svg" /></a>
+{%- endmacro %}
