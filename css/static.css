@@ -34,13 +34,13 @@ body {
 }
 
 .Doc {
-    max-width: 800px;
+    max-width: 1000px;
     margin-left: auto;
     margin-right: auto;
 }
 
 .Col {
-    max-width: calc(100% - 200px);
+    max-width: calc(100% - 300px);
 }
 
 .Line {
@@ -59,8 +59,8 @@ body {
 
 .Note {
     float: right;
-    width: 200px;
-    margin-right: -200px;
+    width: 300px;
+    margin-right: -300px;
     white-space: normal;
     font-family: "Libre Baskerville", serif;
     font-size: 90%;
