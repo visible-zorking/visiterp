@@ -1,31 +1,68 @@
+body {
+    margin: 0px;
+    height: 100%;
+}
+
+#header {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    top: 0px;
+    height: 50px;
+    background-color: #887;
+    background-image: url("../pic/stone.png");
+    background-size: 489px 50px;
+    box-sizing: border-box;
+    border-bottom: 1px solid #765;
+    font-family: "Libre Baskerville", serif;
+}
+
+#header h1 {
+    font-size: 20px;
+    margin-left: 20px;
+    color: #FFF;
+    text-shadow: 2px 2px 3px #A93, -2px -2px 3px #A93;
+}
+
+#appbody {
+    width: 100%;
+    background: #EEE;
+    margin: 0px;
+    box-sizing: border-box;
+    font-family: "Lato";
+    padding-top: 50px;
+}
+
 .Doc {
-  max-width: 800px;
-  margin-left: auto;
-  margin-right: auto;
-  background-color: #FCF8F8;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+    background-color: #FCF8F8;
 }
 
 .Col {
-  max-width: calc(100% - 200px);
+    max-width: calc(100% - 200px);
 }
 
 .Line {
-  white-space: pre-wrap;
-  font-family: monospace;
+    white-space: pre-wrap;
+    font-family: "Courier Prime", monospace;
+    font-size: 90%;
+    line-height: 1.33;
 }
 
 .HasNote {
-  clear: both;
+    clear: both;
 }
 
 .Note {
-  float: right;
-  width: 200px;
-  margin-right: -200px;
-  white-space: normal;
-  font-family: serif;
-  color: #080;
-  border: 1px solid #0F0;
+    float: right;
+    width: 200px;
+    margin-right: -200px;
+    white-space: normal;
+    font-family: "Libre Baskerville", serif;
+    color: #080;
+    border: 1px solid #0F0;
 }
 
 .Note .Contrib {
