@@ -132,7 +132,7 @@ class Gen:
         template = self.jenv.get_template('objects.html')
         pathname = os.path.join(staticdir, 'objects.html')
         with open(pathname, 'w') as outfl:
-            outfl.write(template.render(objects=ls))
+            outfl.write(template.render(objects=ls, commentary=self.commentary))
             outfl.write('\n')
 
         ls = list(self.globals)
@@ -140,7 +140,7 @@ class Gen:
         template = self.jenv.get_template('globals.html')
         pathname = os.path.join(staticdir, 'globals.html')
         with open(pathname, 'w') as outfl:
-            outfl.write(template.render(globals=ls))
+            outfl.write(template.render(globals=ls, commentary=self.commentary))
             outfl.write('\n')
 
         template = self.jenv.get_template('source.html')
