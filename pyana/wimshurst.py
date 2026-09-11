@@ -66,9 +66,14 @@ class Gen:
 
     def locforsymbol(self, name):
         obj = self.symtable.get(name)
-        if not obj:
-            return None
-        return obj.loc
+        if obj:
+            return obj.loc
+        fname, _, linenum = name.rpartition('-')
+        if fname and linenum and fname in self.sourcefile_upnames:
+            file = self.sourcefile_upnames[fname]
+            startline = int(linenum)
+            return SourceLoc('#', file.key, file, startline, startline)
+        return None
 
     def genloc(self, locstr):
         if not locstr:
@@ -92,6 +97,7 @@ class Gen:
         self.sourcefiles = [ SourceFile(key, filename) for (filename, key) in sourcefile_map.items() ]
         self.sourcefiles.sort(key=lambda obj: obj.key)
         self.sourcefile_map = { obj.key: obj for obj in self.sourcefiles }
+        self.sourcefile_upnames = { obj.basename.upper(): obj for obj in self.sourcefiles }
 
         self.routines = [ Routine(map, gen=self) for map in json_routines ]
         self.objects = [ Object(map, gen=self) for map in json_objects ]
