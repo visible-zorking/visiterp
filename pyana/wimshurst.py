@@ -13,6 +13,7 @@ from writer import get_sourcefile_map
 parser = argparse.ArgumentParser()
 
 parser.add_argument('--dist', default='dist')
+parser.add_argument('--title', default='TITLE')
 parser.add_argument('--game')
 
 args = parser.parse_args()
@@ -53,6 +54,8 @@ def loadjsonsp(filename):
 class Gen:
     def __init__(self):
         self.jenv = jinja2.Environment(loader=jinja2.FileSystemLoader('visiterp/staticlib'), autoescape=jinja2.select_autoescape())
+        self.jenv.globals['title'] = args.title
+        
         self.symtable = {}
 
     def addsymbol(self, name, obj):
