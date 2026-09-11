@@ -3,7 +3,7 @@
 {% from 'link.html' import aloc %}
 
 {% block content %}
-  <ul>
+  <ul class="IndexList">
   {% for obj in objects %}
     <li><code class="Symbol">{{ aloc(obj.loc, '', obj.name) }}</code>
     ({{ obj.num }}) {{ obj.loc.str }}</li>

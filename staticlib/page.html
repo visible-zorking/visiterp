@@ -9,15 +9,15 @@
 </head>
 <body>
   <div id="header">
-    <h1>Source Code: {{ title }}</h1>
+    <h1>{{ title }} &#x2014; Annotated Source</h1>
   </div>
-  <div id="appbody">
-    <div>Index:
+  <div id="subheader">
       <a href="index.html">Files</a>
       <a href="routines.html">Routines</a>
       <a href="objects.html">Objects</a>
       <a href="globals.html">Globals</a>
-    </div>
+  </div>
+  <div id="appbody">
     <div class="Doc">
       {% block content %}{% endblock %}
     </div>

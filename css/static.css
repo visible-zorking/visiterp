@@ -17,6 +17,32 @@ body {
     font-family: "Libre Baskerville", serif;
 }
 
+#subheader {
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+    top: 50px;
+    height: 30px;
+    background: #DFDCCF;
+    box-sizing: border-box;
+    border-bottom: 1px solid #765;
+    font-family: "Lato";
+
+    padding-left: 20px;
+}
+
+#subheader a {
+    display: inline-block;
+    font-size: 85%;
+    margin: 4px 4px;
+    padding: 2px 8px;
+    background: #F4F4F0;
+    border: 1px solid #888;
+    border-radius: 8px;
+    text-decoration: none;
+    color: black;
+}
+
 #header h1 {
     font-size: 20px;
     margin-left: 20px;
@@ -30,7 +56,19 @@ body {
     margin: 0px;
     box-sizing: border-box;
     font-family: "Lato";
-    padding-top: 60px;
+    padding-top: 100px;
+    padding-bottom: 20px;
+    padding-left: 20px;
+    padding-right: 20px;
+}
+
+.IndexList {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.Symbol {
+    font-family: "Courier Prime", monospace;
 }
 
 .Doc {
