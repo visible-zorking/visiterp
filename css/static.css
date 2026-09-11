@@ -65,8 +65,15 @@ body {
     font-family: "Libre Baskerville", serif;
     font-size: 90%;
     line-height: 1.33;
-    color: #080;
-    border: 1px solid #0F0;
+    background: #B0FFB0;
+    color: #000;
+    border: 2px solid #40D040;
+    border-radius: 16px;
+}
+
+.Note p {
+    margin: 12px 12px;
+    text-indent: 12px;
 }
 
 .Note code {
