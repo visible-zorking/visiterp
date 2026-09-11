@@ -7,7 +7,7 @@
   {% for glob in globals %}
     <li>
     {% if glob.loc %}
-    <code class="Symbol">{{ aloc(glob.loc, '', glob.name) }}</code>
+    <code class="Symbol">{{ aloc(glob.loc, '', glob.name) }}</code> ({{ glob.num }})
     {% else %}
     <code class="Symbol">{{ glob.name }}</code> ({{ glob.num }})
     {% endif %}
