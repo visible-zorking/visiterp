@@ -3,6 +3,8 @@
 {% from 'link.html' import aloc %}
 
 {% block content %}
+  <h2>Routines</h2>
+  
   <ul class="IndexList">
   {% for rtn in routines %}
     <li><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code>
