@@ -113,6 +113,15 @@ body {
     vertical-align: bottom;
 }
 
+.TableComment {
+    vertical-align: bottom;
+}
+
+.TableComment img {
+    position: relative;
+    top: 4px;
+}
+
 .Line {
     line-height: 1.10;    
 }

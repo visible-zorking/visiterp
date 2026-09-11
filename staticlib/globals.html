@@ -14,7 +14,7 @@
     {% else %}
     <td><code class="Symbol">{{ glob.name }}</code></td>
     {% endif %}
-    <td>{% if commentary['GLOB:'+glob.name] %}**{% endif %}</td>
+    <td class="TableComment">{% if commentary['GLOB:'+glob.name] %}<img width=20 height=16 src="../../pic/comment.svg" />{% endif %}</td>
     <td class="TableLoc">{% if glob.loc %} {{ glob.loc.str }} {% endif %}</td>
     </tr>
   {% endfor %}
