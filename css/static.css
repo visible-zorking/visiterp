@@ -26,18 +26,17 @@ body {
 
 #appbody {
     width: 100%;
-    background: #EEE;
+    background: #FFF;
     margin: 0px;
     box-sizing: border-box;
     font-family: "Lato";
-    padding-top: 50px;
+    padding-top: 60px;
 }
 
 .Doc {
     max-width: 800px;
     margin-left: auto;
     margin-right: auto;
-    background-color: #FCF8F8;
 }
 
 .Col {
@@ -45,10 +44,13 @@ body {
 }
 
 .Line {
+    line-height: 1.10;    
+}
+
+.LineSrc {
     white-space: pre-wrap;
     font-family: "Courier Prime", monospace;
     font-size: 90%;
-    line-height: 1.33;
 }
 
 .HasNote {
@@ -61,8 +63,28 @@ body {
     margin-right: -200px;
     white-space: normal;
     font-family: "Libre Baskerville", serif;
+    font-size: 90%;
+    line-height: 1.33;
     color: #080;
     border: 1px solid #0F0;
+}
+
+.Note code {
+    font-family: "Courier Prime", monospace;
+    font-size: 100%;
+}
+
+.Note .Com_Id {
+    font-family: "Courier Prime", monospace;
+    font-size: 100%;
+}
+
+.Note a.Internal {
+    color: #A40;
+}
+
+.Note a.External {
+    color: #00C;
 }
 
 .Note .Contrib {
