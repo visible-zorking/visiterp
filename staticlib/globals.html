@@ -5,16 +5,18 @@
 {% block content %}
   <h2>Global variables</h2>
   
-  <ul class="IndexList">
+  <table class="IndexTable">
   {% for glob in globals %}
-    <li>
+    <tr>
+    <td class="TableAddr">#{{ glob.num }}</td>
     {% if glob.loc %}
-    <code class="Symbol">{{ aloc(glob.loc, '', glob.name) }}</code> ({{ glob.num }})
+    <td><code class="Symbol">{{ aloc(glob.loc, '', glob.name) }}</code></td>
     {% else %}
-    <code class="Symbol">{{ glob.name }}</code> ({{ glob.num }})
+    <td><code class="Symbol">{{ glob.name }}</code></td>
     {% endif %}
-    {% if glob.loc %} {{ glob.loc.str }} {% endif %}
-    </li>
+    <td>{% if commentary['GLOB:'+glob.name] %}**{% endif %}</td>
+    <td class="TableLoc">{% if glob.loc %} {{ glob.loc.str }} {% endif %}</td>
+    </tr>
   {% endfor %}
-  </ul>
+  </table>
 {% endblock %}
