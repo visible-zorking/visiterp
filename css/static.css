@@ -121,16 +121,21 @@ body {
     white-space: pre-wrap;
     font-family: "Courier Prime", monospace;
     font-size: 90%;
+    background: white;
 }
 
 .HasNote {
     clear: both;
+    background: linear-gradient(white, white 40%, #40D04060 50%, white 60%, white);
+    background-size: 100% 1.3em;
+    background-repeat: no-repeat;
 }
 
 .Note {
     float: right;
     width: 300px;
     margin-right: -300px;
+    box-sizing: border-box;
     white-space: normal;
     font-family: "Libre Baskerville", serif;
     font-size: 90%;
@@ -138,7 +143,7 @@ body {
     background: #B0FFB0;
     color: #000;
     border: 2px solid #40D040;
-    border-radius: 16px;
+    border-radius: 12px;
     margin-bottom: 6px;
 }
 
