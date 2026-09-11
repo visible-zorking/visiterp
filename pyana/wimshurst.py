@@ -124,7 +124,7 @@ class Gen:
         template = self.jenv.get_template('routines.html')
         pathname = os.path.join(staticdir, 'routines.html')
         with open(pathname, 'w') as outfl:
-            outfl.write(template.render(routines=ls))
+            outfl.write(template.render(routines=ls, commentary=self.commentary))
             outfl.write('\n')
 
         ls = list(self.objects)
@@ -211,9 +211,9 @@ class SourceLoc:
         self.endline = endline
         
         if self.endline == self.startline:
-            self.str = '%s:%d' % (self.file.basename, self.startline,)
+            self.str = '%s: %d' % (self.file.basename, self.startline,)
         else:
-            self.str = '%s:%d-%d' % (self.file.basename, self.startline, self.endline,)
+            self.str = '%s: %d-%d' % (self.file.basename, self.startline, self.endline,)
 
 class Comment:
     def __init__(self, key, ls, gen):

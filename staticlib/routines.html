@@ -5,10 +5,14 @@
 {% block content %}
   <h2>Routines</h2>
   
-  <ul class="IndexList">
+  <table class="IndexTable">
   {% for rtn in routines %}
-    <li><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code>
-    ({{ rtn.hexaddr }}) {{ rtn.loc.str }}</li>
+    <tr>
+    <td class="TableAddr">{{ rtn.hexaddr }}</td>
+    <td><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code></td>
+    <td class="TableLoc">{% if commentary['RTN:'+rtn.name] %}**{% endif %}</td>
+    <td class="TableLoc">{{ rtn.loc.str }}</td>
+    </tr>
   {% endfor %}
-  </ul>
+  <table>
 {% endblock %}

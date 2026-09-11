@@ -17,6 +17,16 @@ body {
     font-family: "Libre Baskerville", serif;
 }
 
+#header a#distlink {
+    text-decoration: none;
+    color: inherit;
+}
+#header a#distlink:hover {
+    text-decoration: underline;
+    text-decoration-color: #EDC;
+    text-shadow: 2px 2px 5px #FC8, -2px -2px 5px #FC8;
+}
+
 #subheader {
     position: fixed;
     z-index: 1;
@@ -83,6 +93,24 @@ body {
 
 .Col {
     max-width: calc(100% - 300px);
+}
+
+.IndexTable {
+}
+
+.TableAddr {
+    font-family: "Courier Prime", monospace;
+    font-size: 85%;
+    text-align: right;
+    padding-right: 1em;
+    vertical-align: bottom;
+}
+
+.TableLoc {
+    font-style: italic;
+    font-size: 85%;
+    padding-left: 1em;
+    vertical-align: bottom;
 }
 
 .Line {
