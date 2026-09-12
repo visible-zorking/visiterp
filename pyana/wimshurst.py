@@ -103,6 +103,8 @@ class Gen:
         self.objects = [ Object(map, gen=self) for map in json_objects ]
         self.globals = [ Global(map, gen=self) for map in json_globals ]
         self.constants = [ Constant(map, gen=self) for map in json_constants ]
+        self.properties = [ Property(map, gen=self) for map in json_properties ]
+        self.attributes = [ Attribute(map, gen=self) for map in json_attributes ]
 
         self.commentary = { key: Comment(key, vals, gen=self) for (key, vals) in json_commentary.items() }
 
@@ -141,6 +143,16 @@ class Gen:
         pathname = os.path.join(staticdir, 'globals.html')
         with open(pathname, 'w') as outfl:
             outfl.write(template.render(globals=ls, commentary=self.commentary))
+            outfl.write('\n')
+
+        lsp = list(self.properties)
+        lsp.sort(key=lambda prop: prop.name)
+        lsa = list(self.attributes)
+        lsa.sort(key=lambda attr: attr.name)
+        template = self.jenv.get_template('propattrs.html')
+        pathname = os.path.join(staticdir, 'propattrs.html')
+        with open(pathname, 'w') as outfl:
+            outfl.write(template.render(properties=lsp, attributes=lsa, commentary=self.commentary))
             outfl.write('\n')
 
         template = self.jenv.get_template('source.html')
@@ -307,6 +319,20 @@ class Global:
 
         gen.addsymbol(self.name, self)
 
+class Property:
+    def __init__(self, map, gen):
+        self.name = map['name']
+        self.num = map['num']
+        self.loc = None
+        gen.addsymbol(self.name, self)
+
+class Attribute:
+    def __init__(self, map, gen):
+        self.name = map['name']
+        self.num = map['num']
+        self.loc = None
+        gen.addsymbol(self.name, self)
+
 class Constant:
     def __init__(self, map, gen):
         self.name = map['name']
@@ -321,7 +347,10 @@ json_source = loadjsonp('src/game/source.js')
 json_globals = loadjsonp('src/game/globals.js')
 json_constants = loadjsonp('src/game/constants.js')
 json_objects = loadjsonp('src/game/objects.js')
+json_properties = loadjsonp('src/game/properties.js')
+json_attributes = loadjsonp('src/game/attributes.js')
 json_commentary, json_commentarymap = loadjsonsp('src/game/commentary.js')
+
 gen = Gen()
 gen.build()
 gen.write()

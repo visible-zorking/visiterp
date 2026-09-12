@@ -141,6 +141,14 @@ body {
     vertical-align: bottom;
 }
 
+.TableCellUp {
+    vertical-align: top;
+    padding-right: 10px;
+}
+.TableHasNote .TableCellUp {
+    padding-top: 10px;
+}
+
 .TableLoc {
     font-style: italic;
     font-size: 85%;
