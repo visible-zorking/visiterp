@@ -27,6 +27,25 @@ body {
     text-shadow: 2px 2px 5px #FC8, -2px -2px 5px #FC8;
 }
 
+#header #rightlink {
+    position: absolute;
+    height: 50px;
+    right: 20px;
+    top: 13px;
+}
+#header #rightlink a {
+    border: 1px solid #FFFFE0;
+    border-radius: 4px;
+    padding: 3px 4px;
+    color: #FFFFE0;
+    font-family: "Lato";
+    font-size: 12px;
+    text-decoration: none;
+}
+#header #rightlink a:hover {
+    background: #FFFFE040;
+}
+
 #subheader {
     position: absolute;
     z-index: 1;
