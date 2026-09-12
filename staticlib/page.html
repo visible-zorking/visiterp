@@ -1,9 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <title>Annotated Source: {{ title }}</title>
+  
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Annotated Source: {{ title }}</title>
+  <meta property="og:title" content="Annotated Source: {{ title }}">
+  <meta property="og:url" content="https://eblong.com/infocom/visi/zork1/">
+  <meta property="og:description" content="A software exhibit displaying the ZIL source code of Infocom's {{ title }}.">
+  
+  <link href="../../pic/logo-144.png" rel="apple-touch-icon" sizes="144x144" type="image/png">
+  <link href="../../pic/logo-64.png" rel="icon" sizes="64x64" type="image/png">
+  <link href="../../pic/logo-32.png" rel="icon" sizes="32x32" type="image/png">
+  <link href="../../pic/logo-16.png" rel="icon" sizes="16x16" type="image/png">
+
   <link rel="stylesheet" href="../../css/static.css" type="text/css">
   <link rel="stylesheet" href="../../css/font.css" type="text/css">
   {% block exthead %}{% endblock %}
