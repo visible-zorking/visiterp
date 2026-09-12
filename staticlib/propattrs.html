@@ -9,10 +9,10 @@
   
   <table class="IndexTable">
   {% for prop in properties %}
-    <tr>
-    <td class="TableAddr">#{{ prop.num }}</td>
-    <td><code class="Symbol">{{ prop.name }}</code></td>
-    <td class="TableComment">{% if commentary['PROP:'+prop.name] %}###{% endif %}</td>
+    <tr {% if commentary['PROP:'+prop.name] %}class="TableHasNote"{% endif %}>
+    <td class="TableCellUp"><code>#{{ prop.num }}</code></td>
+    <td class="TableCellUp"><code class="Symbol">{{ prop.name }}</code></td>
+    <td>{% if commentary['PROP:'+prop.name] %}<div class="Note"><p>{{ commentary['PROP:'+prop.name].rawhtml|safe }}</p></div>{% endif %}</td>
     </tr>
   {% endfor %}
   </table>
