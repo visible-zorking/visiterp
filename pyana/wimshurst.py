@@ -7,6 +7,7 @@ import re
 import html
 import json
 import jinja2
+import markdown
 
 from writer import get_sourcefile_map
 
@@ -114,11 +115,12 @@ class Gen:
     def write(self):
         if not os.path.exists(staticdir):
             os.mkdir(staticdir)
-        
+
+        intro_html = markdown.markdown(intro_md)
         template = self.jenv.get_template('home.html')
         pathname = os.path.join(staticdir, 'index.html')
         with open(pathname, 'w') as outfl:
-            outfl.write(template.render(files=self.sourcefiles))
+            outfl.write(template.render(files=self.sourcefiles, intro=intro_html))
             outfl.write('\n')
 
         ls = list(self.routines)
@@ -342,6 +344,8 @@ class Constant:
 
         gen.addsymbol(self.name, self)
 
+with open('intro.md') as infl:
+    intro_md = infl.read()
 json_routines = loadjsonp('src/game/routines.js')
 json_source = loadjsonp('src/game/source.js')
 json_globals = loadjsonp('src/game/globals.js')
