@@ -1,6 +1,6 @@
 {% extends "page.html" %}
 
-{% from 'link.html' import aloc %}
+{% from 'link.html' import aloc, comloc %}
 
 {% block content %}
   <h2>Routines</h2>
@@ -10,7 +10,7 @@
     <tr>
     <td class="TableAddr">{{ rtn.hexaddr }}</td>
     <td><code class="Symbol">{{ aloc(rtn.loc, '', rtn.name) }}</code></td>
-    <td>{% if commentary['RTN:'+rtn.name] %}**{% endif %}</td>
+    <td class="TableComment">{% if commentary['RTN:'+rtn.name] %}{{ comloc(rtn.loc, '') }}{% endif %}</td>
     <td class="TableLoc">{{ rtn.loc.str }}</td>
     </tr>
   {% endfor %}
