@@ -1,0 +1,31 @@
+{% extends "page.html" %}
+
+{% block content %}
+  <p>Note that properties and attributes (flags) are declared implicitly
+  in <code>OBJECT</code> definitions. They have no explicit
+  definitions in the ZIL source to link to.</p>
+  
+  <h2>Properties</h2>
+  
+  <table class="IndexTable">
+  {% for prop in properties %}
+    <tr>
+    <td class="TableAddr">#{{ prop.num }}</td>
+    <td><code class="Symbol">{{ prop.name }}</code></td>
+    <td class="TableComment">{% if commentary['PROP:'+prop.name] %}###{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </table>
+  
+  <h2>Attributes</h2>
+  
+  <table class="IndexTable">
+  {% for attr in attributes %}
+    <tr {% if commentary['ATTR:'+attr.name] %}class="TableHasNote"{% endif %}>
+    <td class="TableCellUp"><code>#{{ attr.num }}</code></td>
+    <td class="TableCellUp"><code class="Symbol">{{ attr.name }}</code></td>
+    <td>{% if commentary['ATTR:'+attr.name] %}<div class="Note"><p>{{ commentary['ATTR:'+attr.name].rawhtml|safe }}</p></div>{% endif %}</td>
+    </tr>
+  {% endfor %}
+  </table>
+{% endblock %}
