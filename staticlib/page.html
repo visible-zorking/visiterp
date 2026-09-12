@@ -3,6 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TITLE###</title>
   <link rel="stylesheet" href="../../css/static.css" type="text/css">
   <link rel="stylesheet" href="../../css/font.css" type="text/css">
   {% block exthead %}{% endblock %}
@@ -17,9 +18,11 @@
       <a href="objects.html">Objects</a>
       <a href="globals.html">Globals</a>
   </div>
-  <div id="appbody">
-    <div class="Doc">
-      {% block content %}{% endblock %}
+  <div id="content">
+    <div id="appbody">
+      <div class="Doc">
+        {% block content %}{% endblock %}
+      </div>
     </div>
   </div>
 </body>

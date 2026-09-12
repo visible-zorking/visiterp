@@ -4,7 +4,7 @@ body {
 }
 
 #header {
-    position: fixed;
+    position: absolute;
     z-index: 1;
     width: 100%;
     top: 0px;
@@ -28,7 +28,7 @@ body {
 }
 
 #subheader {
-    position: fixed;
+    position: absolute;
     z-index: 1;
     width: 100%;
     top: 50px;
@@ -60,13 +60,23 @@ body {
     text-shadow: 2px 2px 3px #A93, -2px -2px 3px #A93;
 }
 
+#content {
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    top: 80px;
+    bottom: 0px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
 #appbody {
     width: 100%;
     background: #FFF;
     margin: 0px;
     box-sizing: border-box;
     font-family: "Lato";
-    padding-top: 100px;
+    padding-top: 20px;
     padding-bottom: 20px;
     padding-left: 20px;
     padding-right: 20px;
