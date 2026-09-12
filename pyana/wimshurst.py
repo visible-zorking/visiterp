@@ -250,7 +250,8 @@ class Comment:
                 continue
             if key == 'extlink':
                 href = html.escape(val[1], True)
-                ### game-relative
+                if href.startswith('../'):
+                    href = '../' + href
                 text = html.escape(val[2], False)
                 cla = 'External'
                 res.append('<a class="%s" target="_blank" href="%s">%s</a>' % (cla, href, text,))
