@@ -5,7 +5,9 @@
   
   <ul class="IndexList">
   {% for file in files %}
-    <li><a href="zil-{{ file.basename }}.html">{{ file.filename }}</a></li>
+    <li><a href="zil-{{ file.basename }}.html">{{ file.filename }}</a>
+    &nbsp;
+    <i>({{ file.lines|length }} lines)</i></li>
   {% endfor %}
   </ul>
 {% endblock %}

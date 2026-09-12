@@ -111,11 +111,6 @@ body {
     font-size: 20px;
 }
 
-.IndexList {
-    list-style: none;
-    padding-left: 0px;
-}
-
 .Symbol {
     font-family: "Courier Prime", monospace;
 }
@@ -128,6 +123,16 @@ body {
 
 .Col {
     max-width: calc(100% - 300px);
+}
+
+.IndexList {
+    list-style: none;
+    padding-left: 0px;
+}
+
+.IndexList li {
+    margin-top: 4px;
+    margin-bottom: 4px;
 }
 
 .IndexTable {
