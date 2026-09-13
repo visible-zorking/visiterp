@@ -64,6 +64,8 @@ class Gen:
             print('Warning: duplicate symbol: %s' % (name,))
             return
         self.symtable[name] = obj
+        if isinstance(obj, Property):
+            self.symtable['P?'+name] = obj
 
     def locforsymbol(self, name):
         obj = self.symtable.get(name)
