@@ -158,6 +158,17 @@ body {
     padding-top: 10px;
 }
 
+.TableCellType {
+    font-style: italic;
+    font-size: 85%;
+    vertical-align: top;
+    padding-top: 4px;
+    padding-right: 10px;
+}
+.TableHasNote .TableCellType {
+    padding-top: 10px;
+}
+
 .TableLoc {
     font-style: italic;
     font-size: 85%;

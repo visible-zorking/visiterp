@@ -339,6 +339,7 @@ class Property:
     def __init__(self, map, gen):
         self.name = map['name']
         self.num = map['num']
+        self.vartype = map.get('vartype')
         self.loc = None
         gen.addsymbol(self.name, self)
 
