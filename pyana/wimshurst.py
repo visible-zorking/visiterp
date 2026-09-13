@@ -190,7 +190,7 @@ class SourceFile:
                 else:
                     (objstyle, obj) = obj
                     loc = None
-                    if objstyle == 'Id':
+                    if objstyle in ('Id', 'Implid'):
                         loc = gen.symtable.get(obj)
                     el = LineEl(obj, objstyle, loc)
                 els.append(el)
@@ -216,7 +216,14 @@ class LineEl:
         self.text = text
         self.style = style
         self.linkref = linkref
-        self.linkloc = linkref.loc if linkref else None
+        
+        self.linkloc = None
+        self.linkfrag = None
+        if linkref:
+            if isinstance(linkref, Attribute) or isinstance(linkref, Property):
+                self.linkfrag = linkref.fragment()
+            else:
+                self.linkloc = linkref.loc
 
 class SourceLoc:
     def __init__(self, locstr, key, file, startline, endline):
