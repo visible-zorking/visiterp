@@ -14,6 +14,7 @@
     {% else %}
     <td><code class="Symbol">{{ glob.name }}</code></td>
     {% endif %}
+    <td class="TableLoc">{{ glob.vartype|lower }}</td>
     <td class="TableComment">{% if glob.loc and commentary['GLOB:'+glob.name] %}{{ comloc(glob.loc, '') }}{% endif %}</td>
     <td class="TableLoc">{% if glob.loc %} {{ glob.loc.str }} {% endif %}</td>
     </tr>

@@ -330,6 +330,10 @@ class Global:
         self.name = map['name']
         self.num = map['num']
         self.sourceloc = map['sourceloc']
+        self.vartype = map.get('vartype', 'int')
+
+        if self.vartype == 'table created from SYNTAX':
+            self.vartype = 'TABLE'
 
         self.loc = gen.genloc(self.sourceloc)
 
@@ -339,7 +343,7 @@ class Property:
     def __init__(self, map, gen):
         self.name = map['name']
         self.num = map['num']
-        self.vartype = map.get('vartype')
+        self.vartype = map.get('vartype', 'int')
         self.loc = None
         gen.addsymbol(self.name, self)
 
