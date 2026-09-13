@@ -229,6 +229,9 @@ class SourceLoc:
         else:
             self.str = '%s: %d-%d' % (self.file.basename, self.startline, self.endline,)
 
+    def fragment(self):
+        return 'zil-%s.html#line_%s' % (self.file.basename, self.startline,)
+
 class Comment:
     def __init__(self, key, ls, gen):
         self.key = key
@@ -283,7 +286,7 @@ class Comment:
                 cla = 'Internal'
                 if isid:
                     cla += ' Com_Id'
-                href = 'zil-%s.html#line_%s' % (loc.file.basename, loc.startline,)
+                href = loc.fragment()
                 res.append('<a class="%s" href="%s">%s</a>' % (cla, href, text,))
                 continue
             raise Exception('unhandled comment span %s' % (val,))
