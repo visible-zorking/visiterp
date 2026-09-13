@@ -68,6 +68,8 @@ class Gen:
     def locforsymbol(self, name):
         obj = self.symtable.get(name)
         if obj:
+            if isinstance(obj, Attribute) or isinstance(obj, Property):
+                return obj
             return obj.loc
         fname, _, linenum = name.rpartition('-')
         if fname and linenum and fname in self.sourcefile_upnames:
@@ -331,12 +333,18 @@ class Property:
         self.loc = None
         gen.addsymbol(self.name, self)
 
+    def fragment(self):
+        return 'propattrs.html#prop_%d' % (self.num,)
+
 class Attribute:
     def __init__(self, map, gen):
         self.name = map['name']
         self.num = map['num']
         self.loc = None
         gen.addsymbol(self.name, self)
+
+    def fragment(self):
+        return 'propattrs.html#attr_%d' % (self.num,)
 
 class Constant:
     def __init__(self, map, gen):
