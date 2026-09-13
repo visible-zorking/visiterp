@@ -146,6 +146,10 @@ body {
     vertical-align: bottom;
 }
 
+.TableCellRight {
+    text-align: right;
+}
+
 .TableCellUp {
     vertical-align: top;
     padding-right: 10px;

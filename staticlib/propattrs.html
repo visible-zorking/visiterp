@@ -10,7 +10,7 @@
   <table class="IndexTable">
   {% for prop in properties %}
     <tr id="prop_{{ prop.num }}" {% if commentary['PROP:'+prop.name] %}class="TableHasNote"{% endif %}>
-    <td class="TableCellUp"><code>#{{ prop.num }}</code></td>
+    <td class="TableCellUp TableCellRight"><code>#{{ prop.num }}</code></td>
     <td class="TableCellUp"><code class="Symbol">{{ prop.name }}</code></td>
     <td>{% if commentary['PROP:'+prop.name] %}<div class="Note"><p>{{ commentary['PROP:'+prop.name].rawhtml|safe }}</p></div>{% endif %}</td>
     </tr>
@@ -22,7 +22,7 @@
   <table class="IndexTable">
   {% for attr in attributes %}
     <tr id="attr_{{ attr.num }}"  {% if commentary['ATTR:'+attr.name] %}class="TableHasNote"{% endif %}>
-    <td class="TableCellUp"><code>#{{ attr.num }}</code></td>
+    <td class="TableCellUp TableCellRight"><code>#{{ attr.num }}</code></td>
     <td class="TableCellUp"><code class="Symbol">{{ attr.name }}</code></td>
     <td>{% if commentary['ATTR:'+attr.name] %}<div class="Note"><p>{{ commentary['ATTR:'+attr.name].rawhtml|safe }}</p></div>{% endif %}</td>
     </tr>
