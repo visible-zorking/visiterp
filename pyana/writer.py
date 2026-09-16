@@ -635,7 +635,7 @@ def display_globals_ana(zcode, txdat):
         ls = outmap.get(val)
         if not ls:
             print('### Global %d ###' % (val,))
-        elif len(ls) == 1:
+        elif len(set(ls)) == 1:
             print('Global %d %s' % (val, ls[0],))
         else:
             lsval = ', '.join(ls)
