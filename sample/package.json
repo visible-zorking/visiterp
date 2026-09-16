@@ -10,6 +10,7 @@
     "buildts": "pnpm exec tsc && pnpm exec rollup -c",
     "minify": "./minify gamedat.js && ./minify lib.js && ./minify glkio.js && ./minify ifvms.js && ./minify gnusto.js && ./minify parchment.js",
     "builddata": "npm run recreate-gamedata && npm run rearrange-tables && npm run recolor-source && pnpm run regenerate-commentary && pnpm run reparse-map",
+    "buildstatic": "python3 visiterp/pyana/wimshurst.py --dist ../dist --title 'TITLE'",
     "recreate-gamedata": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --obj --dict --grammar --txd --gamedat",
     "rearrange-tables": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --zcode gamedat/GAME-rX-sXXXXXX.z3 --gamedat",
     "recolor-source": "python3 visiterp/pyana/parse.py --game GAME-rX-sXXXXXX -z gamesrc/GAME.zil --src --reindent",
