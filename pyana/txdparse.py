@@ -2,10 +2,10 @@ import re
 
 class String:
     @staticmethod
-    def unescape(text, stripquotes=False):
+    def unescape(text, linenum=None, stripquotes=False):
         if stripquotes:
             if not (text.startswith('"') and text.endswith('"')):
-                raise Exception('not quoted')
+                raise Exception('not quoted (line %s)' % (linenum,))
             text = text[ 1 : -1 ]
         # Okay, this is hacky.
         text = text.replace('\\n', '\n')
@@ -15,7 +15,7 @@ class String:
             text = text.replace('\\\\', '\\')
         else:
             if '\\' in text:
-                raise Exception('unknown escape: ' + text)
+                raise Exception('unknown escape (line %s): %s ' % (linenum, text,))
         return text
 
     def __init__(self, addr, index, text, rtn=None):
@@ -97,7 +97,7 @@ class TXDData:
         with open(filename) as infl:
             rtn = None
             mode = None
-            for ln in infl.readlines():
+            for lnnum, ln in enumerate(infl.readlines(), start=1):
                 ln = ln.rstrip()
                 if pat_startrtns.match(ln):
                     mode = 'ROUTINES'
@@ -129,7 +129,7 @@ class TXDData:
                         opargs = lex_opcode_args(match.group(3))
                         rtn.opcodes.append((addr, opcode, opargs,))
                         if match.group(2) in ('PRINT', 'PRINT_RET'):
-                            text = String.unescape(match.group(3), stripquotes=True)
+                            text = String.unescape(match.group(3), linenum=lnnum, stripquotes=True)
                             st = String(addr, None, text, rtn=rtn)
                             rtn.istrings.append(st)
                             self.istrings.append(st)
@@ -152,7 +152,7 @@ class TXDData:
                     if match:
                         addr = int(match.group(1), 16)
                         index = int(match.group(2))
-                        text = String.unescape(match.group(3))
+                        text = String.unescape(match.group(3), linenum=lnnum)
                         st = String(addr, index, text)
                         self.strings.append(st)
 
