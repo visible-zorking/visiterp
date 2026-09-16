@@ -7,6 +7,8 @@ def monkeyinsertcrufty(gameid):
         return True
     if gameid == 'suspended-mac-r8-s840521':
         return True
+    if gameid == 'infidel-mac-r22-s840522':
+        return True
 
 def monkeyskiptoken(lexer, tok):
     if tok.typ is TokType.DELIM and tok.val == '>' and tok.pos == ('people.zil', 149, 41) and lexer.monkeypatch.startswith('suspended-mac-r8-s840521'):
