@@ -181,7 +181,7 @@ class SourceFile:
 
     def buildsource(self, lines, gen):
         index = 1
-        comls = list(json_commentarymap[self.key] or [])
+        comls = list(json_commentarymap.get(self.key, []))
         for lineobj in lines:
             els = []
             for obj in lineobj:
