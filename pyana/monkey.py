@@ -74,6 +74,38 @@ def monkeyadjustlex(lexer, ls):
                 Token(TokType.ID, 'DRIVEWAY-GATE', pos),
             ])
             ls.append(newtok)
+    if lexer.monkeypatch == 'infidel-mac-r22-s840522':
+        if lexer.filename == 'temple.zil':
+            # Add a synthetic object at line 128 of temple.zil.
+            pos = lexer.getpos()
+            pos = ('temple.zil', 128, 0)
+            endpos = ('temple.zil', 129, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'TABLE', pos),
+            ])
+            ls.append(newtok)
+        if lexer.filename == 'globals.zil':
+            # Add a synthetic object at line 216 of globals.zil.
+            pos = lexer.getpos()
+            pos = ('globals.zil', 216, 0)
+            endpos = ('globals.zil', 217, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'GLOBALS', pos),
+            ])
+            ls.append(newtok)
+        if lexer.filename == 'globals.zil':
+            # Add a synthetic object at line 270 of globals.zil.
+            pos = lexer.getpos()
+            pos = ('globals.zil', 270, 0)
+            endpos = ('globals.zil', 271, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'TOP-OF-STAIRWAY', pos),
+            ])
+            ls.append(newtok)
+        pass
     return ls
 
 extracompiledstrings = []
