@@ -211,6 +211,9 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
     if gameid == 'infidel-mac-r22-s840522':
         if text.startswith('  ') and '=  - -' in text:
             text = text.replace('=  - -', '=  - - ')
+        if text.startswith('\n#') and '(())' in text:
+            # I keep messing up backslashes
+            text = text.replace('\\\\', '\\')
     return text
 
 def monkeyadjustmapxml(doc, gameid):
