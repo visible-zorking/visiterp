@@ -208,6 +208,9 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
         if text.startswith(' a transcript of interaction') or text.startswith('ENCHANTER\nInfocom'):
             # The word "registered" was stuck in
             text = text.replace('a registered trademark', 'a trademark')
+    if gameid == 'infidel-mac-r22-s840522':
+        if text.startswith('  ') and '=  - -' in text:
+            text = text.replace('=  - -', '=  - - ')
     return text
 
 def monkeyadjustmapxml(doc, gameid):

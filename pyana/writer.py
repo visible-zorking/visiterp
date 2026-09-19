@@ -274,6 +274,7 @@ def write_strings(filename, zcode, txdat, objdat):
         tup = istrtext_to_pos.get((fname, str.text))
         if tup is None:
             print('ERROR: istring not found in rtn %s: %s' % (fname, str,))
+            print('... txdat text:', repr(str.text))
             continue
         if len(tup) == 0:
             print('ERROR: ran out of istrings in rtn %s: %s' % (fname, str,))
