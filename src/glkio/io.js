@@ -57,7 +57,12 @@ var GlkIOClass = function(env, runner) {
            If this is an arrange event (that is, the window changed size)
            then we *don't* run the engine; we just redraw the status line. */
         if (run) {
+            let pathstart = new Date().getTime();
             orders = runner.run();
+            if (all_options.log_execution_time) {
+                let pathend = new Date().getTime();
+                console.log("event executed in " + (pathend-pathstart) + " ms");
+            }
         }
 
         /* Two special cases: waiting for a SAVE or RESTORE file prompt.
