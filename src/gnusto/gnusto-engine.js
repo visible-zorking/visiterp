@@ -4847,6 +4847,7 @@ GnustoEngine.prototype = {
     // header for comparison, not the one in the current header.
 
     _verify: function ge_verify() {
+        this._zOut('Interpreter: Parchment for the Visible Zorker\n\n');
 
         var total = 0;
         var checksum = (this.m_original_memory[0x1c]<<8 |
