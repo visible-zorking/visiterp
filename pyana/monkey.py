@@ -105,7 +105,17 @@ def monkeyadjustlex(lexer, ls):
                 Token(TokType.ID, 'TOP-OF-STAIRWAY', pos),
             ])
             ls.append(newtok)
-        pass
+    if lexer.monkeypatch == 'sorcerer-r13-s851021':
+        if lexer.filename == 'globals.zil':
+            # Add a synthetic object at line 301 of globals.zil.
+            pos = lexer.getpos()
+            pos = ('globals.zil', 301, 0)
+            endpos = ('globals.zil', 302, 0)
+            newtok = Token(TokType.GROUP, '<', pos=pos, endpos=endpos, children=[
+                Token(TokType.ID, 'OBJECT', pos),
+                Token(TokType.ID, 'LOCAL-OBJECTS', pos),
+            ])
+            ls.append(newtok)
     return ls
 
 extracompiledstrings = []
