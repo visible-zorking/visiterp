@@ -48,7 +48,7 @@ class Routine:
 
 pat_lex = re.compile('[() ,"]')
 
-def lex_opcode_args(val):
+def lex_opcode_args(val, linenum=None):
     res = []
     pos = 0
     while True:
@@ -126,7 +126,7 @@ class TXDData:
                     if match and rtn:
                         addr = int(match.group(1), 16)
                         opcode = match.group(2)
-                        opargs = lex_opcode_args(match.group(3))
+                        opargs = lex_opcode_args(match.group(3), lnnum)
                         rtn.opcodes.append((addr, opcode, opargs,))
                         if match.group(2) in ('PRINT', 'PRINT_RET'):
                             text = String.unescape(match.group(3), linenum=lnnum, stripquotes=True)
