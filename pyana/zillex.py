@@ -217,6 +217,10 @@ class Lexer:
                         self.nextchar()
                         if self.curchar == '"':
                             val += '"'
+                        elif self.curchar == '#':
+                            val += '#'
+                        elif self.curchar.isalpha():
+                            val += self.curchar
                         elif self.curchar == '\\':
                             val += '\\'
                         else:
