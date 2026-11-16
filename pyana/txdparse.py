@@ -46,7 +46,7 @@ class Routine:
     def __repr__(self):
         return '<Routine %X (%d args, %d opcodes)>' % (self.addr, self.argcount, len(self.opcodes),)
 
-pat_lex = re.compile('[() ,"]')
+pat_lex = re.compile('[() ,"\']')
 
 def lex_opcode_args(val, linenum=None):
     res = []
@@ -66,6 +66,10 @@ def lex_opcode_args(val, linenum=None):
             continue
         if ch in ',()':
             res.append(ch)
+            continue
+        if ch == "'":
+            pos += 2
+            res.append(val[ match.start() : pos ])
             continue
         if ch == '"':
             while val[pos] != '"':
