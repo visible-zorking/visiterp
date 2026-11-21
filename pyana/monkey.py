@@ -224,6 +224,10 @@ def monkeyadjuststringtext(text, gameid, rtn=None):
         if text.startswith('\n#') and '(())' in text:
             # I keep messing up backslashes
             text = text.replace('\\\\', '\\')
+    if gameid == 'seastalker-r18-s850919':
+        if text.startswith('SEASTALKER is a'):
+            # The word "registered" was stuck in
+            text = text.replace('a registered trademark', 'a trademark')
     return text
 
 def monkeyadjustmapxml(doc, gameid):
