@@ -618,6 +618,7 @@ def display_globals_ana(zcode, txdat):
         globname = glob.name
         rtns = []
         for rtn in zcode.routines:
+            # TODO: Distinguish between global and local of the same name?
             got = rtn.rtok.itertree(lambda tok: tok.typ is TokType.ID and tok.val == globname)
             if got:
                 rtns.append(rtn.name)
