@@ -182,7 +182,7 @@ export function AboutPage()
                     by Marnanel Thurman, Atul Varma, and Dannii Willis.
                     You can find this, and the rest of the Visible Zorker
                     machinery, on{' '}
-                    <ExtWebLink url={ 'https://github.com/visible-zorking/visi-zork3' } text={ 'Github' } />.
+                    <ExtWebLink url={ 'https://github.com/visible-zorking/visi-XXXX' } text={ 'Github' } />.
                 </p>
                 <p>
                     I used TXD from the{' '}
