@@ -2564,6 +2564,10 @@ GnustoEngine.prototype = {
 
         this.m_leftovers = '';
 
+        if (this.m_version == 3) {
+            this.m_memory[0x01] |= 0x20; // split-screen available
+        }
+
         // Set some header variables
         if (this.m_version >= 4) {
             this.m_memory[0x1E] = 1; // DEC
