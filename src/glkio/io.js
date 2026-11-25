@@ -173,9 +173,9 @@ var GlkIOClass = function(env, runner) {
 
                 if (ord.code == 'stream' && ord.to == 'status') {
                     //TODO: This is too simple for Trinity.
-                    // It also doesn't track a cursor position, so several
-                    // 'stream's in a row will go badly. But it's good
-                    // enough for Seastalker.
+                    // It also doesn't track a cursor position between
+                    // updates. But it's good enough for Seastalker.
+                    var cursor = [0, 0];
                     for (var dat of ord.data) {
                         if (dat.code == 'height') {
                             if (dat.lines < upperwin.length) {
@@ -190,8 +190,10 @@ var GlkIOClass = function(env, runner) {
                             }
                         }
                         else if (dat.code == 'cursor') {
+                            cursor = dat.to;
                         }
                         else if (dat.code == 'stream') {
+                            cursor = update_upperwin(cursor, dat.text);
                         }
                     }
                 }
@@ -220,8 +222,8 @@ var GlkIOClass = function(env, runner) {
             }
         }
 
-        /* If this is initial startup or a rearrange event, recompute
-           the window sizes. */
+        /* If this is initial startup or a rearrange event, *or* the upperwin
+           changed height, recompute the window sizes. */
         if (layout_dirty) {
             update.windows = build_windows();
         }
@@ -249,6 +251,16 @@ var GlkIOClass = function(env, runner) {
                     { style:'normal', text:statusline },
                 ],
             });
+            var ypos = 1;
+            for (let line of upperwin) {
+                gridcontent.push({
+                    line: ypos,
+                    content: [
+                        { style:'normal', text:line },
+                    ],
+                });
+                ypos++;
+            }
         }
 
         if (buffercontent.length || gridcontent.length) {
@@ -318,6 +330,12 @@ var GlkIOClass = function(env, runner) {
         });
 
         return windows;
+    }
+
+    function update_upperwin(cursor, text)
+    {
+        //###
+        return cursor;
     }
 
     function get_status_width()
