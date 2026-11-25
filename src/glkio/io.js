@@ -119,12 +119,6 @@ var GlkIOClass = function(env, runner) {
             gen: newgen,
         };
 
-        /* If this is initial startup or a rearrange event, recompute
-           the window sizes. */
-        if (layout_dirty) {
-            update.windows = build_windows();
-        }
-
         var gridcontent = [];
         var buffercontent = [];
         var newinput = null;
@@ -196,6 +190,12 @@ var GlkIOClass = function(env, runner) {
                     vmquit = true;
                 }
             }
+        }
+
+        /* If this is initial startup or a rearrange event, recompute
+           the window sizes. */
+        if (layout_dirty) {
+            update.windows = build_windows();
         }
 
         if (vmquit) {
