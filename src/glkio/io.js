@@ -334,8 +334,42 @@ var GlkIOClass = function(env, runner) {
 
     function update_upperwin(cursor, text)
     {
-        //###
-        return cursor;
+        let xpos = cursor[0];
+        let ypos = cursor[1];
+        let lastx = xpos;
+        
+        for (let span of text.split('\n')) {
+            if (ypos >= upperwin.length)
+                break;
+            
+            if (span.length == 0) {
+                lastx = xpos;
+                continue;
+            }
+            let line = upperwin[ypos];
+
+            let extra = null;
+            if (line.length > xpos + span.length)
+                extra = line.slice(xpos + span.length);
+
+            if (xpos == 0) {
+                line = span;
+            }
+            else {
+                while (line.length < xpos)
+                    line = line + ' ';
+                line = line.slice(0, xpos) + span;
+            }
+            lastx = line.length;
+            if (extra)
+                line = line+span;
+
+            upperwin[ypos] = line;
+
+            ypos += 1;
+            xpos = 0;
+        }
+        return [lastx, ypos];
     }
 
     function get_status_width()
