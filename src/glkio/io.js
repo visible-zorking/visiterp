@@ -7,6 +7,8 @@ var GlkIOClass = function(env, runner) {
     var glkote = GlkOte;
     var content_metrics = null;
 
+    var upperwin = []; // excludes the status line per se
+    
     function init()
     {
         var subenv = { ...env, accept:accept };
@@ -19,10 +21,10 @@ var GlkIOClass = function(env, runner) {
         var layout_dirty = false;
         var run = false;
         var echoline = null;
-        var upperwin_height = null; // excludes the status line per se
         
         if (obj.type == 'init') {
             content_metrics = complete_metrics(obj.metrics);
+            upperwin.length = 0;
             layout_dirty = true;
             run = true;
         }
@@ -170,10 +172,22 @@ var GlkIOClass = function(env, runner) {
                 }
 
                 if (ord.code == 'stream' && ord.to == 'status') {
+                    //TODO: This is too simple for Trinity.
+                    // It also doesn't track a cursor position, so several
+                    // 'stream's in a row will go badly. But it's good
+                    // enough for Seastalker.
                     for (var dat of ord.data) {
                         if (dat.code == 'height') {
-                            upperwin_height = dat.lines;
-                            layout_dirty = true;
+                            if (dat.lines < upperwin.length) {
+                                upperwin.length = dat.lines;
+                                layout_dirty = true;
+                            }
+                            if (dat.lines > upperwin.length) {
+                                while (upperwin.length < dat.lines) {
+                                    upperwin.push('')
+                                }
+                                layout_dirty = true;
+                            }
                         }
                         else if (dat.code == 'cursor') {
                         }
@@ -209,7 +223,7 @@ var GlkIOClass = function(env, runner) {
         /* If this is initial startup or a rearrange event, recompute
            the window sizes. */
         if (layout_dirty) {
-            update.windows = build_windows(upperwin_height);
+            update.windows = build_windows();
         }
 
         if (vmquit) {
@@ -267,14 +281,14 @@ var GlkIOClass = function(env, runner) {
         
     }
 
-    function build_windows(upperwin_height)
+    function build_windows()
     {
         var metrics = content_metrics;
         var windows = [];
 
         var statusheight = 1;
-        if (upperwin_height) {
-            statusheight += upperwin_height;
+        if (upperwin && upperwin.length) {
+            statusheight += upperwin.length;
         }
         
         var storytop = (metrics.outspacingy
