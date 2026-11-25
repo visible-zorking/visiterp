@@ -19,6 +19,7 @@ var GlkIOClass = function(env, runner) {
         var layout_dirty = false;
         var run = false;
         var echoline = null;
+        var upperwin_height = null; // excludes the status line per se
         
         if (obj.type == 'init') {
             content_metrics = complete_metrics(obj.metrics);
@@ -168,6 +169,19 @@ var GlkIOClass = function(env, runner) {
                     }
                 }
 
+                if (ord.code == 'stream' && ord.to == 'status') {
+                    for (var dat of ord.data) {
+                        if (dat.code == 'height') {
+                            upperwin_height = dat.lines;
+                            layout_dirty = true;
+                        }
+                        else if (dat.code == 'cursor') {
+                        }
+                        else if (dat.code == 'stream') {
+                        }
+                    }
+                }
+                
                 if (ord.code == 'clear') {
                     // Could check "name:main" here, but it's not useful
                     clearbuffer = true;
@@ -195,7 +209,7 @@ var GlkIOClass = function(env, runner) {
         /* If this is initial startup or a rearrange event, recompute
            the window sizes. */
         if (layout_dirty) {
-            update.windows = build_windows();
+            update.windows = build_windows(upperwin_height);
         }
 
         if (vmquit) {
@@ -253,12 +267,16 @@ var GlkIOClass = function(env, runner) {
         
     }
 
-    function build_windows()
+    function build_windows(upperwin_height)
     {
         var metrics = content_metrics;
         var windows = [];
 
         var statusheight = 1;
+        if (upperwin_height) {
+            statusheight += upperwin_height;
+        }
+        
         var storytop = (metrics.outspacingy
             + (statusheight*metrics.gridcharheight+metrics.gridmarginy)
             + metrics.inspacingy);
